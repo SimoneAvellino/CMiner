@@ -13,7 +13,7 @@ CMiner is an algorithm for mining patterns from graphs using a user-defined supp
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/Anto188bas/CMiner
+    git clone https://anonymous.4open.science/r/CMiner
     cd CMiner
     ```
 
