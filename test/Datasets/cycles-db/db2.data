@@ -1,0 +1,2550 @@
+t # 0
+v 0 NodeC NodeA
+v 1 NodeB NodeC
+v 2 NodeD NodeB
+v 3 NodeB NodeB
+v 4 NodeD NodeA
+v 5 NodeC NodeC
+v 6 NodeC NodeB
+v 7 NodeE NodeD
+v 8 NodeD NodeA
+v 9 NodeE NodeA
+v 10 NodeE NodeB
+v 11 NodeE NodeB
+v 12 NodeA NodeE
+v 13 NodeB NodeA
+v 14 NodeE NodeC
+v 15 NodeE NodeD
+v 16 NodeB NodeC
+v 17 NodeE NodeC
+v 18 NodeE NodeD
+v 19 NodeC NodeB
+e 0 13 Edge5 Edge5
+e 1 0 Edge2 Edge2
+e 2 5 Edge5 Edge2
+e 3 1 Edge5 Edge1
+e 3 12 Edge4 Edge3
+e 3 19 Edge1 Edge1
+e 4 8 Edge1 Edge5
+e 5 10 Edge2 Edge4
+e 5 17 Edge1 Edge5
+e 6 3 Edge3 Edge1
+e 6 17 Edge5 Edge5
+e 7 9 Edge5 Edge5
+e 8 7 Edge5 Edge1
+e 8 12 Edge2 Edge1
+e 9 15 Edge2 Edge1
+e 10 14 Edge4 Edge4
+e 10 4 Edge1 Edge5
+e 10 1 Edge4 Edge2
+e 11 19 Edge1 Edge5
+e 12 16 Edge1 Edge4
+e 13 12 Edge3 Edge3
+e 13 3 Edge1 Edge3
+e 13 10 Edge1 Edge5
+e 15 18 Edge5 Edge2
+e 16 11 Edge3 Edge3
+e 17 4 Edge5 Edge3
+e 18 2 Edge2 Edge1
+e 19 17 Edge5 Edge3
+e 19 7 Edge5 Edge2
+e 19 14 Edge5 Edge5
+t # 1
+v 0 NodeD NodeD
+v 1 NodeE NodeE
+v 2 NodeB NodeE
+v 3 NodeD NodeB
+v 4 NodeC NodeB
+v 5 NodeE NodeE
+v 6 NodeE NodeA
+v 7 NodeA NodeB
+v 8 NodeA NodeD
+v 9 NodeB NodeE
+v 10 NodeC NodeE
+v 11 NodeB NodeE
+v 12 NodeE NodeB
+v 13 NodeC NodeB
+v 14 NodeC NodeB
+v 15 NodeE NodeA
+v 16 NodeD NodeB
+v 17 NodeD NodeD
+v 18 NodeA NodeA
+v 19 NodeE NodeD
+e 0 5 Edge5 Edge2
+e 1 15 Edge1 Edge5
+e 2 18 Edge4 Edge5
+e 3 11 Edge3 Edge2
+e 4 19 Edge3 Edge5
+e 5 7 Edge5 Edge2
+e 6 14 Edge1 Edge1
+e 7 15 Edge5 Edge5
+e 7 14 Edge2 Edge3
+e 8 2 Edge2 Edge1
+e 9 4 Edge2 Edge4
+e 9 3 Edge1 Edge4
+e 10 9 Edge4 Edge4
+e 10 2 Edge1 Edge1
+e 11 13 Edge5 Edge3
+e 12 6 Edge5 Edge3
+e 12 10 Edge2 Edge1
+e 13 1 Edge5 Edge5
+e 13 17 Edge1 Edge5
+e 13 0 Edge3 Edge1
+e 13 11 Edge1 Edge4
+e 14 10 Edge4 Edge5
+e 14 9 Edge5 Edge4
+e 14 3 Edge2 Edge1
+e 15 16 Edge3 Edge3
+e 16 12 Edge1 Edge4
+e 17 8 Edge1 Edge1
+e 18 0 Edge5 Edge4
+e 18 1 Edge4 Edge5
+e 19 3 Edge5 Edge2
+t # 2
+v 0 NodeD NodeA
+v 1 NodeD NodeD
+v 2 NodeC NodeA
+v 3 NodeA NodeD
+v 4 NodeC NodeC
+v 5 NodeC NodeD
+v 6 NodeC NodeC
+v 7 NodeE NodeC
+v 8 NodeE NodeD
+v 9 NodeC NodeE
+v 10 NodeB NodeB
+v 11 NodeC NodeB
+v 12 NodeE NodeA
+v 13 NodeD NodeA
+v 14 NodeC NodeE
+v 15 NodeA NodeA
+v 16 NodeE NodeD
+v 17 NodeC NodeE
+v 18 NodeD NodeD
+v 19 NodeC NodeE
+e 0 15 Edge4 Edge1
+e 1 0 Edge1 Edge5
+e 2 14 Edge5 Edge5
+e 2 15 Edge5 Edge3
+e 3 1 Edge1 Edge3
+e 4 2 Edge1 Edge2
+e 4 10 Edge2 Edge3
+e 5 7 Edge4 Edge5
+e 5 10 Edge2 Edge3
+e 6 9 Edge1 Edge2
+e 6 2 Edge5 Edge5
+e 7 4 Edge2 Edge1
+e 8 17 Edge2 Edge2
+e 9 10 Edge5 Edge1
+e 10 8 Edge4 Edge5
+e 10 14 Edge2 Edge5
+e 10 7 Edge5 Edge3
+e 11 16 Edge4 Edge2
+e 12 13 Edge5 Edge5
+e 12 5 Edge3 Edge1
+e 13 5 Edge4 Edge2
+e 14 11 Edge2 Edge3
+e 14 12 Edge5 Edge1
+e 14 13 Edge4 Edge2
+e 15 18 Edge3 Edge4
+e 16 19 Edge3 Edge5
+e 17 12 Edge2 Edge1
+e 17 15 Edge4 Edge2
+e 18 6 Edge3 Edge2
+e 19 3 Edge5 Edge5
+t # 3
+v 0 NodeB NodeC
+v 1 NodeD NodeD
+v 2 NodeB NodeC
+v 3 NodeA NodeA
+v 4 NodeC NodeC
+v 5 NodeB NodeD
+v 6 NodeE NodeD
+v 7 NodeD NodeD
+v 8 NodeD NodeE
+v 9 NodeB NodeA
+v 10 NodeB NodeA
+v 11 NodeC NodeE
+v 12 NodeA NodeC
+v 13 NodeC NodeC
+v 14 NodeE NodeE
+v 15 NodeD NodeC
+v 16 NodeD NodeB
+v 17 NodeB NodeC
+v 18 NodeD NodeB
+v 19 NodeB NodeB
+e 0 9 Edge1 Edge4
+e 1 8 Edge5 Edge1
+e 1 10 Edge1 Edge2
+e 2 13 Edge5 Edge5
+e 2 0 Edge1 Edge1
+e 3 2 Edge4 Edge5
+e 3 0 Edge4 Edge5
+e 4 14 Edge2 Edge1
+e 5 4 Edge4 Edge5
+e 6 11 Edge4 Edge1
+e 6 2 Edge1 Edge1
+e 7 5 Edge1 Edge3
+e 8 3 Edge3 Edge1
+e 10 12 Edge2 Edge3
+e 11 15 Edge3 Edge1
+e 11 12 Edge5 Edge1
+e 12 6 Edge3 Edge4
+e 13 16 Edge2 Edge3
+e 13 2 Edge3 Edge3
+e 14 0 Edge2 Edge2
+e 14 9 Edge5 Edge4
+e 15 17 Edge3 Edge5
+e 15 6 Edge3 Edge2
+e 16 10 Edge5 Edge5
+e 17 19 Edge1 Edge1
+e 17 15 Edge2 Edge3
+e 17 8 Edge1 Edge1
+e 18 1 Edge1 Edge1
+e 19 7 Edge2 Edge1
+e 19 10 Edge1 Edge1
+t # 4
+v 0 NodeA NodeC
+v 1 NodeC NodeD
+v 2 NodeE NodeE
+v 3 NodeC NodeB
+v 4 NodeE NodeE
+v 5 NodeC NodeE
+v 6 NodeE NodeE
+v 7 NodeB NodeB
+v 8 NodeE NodeC
+v 9 NodeA NodeD
+v 10 NodeC NodeB
+v 11 NodeB NodeC
+v 12 NodeC NodeC
+v 13 NodeE NodeE
+v 14 NodeC NodeD
+v 15 NodeB NodeA
+v 16 NodeC NodeD
+v 17 NodeD NodeA
+v 18 NodeE NodeA
+v 19 NodeB NodeA
+e 0 17 Edge5 Edge5
+e 0 4 Edge2 Edge5
+e 1 15 Edge1 Edge2
+e 2 3 Edge4 Edge3
+e 3 14 Edge2 Edge3
+e 4 19 Edge3 Edge3
+e 5 10 Edge3 Edge3
+e 6 2 Edge2 Edge2
+e 7 11 Edge4 Edge1
+e 7 18 Edge1 Edge3
+e 8 9 Edge1 Edge1
+e 8 5 Edge5 Edge4
+e 9 6 Edge1 Edge3
+e 10 7 Edge2 Edge5
+e 11 8 Edge5 Edge1
+e 11 4 Edge2 Edge1
+e 12 18 Edge5 Edge1
+e 12 5 Edge4 Edge5
+e 12 7 Edge3 Edge4
+e 13 0 Edge3 Edge5
+e 14 13 Edge4 Edge1
+e 14 9 Edge2 Edge2
+e 16 1 Edge2 Edge5
+e 16 15 Edge1 Edge3
+e 16 4 Edge4 Edge2
+e 17 16 Edge5 Edge3
+e 18 4 Edge1 Edge4
+e 19 5 Edge1 Edge4
+e 19 12 Edge2 Edge3
+e 19 10 Edge2 Edge5
+t # 5
+v 0 NodeD NodeD
+v 1 NodeA NodeD
+v 2 NodeD NodeC
+v 3 NodeD NodeD
+v 4 NodeA NodeB
+v 5 NodeC NodeD
+v 6 NodeD NodeD
+v 7 NodeC NodeE
+v 8 NodeC NodeA
+v 9 NodeA NodeA
+v 10 NodeA NodeB
+v 11 NodeA NodeA
+v 12 NodeC NodeE
+v 13 NodeC NodeA
+v 14 NodeD NodeC
+v 15 NodeA NodeA
+v 16 NodeA NodeE
+v 17 NodeD NodeA
+v 18 NodeA NodeB
+v 19 NodeC NodeC
+e 0 6 Edge2 Edge3
+e 1 3 Edge3 Edge1
+e 2 19 Edge3 Edge2
+e 3 11 Edge2 Edge3
+e 4 0 Edge3 Edge3
+e 4 18 Edge3 Edge3
+e 5 16 Edge1 Edge4
+e 6 14 Edge5 Edge4
+e 7 4 Edge4 Edge4
+e 8 17 Edge4 Edge2
+e 8 13 Edge5 Edge3
+e 8 12 Edge4 Edge3
+e 9 10 Edge4 Edge5
+e 10 7 Edge4 Edge3
+e 11 15 Edge2 Edge4
+e 11 5 Edge3 Edge2
+e 12 2 Edge2 Edge5
+e 13 12 Edge1 Edge1
+e 13 0 Edge5 Edge5
+e 13 19 Edge4 Edge1
+e 14 13 Edge2 Edge2
+e 14 18 Edge5 Edge3
+e 15 8 Edge4 Edge3
+e 15 10 Edge2 Edge5
+e 16 9 Edge4 Edge2
+e 17 5 Edge5 Edge1
+e 17 15 Edge2 Edge3
+e 19 18 Edge2 Edge3
+e 19 13 Edge1 Edge5
+e 19 15 Edge4 Edge2
+t # 6
+v 0 NodeC NodeD
+v 1 NodeA NodeD
+v 2 NodeC NodeA
+v 3 NodeE NodeC
+v 4 NodeC NodeD
+v 5 NodeD NodeA
+v 6 NodeC NodeC
+v 7 NodeD NodeA
+v 8 NodeD NodeB
+v 9 NodeB NodeB
+v 10 NodeD NodeE
+v 11 NodeE NodeD
+v 12 NodeA NodeA
+v 13 NodeD NodeE
+v 14 NodeE NodeB
+v 15 NodeB NodeC
+v 16 NodeA NodeE
+v 17 NodeC NodeC
+v 18 NodeA NodeA
+v 19 NodeA NodeB
+e 0 5 Edge3 Edge5
+e 1 7 Edge2 Edge5
+e 2 4 Edge5 Edge5
+e 2 19 Edge1 Edge1
+e 3 8 Edge1 Edge5
+e 3 10 Edge1 Edge5
+e 4 12 Edge5 Edge3
+e 4 13 Edge5 Edge3
+e 5 14 Edge4 Edge1
+e 6 17 Edge2 Edge1
+e 6 10 Edge4 Edge1
+e 7 15 Edge5 Edge2
+e 8 9 Edge3 Edge4
+e 9 10 Edge1 Edge4
+e 9 2 Edge2 Edge5
+e 10 18 Edge2 Edge1
+e 11 1 Edge5 Edge5
+e 11 9 Edge3 Edge1
+e 12 13 Edge2 Edge4
+e 13 6 Edge1 Edge2
+e 14 16 Edge2 Edge3
+e 14 17 Edge5 Edge1
+e 14 6 Edge2 Edge2
+e 15 3 Edge2 Edge5
+e 15 11 Edge1 Edge4
+e 17 11 Edge4 Edge5
+e 18 0 Edge4 Edge4
+e 18 17 Edge4 Edge2
+e 18 8 Edge2 Edge4
+e 19 2 Edge1 Edge5
+t # 7
+v 0 NodeA NodeB
+v 1 NodeB NodeE
+v 2 NodeB NodeB
+v 3 NodeD NodeD
+v 4 NodeC NodeE
+v 5 NodeD NodeE
+v 6 NodeE NodeE
+v 7 NodeC NodeB
+v 8 NodeC NodeC
+v 9 NodeE NodeA
+v 10 NodeD NodeB
+v 11 NodeA NodeC
+v 12 NodeB NodeC
+v 13 NodeC NodeE
+v 14 NodeE NodeB
+v 15 NodeB NodeD
+v 16 NodeC NodeA
+v 17 NodeC NodeA
+v 18 NodeA NodeB
+v 19 NodeD NodeA
+e 0 10 Edge5 Edge2
+e 1 0 Edge4 Edge1
+e 2 16 Edge4 Edge3
+e 3 2 Edge3 Edge2
+e 4 12 Edge1 Edge1
+e 5 1 Edge5 Edge3
+e 5 18 Edge1 Edge4
+e 6 14 Edge3 Edge4
+e 6 1 Edge2 Edge1
+e 7 17 Edge4 Edge4
+e 8 6 Edge3 Edge3
+e 9 8 Edge1 Edge1
+e 10 4 Edge4 Edge4
+e 11 5 Edge4 Edge5
+e 11 10 Edge1 Edge1
+e 12 15 Edge4 Edge1
+e 12 8 Edge4 Edge5
+e 13 18 Edge1 Edge5
+e 13 10 Edge5 Edge3
+e 14 11 Edge2 Edge4
+e 14 8 Edge1 Edge1
+e 14 6 Edge4 Edge3
+e 15 7 Edge1 Edge1
+e 16 13 Edge4 Edge1
+e 17 3 Edge1 Edge4
+e 17 2 Edge5 Edge5
+e 17 10 Edge2 Edge3
+e 18 19 Edge1 Edge1
+e 18 0 Edge3 Edge2
+e 19 9 Edge3 Edge1
+t # 8
+v 0 NodeC NodeA
+v 1 NodeD NodeB
+v 2 NodeD NodeD
+v 3 NodeC NodeC
+v 4 NodeB NodeA
+v 5 NodeA NodeA
+v 6 NodeA NodeD
+v 7 NodeD NodeC
+v 8 NodeE NodeC
+v 9 NodeC NodeA
+v 10 NodeD NodeE
+v 11 NodeA NodeD
+v 12 NodeE NodeD
+v 13 NodeE NodeD
+v 14 NodeD NodeB
+v 15 NodeD NodeC
+v 16 NodeA NodeE
+v 17 NodeB NodeD
+v 18 NodeB NodeE
+v 19 NodeB NodeB
+e 0 8 Edge3 Edge5
+e 1 13 Edge5 Edge1
+e 1 6 Edge5 Edge3
+e 1 12 Edge2 Edge4
+e 2 1 Edge5 Edge1
+e 3 7 Edge1 Edge1
+e 3 18 Edge2 Edge4
+e 4 3 Edge5 Edge2
+e 5 2 Edge5 Edge4
+e 5 15 Edge2 Edge3
+e 6 5 Edge1 Edge1
+e 7 0 Edge1 Edge2
+e 7 19 Edge1 Edge2
+e 8 18 Edge3 Edge3
+e 8 17 Edge5 Edge1
+e 9 11 Edge5 Edge1
+e 10 15 Edge3 Edge4
+e 11 12 Edge4 Edge1
+e 11 4 Edge5 Edge5
+e 11 15 Edge3 Edge1
+e 13 9 Edge5 Edge1
+e 14 4 Edge1 Edge4
+e 15 19 Edge2 Edge3
+e 16 10 Edge3 Edge3
+e 16 17 Edge3 Edge3
+e 17 6 Edge1 Edge2
+e 17 2 Edge4 Edge2
+e 17 16 Edge4 Edge3
+e 18 17 Edge2 Edge3
+e 19 14 Edge2 Edge1
+t # 9
+v 0 NodeD NodeC
+v 1 NodeD NodeA
+v 2 NodeD NodeC
+v 3 NodeC NodeA
+v 4 NodeB NodeB
+v 5 NodeD NodeA
+v 6 NodeD NodeE
+v 7 NodeA NodeC
+v 8 NodeB NodeA
+v 9 NodeE NodeE
+v 10 NodeE NodeC
+v 11 NodeD NodeD
+v 12 NodeD NodeD
+v 13 NodeB NodeC
+v 14 NodeA NodeC
+v 15 NodeD NodeD
+v 16 NodeC NodeD
+v 17 NodeA NodeB
+v 18 NodeD NodeA
+v 19 NodeC NodeA
+e 0 12 Edge4 Edge1
+e 1 2 Edge3 Edge3
+e 2 5 Edge5 Edge5
+e 2 10 Edge5 Edge2
+e 3 18 Edge4 Edge2
+e 4 11 Edge5 Edge4
+e 4 10 Edge5 Edge2
+e 5 3 Edge4 Edge3
+e 6 1 Edge5 Edge2
+e 7 15 Edge5 Edge1
+e 7 16 Edge1 Edge4
+e 8 4 Edge1 Edge1
+e 9 16 Edge1 Edge5
+e 10 0 Edge4 Edge1
+e 11 14 Edge3 Edge4
+e 11 19 Edge4 Edge2
+e 11 17 Edge1 Edge2
+e 12 17 Edge2 Edge1
+e 13 7 Edge5 Edge5
+e 13 14 Edge2 Edge4
+e 14 9 Edge2 Edge2
+e 15 10 Edge2 Edge1
+e 15 16 Edge1 Edge2
+e 16 13 Edge2 Edge4
+e 16 12 Edge5 Edge1
+e 17 6 Edge3 Edge4
+e 17 7 Edge3 Edge4
+e 18 19 Edge2 Edge2
+e 19 12 Edge5 Edge3
+e 19 1 Edge1 Edge5
+t # 10
+v 0 NodeB NodeC
+v 1 NodeB NodeC
+v 2 NodeC NodeE
+v 3 NodeD NodeE
+v 4 NodeB NodeD
+v 5 NodeA NodeE
+v 6 NodeB NodeD
+v 7 NodeE NodeB
+v 8 NodeC NodeD
+v 9 NodeA NodeB
+v 10 NodeD NodeA
+v 11 NodeD NodeA
+v 12 NodeB NodeA
+v 13 NodeC NodeB
+v 14 NodeE NodeD
+v 15 NodeE NodeA
+v 16 NodeB NodeB
+v 17 NodeC NodeE
+v 18 NodeC NodeB
+v 19 NodeA NodeC
+e 0 15 Edge3 Edge1
+e 0 10 Edge3 Edge3
+e 1 8 Edge2 Edge1
+e 1 13 Edge3 Edge2
+e 2 4 Edge1 Edge5
+e 3 16 Edge3 Edge5
+e 3 4 Edge5 Edge4
+e 4 5 Edge3 Edge3
+e 4 15 Edge5 Edge1
+e 5 0 Edge2 Edge1
+e 6 19 Edge4 Edge2
+e 7 3 Edge2 Edge3
+e 7 10 Edge1 Edge1
+e 8 14 Edge5 Edge3
+e 9 7 Edge1 Edge3
+e 9 14 Edge2 Edge1
+e 11 17 Edge4 Edge3
+e 11 12 Edge3 Edge1
+e 12 13 Edge1 Edge1
+e 13 2 Edge5 Edge5
+e 13 8 Edge2 Edge2
+e 14 9 Edge3 Edge1
+e 15 1 Edge3 Edge5
+e 16 18 Edge5 Edge5
+e 16 5 Edge1 Edge2
+e 16 10 Edge3 Edge3
+e 16 4 Edge2 Edge4
+e 17 12 Edge1 Edge4
+e 18 6 Edge4 Edge4
+e 19 10 Edge3 Edge4
+t # 11
+v 0 NodeC NodeC
+v 1 NodeC NodeE
+v 2 NodeD NodeC
+v 3 NodeA NodeC
+v 4 NodeD NodeD
+v 5 NodeE NodeD
+v 6 NodeB NodeA
+v 7 NodeA NodeA
+v 8 NodeD NodeE
+v 9 NodeA NodeB
+v 10 NodeA NodeA
+v 11 NodeE NodeD
+v 12 NodeD NodeA
+v 13 NodeD NodeB
+v 14 NodeD NodeE
+v 15 NodeD NodeE
+v 16 NodeB NodeE
+v 17 NodeE NodeA
+v 18 NodeA NodeA
+v 19 NodeD NodeC
+e 0 6 Edge3 Edge2
+e 0 3 Edge2 Edge1
+e 1 0 Edge5 Edge2
+e 1 17 Edge4 Edge5
+e 2 16 Edge3 Edge5
+e 2 17 Edge1 Edge4
+e 2 15 Edge3 Edge3
+e 3 19 Edge3 Edge2
+e 3 9 Edge1 Edge2
+e 4 7 Edge3 Edge1
+e 5 18 Edge1 Edge3
+e 6 4 Edge4 Edge5
+e 7 13 Edge4 Edge2
+e 7 14 Edge3 Edge1
+e 7 4 Edge4 Edge4
+e 8 14 Edge1 Edge2
+e 10 1 Edge2 Edge2
+e 11 15 Edge3 Edge4
+e 11 0 Edge3 Edge4
+e 12 10 Edge3 Edge4
+e 12 18 Edge4 Edge2
+e 13 17 Edge5 Edge1
+e 14 9 Edge2 Edge2
+e 15 12 Edge5 Edge1
+e 16 3 Edge5 Edge1
+e 17 8 Edge5 Edge1
+e 17 1 Edge3 Edge3
+e 17 12 Edge2 Edge4
+e 18 2 Edge4 Edge3
+e 19 11 Edge1 Edge3
+t # 12
+v 0 NodeB NodeA
+v 1 NodeB NodeB
+v 2 NodeB NodeD
+v 3 NodeB NodeD
+v 4 NodeB NodeB
+v 5 NodeA NodeC
+v 6 NodeE NodeC
+v 7 NodeE NodeA
+v 8 NodeB NodeE
+v 9 NodeA NodeD
+v 10 NodeE NodeE
+v 11 NodeB NodeA
+v 12 NodeD NodeA
+v 13 NodeD NodeD
+v 14 NodeB NodeE
+v 15 NodeD NodeE
+v 16 NodeB NodeB
+v 17 NodeB NodeC
+v 18 NodeA NodeD
+v 19 NodeD NodeB
+e 0 4 Edge5 Edge4
+e 0 10 Edge1 Edge3
+e 1 7 Edge3 Edge4
+e 2 19 Edge1 Edge1
+e 3 14 Edge3 Edge3
+e 3 7 Edge5 Edge2
+e 3 10 Edge1 Edge3
+e 4 13 Edge1 Edge3
+e 5 12 Edge3 Edge5
+e 6 8 Edge1 Edge1
+e 7 2 Edge1 Edge5
+e 7 18 Edge5 Edge3
+e 7 10 Edge1 Edge2
+e 8 18 Edge4 Edge5
+e 9 17 Edge4 Edge5
+e 10 6 Edge4 Edge1
+e 10 12 Edge5 Edge4
+e 11 9 Edge4 Edge3
+e 11 1 Edge3 Edge1
+e 11 6 Edge4 Edge2
+e 11 17 Edge2 Edge4
+e 11 12 Edge1 Edge1
+e 12 11 Edge4 Edge2
+e 13 3 Edge4 Edge3
+e 14 11 Edge5 Edge4
+e 15 0 Edge2 Edge4
+e 16 15 Edge5 Edge3
+e 17 1 Edge1 Edge4
+e 18 5 Edge5 Edge1
+e 19 16 Edge2 Edge3
+t # 13
+v 0 NodeE NodeD
+v 1 NodeC NodeB
+v 2 NodeC NodeC
+v 3 NodeE NodeC
+v 4 NodeE NodeA
+v 5 NodeB NodeD
+v 6 NodeD NodeD
+v 7 NodeB NodeB
+v 8 NodeE NodeE
+v 9 NodeE NodeB
+v 10 NodeE NodeE
+v 11 NodeE NodeB
+v 12 NodeD NodeB
+v 13 NodeA NodeC
+v 14 NodeD NodeB
+v 15 NodeE NodeE
+v 16 NodeD NodeC
+v 17 NodeA NodeB
+v 18 NodeD NodeC
+v 19 NodeA NodeE
+e 0 10 Edge3 Edge2
+e 1 16 Edge5 Edge4
+e 1 8 Edge2 Edge2
+e 1 6 Edge5 Edge2
+e 2 0 Edge3 Edge4
+e 3 5 Edge3 Edge5
+e 4 2 Edge4 Edge3
+e 5 4 Edge1 Edge3
+e 5 14 Edge1 Edge2
+e 6 15 Edge4 Edge5
+e 6 17 Edge2 Edge2
+e 7 18 Edge2 Edge4
+e 7 14 Edge4 Edge4
+e 8 9 Edge5 Edge3
+e 8 17 Edge3 Edge1
+e 8 3 Edge3 Edge5
+e 9 3 Edge3 Edge3
+e 10 17 Edge4 Edge5
+e 11 14 Edge4 Edge2
+e 11 9 Edge1 Edge1
+e 11 8 Edge3 Edge4
+e 12 6 Edge2 Edge4
+e 13 7 Edge4 Edge5
+e 13 5 Edge4 Edge4
+e 14 8 Edge5 Edge2
+e 15 1 Edge4 Edge3
+e 17 19 Edge3 Edge1
+e 18 11 Edge3 Edge1
+e 19 12 Edge5 Edge2
+e 19 18 Edge3 Edge3
+t # 14
+v 0 NodeA NodeA
+v 1 NodeB NodeD
+v 2 NodeE NodeD
+v 3 NodeB NodeE
+v 4 NodeC NodeA
+v 5 NodeC NodeB
+v 6 NodeC NodeC
+v 7 NodeC NodeC
+v 8 NodeD NodeA
+v 9 NodeA NodeE
+v 10 NodeE NodeE
+v 11 NodeA NodeC
+v 12 NodeA NodeA
+v 13 NodeA NodeA
+v 14 NodeB NodeB
+v 15 NodeB NodeB
+v 16 NodeA NodeB
+v 17 NodeC NodeE
+v 18 NodeD NodeD
+v 19 NodeD NodeB
+e 0 15 Edge5 Edge2
+e 2 8 Edge1 Edge2
+e 2 9 Edge1 Edge3
+e 3 10 Edge2 Edge3
+e 3 1 Edge3 Edge4
+e 3 7 Edge2 Edge1
+e 4 17 Edge1 Edge1
+e 5 18 Edge2 Edge2
+e 6 0 Edge3 Edge2
+e 6 11 Edge4 Edge5
+e 7 16 Edge2 Edge1
+e 8 1 Edge3 Edge1
+e 8 7 Edge4 Edge4
+e 8 3 Edge5 Edge4
+e 9 2 Edge3 Edge3
+e 10 13 Edge5 Edge5
+e 10 11 Edge3 Edge1
+e 11 14 Edge4 Edge2
+e 12 9 Edge1 Edge2
+e 13 6 Edge5 Edge5
+e 14 12 Edge4 Edge1
+e 15 19 Edge2 Edge1
+e 15 18 Edge2 Edge2
+e 15 11 Edge5 Edge4
+e 16 4 Edge2 Edge1
+e 16 3 Edge5 Edge5
+e 17 11 Edge3 Edge4
+e 18 7 Edge4 Edge1
+e 18 8 Edge5 Edge1
+e 19 5 Edge1 Edge1
+t # 15
+v 0 NodeD NodeC
+v 1 NodeB NodeE
+v 2 NodeE NodeD
+v 3 NodeB NodeD
+v 4 NodeA NodeE
+v 5 NodeA NodeA
+v 6 NodeD NodeB
+v 7 NodeC NodeE
+v 8 NodeD NodeA
+v 9 NodeA NodeC
+v 10 NodeE NodeA
+v 11 NodeD NodeB
+v 12 NodeB NodeA
+v 13 NodeA NodeD
+v 14 NodeB NodeC
+v 15 NodeE NodeC
+v 16 NodeD NodeE
+v 17 NodeE NodeC
+v 18 NodeC NodeB
+v 19 NodeD NodeA
+e 0 1 Edge1 Edge3
+e 0 14 Edge2 Edge4
+e 1 14 Edge5 Edge2
+e 1 16 Edge3 Edge3
+e 2 15 Edge2 Edge2
+e 4 8 Edge3 Edge1
+e 5 9 Edge1 Edge2
+e 6 19 Edge3 Edge4
+e 6 0 Edge5 Edge3
+e 6 16 Edge4 Edge4
+e 7 6 Edge3 Edge1
+e 8 13 Edge4 Edge3
+e 8 9 Edge1 Edge3
+e 9 0 Edge3 Edge5
+e 10 17 Edge2 Edge3
+e 10 9 Edge3 Edge2
+e 11 16 Edge1 Edge4
+e 11 0 Edge1 Edge2
+e 12 11 Edge5 Edge3
+e 12 14 Edge3 Edge4
+e 13 3 Edge5 Edge1
+e 13 1 Edge5 Edge5
+e 14 2 Edge1 Edge1
+e 15 12 Edge5 Edge4
+e 16 18 Edge5 Edge2
+e 17 4 Edge1 Edge2
+e 18 7 Edge3 Edge2
+e 18 2 Edge3 Edge5
+e 19 10 Edge3 Edge2
+e 19 17 Edge2 Edge4
+t # 16
+v 0 NodeB NodeA
+v 1 NodeD NodeB
+v 2 NodeE NodeC
+v 3 NodeE NodeC
+v 4 NodeD NodeD
+v 5 NodeB NodeC
+v 6 NodeB NodeC
+v 7 NodeE NodeA
+v 8 NodeA NodeC
+v 9 NodeC NodeD
+v 10 NodeD NodeE
+v 11 NodeB NodeB
+v 12 NodeD NodeA
+v 13 NodeC NodeD
+v 14 NodeE NodeA
+v 15 NodeA NodeE
+v 16 NodeC NodeE
+v 17 NodeB NodeC
+v 18 NodeE NodeA
+v 19 NodeB NodeD
+e 0 4 Edge5 Edge2
+e 1 9 Edge2 Edge5
+e 1 11 Edge3 Edge1
+e 2 6 Edge1 Edge4
+e 2 8 Edge2 Edge3
+e 3 11 Edge3 Edge2
+e 4 15 Edge3 Edge5
+e 5 3 Edge4 Edge1
+e 6 13 Edge2 Edge2
+e 7 0 Edge3 Edge3
+e 8 5 Edge1 Edge2
+e 8 1 Edge1 Edge5
+e 8 6 Edge2 Edge5
+e 9 19 Edge4 Edge3
+e 9 15 Edge5 Edge2
+e 10 8 Edge1 Edge5
+e 11 12 Edge1 Edge2
+e 11 9 Edge1 Edge5
+e 12 16 Edge2 Edge5
+e 13 17 Edge2 Edge2
+e 13 15 Edge2 Edge1
+e 14 7 Edge5 Edge3
+e 14 19 Edge3 Edge2
+e 14 1 Edge4 Edge3
+e 15 1 Edge3 Edge5
+e 16 18 Edge4 Edge4
+e 16 9 Edge4 Edge4
+e 17 10 Edge5 Edge1
+e 18 16 Edge1 Edge5
+e 19 2 Edge4 Edge2
+t # 17
+v 0 NodeC NodeA
+v 1 NodeB NodeA
+v 2 NodeD NodeB
+v 3 NodeC NodeD
+v 4 NodeA NodeC
+v 5 NodeC NodeB
+v 6 NodeB NodeD
+v 7 NodeA NodeD
+v 8 NodeE NodeD
+v 9 NodeD NodeE
+v 10 NodeC NodeC
+v 11 NodeE NodeA
+v 12 NodeA NodeE
+v 13 NodeE NodeB
+v 14 NodeC NodeB
+v 15 NodeA NodeD
+v 16 NodeA NodeB
+v 17 NodeA NodeD
+v 18 NodeD NodeD
+v 19 NodeD NodeD
+e 0 14 Edge2 Edge5
+e 1 18 Edge2 Edge5
+e 2 9 Edge3 Edge3
+e 3 6 Edge1 Edge1
+e 4 1 Edge3 Edge1
+e 5 16 Edge1 Edge3
+e 6 5 Edge1 Edge3
+e 7 11 Edge5 Edge3
+e 8 10 Edge3 Edge4
+e 8 6 Edge3 Edge5
+e 9 19 Edge2 Edge5
+e 9 5 Edge1 Edge2
+e 9 3 Edge1 Edge2
+e 10 4 Edge5 Edge4
+e 11 0 Edge4 Edge4
+e 11 10 Edge4 Edge1
+e 12 15 Edge2 Edge5
+e 12 9 Edge3 Edge3
+e 12 3 Edge1 Edge2
+e 14 17 Edge3 Edge4
+e 14 9 Edge2 Edge1
+e 15 3 Edge2 Edge5
+e 15 0 Edge4 Edge1
+e 15 13 Edge4 Edge1
+e 16 7 Edge1 Edge5
+e 16 10 Edge2 Edge5
+e 17 2 Edge3 Edge1
+e 18 12 Edge2 Edge5
+e 18 11 Edge2 Edge3
+e 19 13 Edge3 Edge2
+t # 18
+v 0 NodeB NodeB
+v 1 NodeC NodeA
+v 2 NodeB NodeD
+v 3 NodeD NodeD
+v 4 NodeA NodeB
+v 5 NodeB NodeA
+v 6 NodeD NodeD
+v 7 NodeE NodeB
+v 8 NodeB NodeB
+v 9 NodeE NodeA
+v 10 NodeB NodeA
+v 11 NodeD NodeD
+v 12 NodeE NodeA
+v 13 NodeC NodeD
+v 14 NodeA NodeB
+v 15 NodeB NodeD
+v 16 NodeC NodeC
+v 17 NodeA NodeE
+v 18 NodeC NodeD
+v 19 NodeB NodeB
+e 0 8 Edge5 Edge5
+e 0 4 Edge5 Edge5
+e 1 13 Edge3 Edge1
+e 2 14 Edge5 Edge1
+e 3 6 Edge2 Edge3
+e 3 8 Edge2 Edge1
+e 4 18 Edge3 Edge3
+e 5 1 Edge4 Edge3
+e 5 6 Edge3 Edge4
+e 6 12 Edge2 Edge1
+e 6 17 Edge1 Edge5
+e 7 5 Edge1 Edge5
+e 8 19 Edge3 Edge4
+e 8 16 Edge3 Edge3
+e 9 15 Edge3 Edge5
+e 9 8 Edge5 Edge2
+e 10 7 Edge2 Edge1
+e 11 17 Edge5 Edge4
+e 12 17 Edge2 Edge3
+e 13 16 Edge4 Edge5
+e 14 9 Edge3 Edge5
+e 14 1 Edge1 Edge1
+e 15 11 Edge5 Edge2
+e 16 3 Edge3 Edge2
+e 16 12 Edge4 Edge1
+e 17 0 Edge2 Edge1
+e 18 10 Edge2 Edge5
+e 18 3 Edge2 Edge3
+e 19 2 Edge5 Edge2
+e 19 0 Edge1 Edge3
+t # 19
+v 0 NodeD NodeA
+v 1 NodeA NodeD
+v 2 NodeB NodeE
+v 3 NodeA NodeA
+v 4 NodeA NodeA
+v 5 NodeE NodeD
+v 6 NodeA NodeD
+v 7 NodeE NodeB
+v 8 NodeC NodeB
+v 9 NodeA NodeB
+v 10 NodeD NodeA
+v 11 NodeA NodeE
+v 12 NodeE NodeB
+v 13 NodeE NodeC
+v 14 NodeE NodeB
+v 15 NodeE NodeB
+v 16 NodeD NodeB
+v 17 NodeB NodeB
+v 18 NodeE NodeC
+v 19 NodeC NodeD
+e 0 19 Edge1 Edge4
+e 0 8 Edge3 Edge3
+e 1 10 Edge5 Edge4
+e 2 9 Edge4 Edge1
+e 2 18 Edge5 Edge3
+e 2 8 Edge5 Edge4
+e 3 16 Edge3 Edge2
+e 3 14 Edge1 Edge3
+e 4 17 Edge1 Edge1
+e 5 3 Edge3 Edge3
+e 6 7 Edge3 Edge4
+e 7 1 Edge1 Edge5
+e 7 11 Edge2 Edge3
+e 8 4 Edge5 Edge5
+e 8 10 Edge5 Edge1
+e 9 0 Edge4 Edge5
+e 9 12 Edge1 Edge4
+e 10 2 Edge5 Edge2
+e 11 18 Edge4 Edge3
+e 12 13 Edge5 Edge4
+e 13 6 Edge5 Edge3
+e 14 13 Edge1 Edge1
+e 15 11 Edge2 Edge4
+e 16 15 Edge5 Edge5
+e 17 5 Edge5 Edge4
+e 17 7 Edge4 Edge2
+e 17 19 Edge2 Edge5
+e 18 12 Edge2 Edge4
+e 18 19 Edge5 Edge3
+e 19 14 Edge4 Edge2
+t # 20
+v 0 NodeA NodeE
+v 1 NodeA NodeA
+v 2 NodeE NodeE
+v 3 NodeB NodeC
+v 4 NodeB NodeE
+v 5 NodeE NodeB
+v 6 NodeD NodeD
+v 7 NodeD NodeB
+v 8 NodeE NodeD
+v 9 NodeE NodeC
+v 10 NodeE NodeD
+v 11 NodeE NodeC
+v 12 NodeE NodeD
+v 13 NodeD NodeA
+v 14 NodeA NodeC
+v 15 NodeA NodeC
+v 16 NodeC NodeA
+v 17 NodeC NodeB
+v 18 NodeD NodeA
+v 19 NodeB NodeC
+e 0 7 Edge1 Edge1
+e 1 19 Edge1 Edge5
+e 1 5 Edge5 Edge5
+e 2 3 Edge4 Edge2
+e 2 14 Edge2 Edge5
+e 3 1 Edge3 Edge1
+e 4 9 Edge3 Edge3
+e 6 5 Edge5 Edge3
+e 7 14 Edge2 Edge2
+e 8 15 Edge3 Edge1
+e 9 13 Edge3 Edge5
+e 9 14 Edge1 Edge5
+e 10 17 Edge3 Edge2
+e 10 13 Edge1 Edge5
+e 11 18 Edge3 Edge4
+e 12 4 Edge5 Edge4
+e 12 14 Edge3 Edge2
+e 13 11 Edge1 Edge2
+e 13 1 Edge5 Edge4
+e 14 16 Edge5 Edge4
+e 14 4 Edge2 Edge4
+e 14 11 Edge2 Edge5
+e 15 10 Edge1 Edge4
+e 16 12 Edge4 Edge4
+e 17 2 Edge2 Edge3
+e 17 12 Edge4 Edge2
+e 17 11 Edge3 Edge5
+e 18 6 Edge1 Edge3
+e 18 16 Edge3 Edge4
+e 19 0 Edge4 Edge1
+t # 21
+v 0 NodeE NodeC
+v 1 NodeA NodeA
+v 2 NodeB NodeA
+v 3 NodeC NodeE
+v 4 NodeB NodeD
+v 5 NodeE NodeE
+v 6 NodeE NodeA
+v 7 NodeA NodeB
+v 8 NodeC NodeD
+v 9 NodeA NodeE
+v 10 NodeE NodeE
+v 11 NodeC NodeD
+v 12 NodeA NodeD
+v 13 NodeA NodeB
+v 14 NodeC NodeC
+v 15 NodeB NodeC
+v 16 NodeD NodeB
+v 17 NodeE NodeD
+v 18 NodeC NodeC
+v 19 NodeD NodeC
+e 0 11 Edge5 Edge3
+e 2 19 Edge3 Edge4
+e 3 5 Edge1 Edge3
+e 3 0 Edge3 Edge2
+e 3 13 Edge1 Edge2
+e 4 16 Edge4 Edge1
+e 4 19 Edge1 Edge3
+e 4 14 Edge2 Edge3
+e 5 10 Edge1 Edge5
+e 6 9 Edge2 Edge4
+e 6 18 Edge5 Edge5
+e 7 6 Edge3 Edge3
+e 8 4 Edge2 Edge2
+e 9 12 Edge4 Edge3
+e 10 17 Edge5 Edge2
+e 10 1 Edge1 Edge5
+e 11 1 Edge4 Edge3
+e 11 8 Edge5 Edge5
+e 11 12 Edge1 Edge5
+e 12 8 Edge3 Edge2
+e 13 18 Edge4 Edge4
+e 14 13 Edge4 Edge5
+e 15 3 Edge2 Edge1
+e 15 16 Edge2 Edge1
+e 16 14 Edge1 Edge5
+e 17 2 Edge3 Edge2
+e 18 0 Edge3 Edge5
+e 19 7 Edge1 Edge5
+e 19 4 Edge2 Edge1
+e 19 5 Edge3 Edge5
+t # 22
+v 0 NodeA NodeB
+v 1 NodeE NodeB
+v 2 NodeA NodeB
+v 3 NodeC NodeB
+v 4 NodeC NodeA
+v 5 NodeB NodeE
+v 6 NodeE NodeB
+v 7 NodeB NodeD
+v 8 NodeA NodeE
+v 9 NodeA NodeA
+v 10 NodeD NodeB
+v 11 NodeC NodeB
+v 12 NodeD NodeE
+v 13 NodeB NodeB
+v 14 NodeA NodeD
+v 15 NodeC NodeE
+v 16 NodeD NodeB
+v 17 NodeE NodeE
+v 18 NodeB NodeC
+v 19 NodeA NodeE
+e 0 2 Edge5 Edge2
+e 0 1 Edge4 Edge3
+e 1 10 Edge1 Edge3
+e 2 11 Edge3 Edge3
+e 2 15 Edge3 Edge4
+e 3 19 Edge3 Edge1
+e 3 17 Edge3 Edge3
+e 4 15 Edge1 Edge4
+e 5 0 Edge4 Edge4
+e 6 5 Edge5 Edge3
+e 6 2 Edge3 Edge2
+e 7 17 Edge1 Edge5
+e 8 1 Edge4 Edge4
+e 9 12 Edge1 Edge4
+e 10 1 Edge2 Edge4
+e 11 9 Edge4 Edge4
+e 11 1 Edge3 Edge1
+e 11 12 Edge2 Edge2
+e 12 14 Edge3 Edge5
+e 13 6 Edge4 Edge3
+e 13 12 Edge3 Edge1
+e 14 8 Edge2 Edge4
+e 15 16 Edge5 Edge4
+e 15 1 Edge2 Edge2
+e 15 14 Edge1 Edge1
+e 16 3 Edge4 Edge5
+e 16 9 Edge3 Edge2
+e 17 13 Edge3 Edge1
+e 18 4 Edge2 Edge5
+e 19 7 Edge1 Edge3
+t # 23
+v 0 NodeE NodeC
+v 1 NodeE NodeE
+v 2 NodeA NodeA
+v 3 NodeB NodeA
+v 4 NodeB NodeB
+v 5 NodeD NodeE
+v 6 NodeA NodeB
+v 7 NodeD NodeB
+v 8 NodeE NodeB
+v 9 NodeD NodeD
+v 10 NodeE NodeA
+v 11 NodeD NodeC
+v 12 NodeE NodeC
+v 13 NodeE NodeA
+v 14 NodeE NodeB
+v 15 NodeE NodeD
+v 16 NodeE NodeC
+v 17 NodeD NodeD
+v 18 NodeE NodeD
+v 19 NodeC NodeC
+e 0 16 Edge3 Edge4
+e 0 8 Edge1 Edge1
+e 1 12 Edge5 Edge3
+e 2 9 Edge5 Edge1
+e 3 4 Edge2 Edge1
+e 3 5 Edge3 Edge4
+e 5 15 Edge4 Edge3
+e 6 3 Edge4 Edge1
+e 7 2 Edge4 Edge3
+e 7 1 Edge1 Edge3
+e 8 14 Edge1 Edge1
+e 8 7 Edge3 Edge3
+e 9 10 Edge5 Edge2
+e 10 8 Edge4 Edge1
+e 10 18 Edge5 Edge4
+e 11 7 Edge2 Edge5
+e 11 12 Edge2 Edge3
+e 11 13 Edge5 Edge1
+e 12 11 Edge3 Edge2
+e 13 17 Edge5 Edge3
+e 13 4 Edge3 Edge2
+e 14 0 Edge1 Edge1
+e 15 18 Edge2 Edge4
+e 16 6 Edge3 Edge2
+e 17 19 Edge2 Edge5
+e 17 3 Edge3 Edge4
+e 18 13 Edge5 Edge3
+e 18 9 Edge3 Edge5
+e 19 1 Edge4 Edge5
+e 19 0 Edge5 Edge2
+t # 24
+v 0 NodeB NodeD
+v 1 NodeE NodeC
+v 2 NodeC NodeE
+v 3 NodeA NodeA
+v 4 NodeC NodeC
+v 5 NodeC NodeA
+v 6 NodeB NodeC
+v 7 NodeD NodeA
+v 8 NodeA NodeD
+v 9 NodeA NodeC
+v 10 NodeB NodeA
+v 11 NodeA NodeA
+v 12 NodeE NodeD
+v 13 NodeD NodeE
+v 14 NodeA NodeC
+v 15 NodeA NodeE
+v 16 NodeA NodeD
+v 17 NodeE NodeC
+v 18 NodeD NodeC
+v 19 NodeE NodeA
+e 0 5 Edge4 Edge3
+e 1 7 Edge1 Edge1
+e 1 16 Edge3 Edge1
+e 2 17 Edge4 Edge3
+e 3 4 Edge5 Edge1
+e 4 13 Edge5 Edge1
+e 4 12 Edge4 Edge4
+e 5 11 Edge1 Edge3
+e 6 14 Edge5 Edge4
+e 7 8 Edge1 Edge5
+e 8 9 Edge2 Edge4
+e 8 2 Edge1 Edge3
+e 8 11 Edge2 Edge3
+e 9 16 Edge3 Edge3
+e 11 19 Edge3 Edge3
+e 11 1 Edge2 Edge2
+e 12 15 Edge1 Edge2
+e 13 10 Edge5 Edge1
+e 13 7 Edge2 Edge1
+e 13 16 Edge1 Edge2
+e 14 0 Edge1 Edge1
+e 14 7 Edge2 Edge1
+e 15 1 Edge1 Edge3
+e 15 13 Edge2 Edge5
+e 16 18 Edge2 Edge2
+e 17 6 Edge4 Edge2
+e 17 2 Edge4 Edge3
+e 18 2 Edge4 Edge4
+e 18 8 Edge2 Edge5
+e 19 3 Edge2 Edge1
+t # 25
+v 0 NodeC NodeB
+v 1 NodeC NodeE
+v 2 NodeA NodeA
+v 3 NodeE NodeC
+v 4 NodeA NodeE
+v 5 NodeD NodeB
+v 6 NodeB NodeD
+v 7 NodeB NodeA
+v 8 NodeC NodeA
+v 9 NodeA NodeD
+v 10 NodeA NodeA
+v 11 NodeE NodeC
+v 12 NodeC NodeE
+v 13 NodeE NodeC
+v 14 NodeA NodeC
+v 15 NodeE NodeA
+v 16 NodeE NodeE
+v 17 NodeA NodeC
+v 18 NodeB NodeB
+v 19 NodeA NodeE
+e 0 15 Edge4 Edge2
+e 1 19 Edge2 Edge4
+e 1 14 Edge1 Edge5
+e 1 3 Edge3 Edge3
+e 2 13 Edge3 Edge3
+e 2 16 Edge3 Edge2
+e 3 17 Edge2 Edge3
+e 4 0 Edge5 Edge1
+e 5 16 Edge3 Edge2
+e 5 0 Edge5 Edge3
+e 6 18 Edge4 Edge4
+e 6 3 Edge3 Edge3
+e 7 11 Edge2 Edge4
+e 7 5 Edge1 Edge1
+e 8 12 Edge3 Edge5
+e 8 1 Edge4 Edge1
+e 8 14 Edge2 Edge4
+e 9 5 Edge5 Edge4
+e 9 6 Edge5 Edge1
+e 10 14 Edge2 Edge3
+e 10 2 Edge1 Edge1
+e 12 4 Edge3 Edge5
+e 13 7 Edge3 Edge1
+e 14 2 Edge1 Edge3
+e 15 1 Edge3 Edge2
+e 16 8 Edge5 Edge5
+e 17 6 Edge4 Edge5
+e 17 12 Edge4 Edge5
+e 18 9 Edge2 Edge4
+e 19 10 Edge5 Edge4
+t # 26
+v 0 NodeC NodeC
+v 1 NodeA NodeD
+v 2 NodeD NodeB
+v 3 NodeE NodeD
+v 4 NodeB NodeB
+v 5 NodeE NodeE
+v 6 NodeD NodeA
+v 7 NodeC NodeB
+v 8 NodeC NodeD
+v 9 NodeA NodeD
+v 10 NodeA NodeA
+v 11 NodeD NodeD
+v 12 NodeD NodeE
+v 13 NodeC NodeC
+v 14 NodeE NodeE
+v 15 NodeA NodeC
+v 16 NodeC NodeB
+v 17 NodeC NodeE
+v 18 NodeB NodeD
+v 19 NodeC NodeA
+e 0 11 Edge4 Edge5
+e 1 15 Edge5 Edge2
+e 2 8 Edge5 Edge1
+e 2 0 Edge2 Edge3
+e 3 19 Edge5 Edge4
+e 3 4 Edge4 Edge1
+e 3 11 Edge1 Edge5
+e 4 2 Edge5 Edge4
+e 4 0 Edge4 Edge1
+e 5 0 Edge2 Edge1
+e 6 13 Edge2 Edge5
+e 7 18 Edge2 Edge4
+e 8 9 Edge1 Edge2
+e 9 3 Edge1 Edge3
+e 9 8 Edge5 Edge4
+e 9 7 Edge4 Edge5
+e 10 17 Edge1 Edge1
+e 11 6 Edge5 Edge3
+e 13 16 Edge5 Edge5
+e 13 2 Edge1 Edge5
+e 14 5 Edge3 Edge2
+e 15 10 Edge2 Edge4
+e 15 7 Edge1 Edge4
+e 15 2 Edge3 Edge4
+e 16 4 Edge2 Edge3
+e 17 12 Edge4 Edge4
+e 17 0 Edge5 Edge4
+e 18 1 Edge1 Edge2
+e 19 7 Edge1 Edge1
+e 19 15 Edge1 Edge4
+t # 27
+v 0 NodeC NodeE
+v 1 NodeE NodeB
+v 2 NodeE NodeB
+v 3 NodeA NodeE
+v 4 NodeB NodeA
+v 5 NodeC NodeA
+v 6 NodeA NodeD
+v 7 NodeA NodeB
+v 8 NodeE NodeE
+v 9 NodeB NodeA
+v 10 NodeE NodeB
+v 11 NodeD NodeA
+v 12 NodeB NodeA
+v 13 NodeA NodeC
+v 14 NodeE NodeA
+v 15 NodeE NodeE
+v 16 NodeA NodeE
+v 17 NodeB NodeD
+v 18 NodeA NodeD
+v 19 NodeD NodeC
+e 0 10 Edge3 Edge4
+e 1 0 Edge4 Edge5
+e 1 19 Edge5 Edge4
+e 2 4 Edge2 Edge4
+e 2 17 Edge5 Edge2
+e 3 1 Edge3 Edge1
+e 4 3 Edge2 Edge3
+e 4 11 Edge5 Edge4
+e 5 18 Edge3 Edge3
+e 6 7 Edge5 Edge4
+e 7 14 Edge2 Edge3
+e 7 13 Edge2 Edge1
+e 8 12 Edge3 Edge3
+e 8 10 Edge2 Edge5
+e 9 5 Edge4 Edge3
+e 9 14 Edge5 Edge2
+e 10 2 Edge5 Edge5
+e 11 8 Edge5 Edge4
+e 12 19 Edge2 Edge1
+e 12 7 Edge2 Edge3
+e 13 1 Edge1 Edge5
+e 13 0 Edge1 Edge5
+e 14 13 Edge5 Edge5
+e 14 9 Edge5 Edge2
+e 15 17 Edge4 Edge3
+e 16 11 Edge1 Edge3
+e 16 2 Edge4 Edge1
+e 17 16 Edge4 Edge5
+e 18 15 Edge1 Edge3
+e 19 6 Edge3 Edge1
+t # 28
+v 0 NodeD NodeC
+v 1 NodeE NodeB
+v 2 NodeE NodeA
+v 3 NodeE NodeE
+v 4 NodeD NodeC
+v 5 NodeD NodeC
+v 6 NodeD NodeB
+v 7 NodeC NodeB
+v 8 NodeD NodeC
+v 9 NodeB NodeE
+v 10 NodeE NodeE
+v 11 NodeB NodeC
+v 12 NodeA NodeB
+v 13 NodeB NodeE
+v 14 NodeC NodeD
+v 15 NodeD NodeD
+v 16 NodeA NodeC
+v 17 NodeC NodeB
+v 18 NodeC NodeD
+v 19 NodeC NodeA
+e 0 19 Edge3 Edge4
+e 1 16 Edge3 Edge1
+e 1 15 Edge2 Edge3
+e 1 3 Edge2 Edge4
+e 2 14 Edge3 Edge3
+e 3 2 Edge5 Edge3
+e 4 5 Edge4 Edge1
+e 4 17 Edge5 Edge5
+e 4 0 Edge4 Edge2
+e 4 6 Edge5 Edge2
+e 5 12 Edge3 Edge5
+e 6 0 Edge4 Edge5
+e 7 11 Edge5 Edge4
+e 8 6 Edge4 Edge2
+e 8 15 Edge4 Edge3
+e 9 1 Edge3 Edge4
+e 10 9 Edge3 Edge3
+e 11 8 Edge1 Edge5
+e 11 2 Edge3 Edge1
+e 12 10 Edge4 Edge1
+e 13 7 Edge1 Edge1
+e 14 18 Edge4 Edge2
+e 15 4 Edge1 Edge4
+e 15 8 Edge5 Edge4
+e 16 17 Edge5 Edge5
+e 16 19 Edge4 Edge3
+e 17 13 Edge5 Edge1
+e 17 16 Edge4 Edge4
+e 18 1 Edge4 Edge3
+e 19 15 Edge4 Edge5
+t # 29
+v 0 NodeD NodeA
+v 1 NodeB NodeA
+v 2 NodeE NodeD
+v 3 NodeE NodeA
+v 4 NodeA NodeA
+v 5 NodeC NodeE
+v 6 NodeB NodeD
+v 7 NodeA NodeB
+v 8 NodeB NodeA
+v 9 NodeC NodeB
+v 10 NodeA NodeE
+v 11 NodeD NodeE
+v 12 NodeB NodeB
+v 13 NodeA NodeA
+v 14 NodeD NodeB
+v 15 NodeA NodeB
+v 16 NodeC NodeE
+v 17 NodeB NodeE
+v 18 NodeE NodeE
+v 19 NodeE NodeB
+e 0 16 Edge2 Edge5
+e 0 11 Edge2 Edge2
+e 1 5 Edge3 Edge1
+e 1 3 Edge2 Edge4
+e 2 15 Edge4 Edge2
+e 2 3 Edge5 Edge1
+e 3 14 Edge5 Edge5
+e 4 2 Edge2 Edge1
+e 4 7 Edge4 Edge1
+e 5 9 Edge2 Edge2
+e 5 0 Edge5 Edge4
+e 6 1 Edge1 Edge2
+e 7 6 Edge5 Edge5
+e 7 19 Edge2 Edge2
+e 8 0 Edge2 Edge5
+e 8 13 Edge5 Edge2
+e 9 12 Edge5 Edge5
+e 10 4 Edge3 Edge2
+e 10 13 Edge4 Edge3
+e 12 10 Edge3 Edge5
+e 12 14 Edge2 Edge2
+e 12 2 Edge1 Edge4
+e 13 18 Edge1 Edge5
+e 13 19 Edge2 Edge4
+e 14 19 Edge4 Edge2
+e 15 3 Edge4 Edge5
+e 16 17 Edge2 Edge1
+e 17 7 Edge2 Edge4
+e 18 8 Edge3 Edge2
+e 19 11 Edge1 Edge4
+t # 30
+v 0 NodeA NodeB
+v 1 NodeE NodeC
+v 2 NodeC NodeD
+v 3 NodeB NodeB
+v 4 NodeB NodeE
+v 5 NodeC NodeA
+v 6 NodeE NodeB
+v 7 NodeC NodeD
+v 8 NodeC NodeD
+v 9 NodeD NodeA
+v 10 NodeD NodeE
+v 11 NodeD NodeC
+v 12 NodeC NodeE
+v 13 NodeD NodeA
+v 14 NodeE NodeA
+v 15 NodeB NodeD
+v 16 NodeE NodeA
+v 17 NodeD NodeA
+v 18 NodeA NodeE
+v 19 NodeE NodeC
+e 0 15 Edge2 Edge4
+e 0 14 Edge1 Edge4
+e 1 19 Edge3 Edge3
+e 2 3 Edge2 Edge5
+e 2 10 Edge5 Edge5
+e 3 8 Edge1 Edge4
+e 3 12 Edge1 Edge1
+e 4 5 Edge5 Edge1
+e 5 17 Edge4 Edge1
+e 6 9 Edge5 Edge1
+e 7 0 Edge5 Edge1
+e 8 11 Edge2 Edge3
+e 9 7 Edge1 Edge2
+e 10 13 Edge1 Edge3
+e 10 2 Edge1 Edge3
+e 10 4 Edge3 Edge3
+e 10 17 Edge4 Edge2
+e 11 10 Edge1 Edge1
+e 12 16 Edge5 Edge3
+e 12 19 Edge3 Edge5
+e 13 14 Edge2 Edge1
+e 13 6 Edge1 Edge2
+e 14 12 Edge3 Edge2
+e 15 1 Edge1 Edge3
+e 16 6 Edge4 Edge2
+e 17 19 Edge4 Edge3
+e 18 4 Edge3 Edge4
+e 18 8 Edge3 Edge1
+e 19 18 Edge4 Edge5
+e 19 12 Edge3 Edge5
+t # 31
+v 0 NodeA NodeB
+v 1 NodeB NodeD
+v 2 NodeD NodeE
+v 3 NodeC NodeC
+v 4 NodeC NodeB
+v 5 NodeB NodeD
+v 6 NodeD NodeA
+v 7 NodeC NodeA
+v 8 NodeB NodeA
+v 9 NodeA NodeB
+v 10 NodeD NodeD
+v 11 NodeD NodeC
+v 12 NodeE NodeA
+v 13 NodeD NodeC
+v 14 NodeE NodeD
+v 15 NodeE NodeB
+v 16 NodeC NodeA
+v 17 NodeC NodeE
+v 18 NodeA NodeD
+v 19 NodeD NodeB
+e 0 18 Edge2 Edge3
+e 1 2 Edge5 Edge4
+e 1 16 Edge2 Edge5
+e 2 13 Edge4 Edge1
+e 3 1 Edge3 Edge4
+e 3 17 Edge5 Edge2
+e 4 19 Edge4 Edge1
+e 5 12 Edge4 Edge4
+e 6 11 Edge5 Edge2
+e 7 19 Edge5 Edge5
+e 7 0 Edge4 Edge2
+e 7 12 Edge4 Edge5
+e 8 10 Edge5 Edge5
+e 8 2 Edge1 Edge1
+e 8 17 Edge3 Edge2
+e 9 0 Edge4 Edge5
+e 9 3 Edge2 Edge3
+e 10 16 Edge5 Edge5
+e 11 15 Edge3 Edge3
+e 11 5 Edge3 Edge3
+e 12 3 Edge1 Edge3
+e 13 9 Edge4 Edge4
+e 14 4 Edge5 Edge1
+e 14 1 Edge2 Edge5
+e 15 8 Edge3 Edge4
+e 15 5 Edge2 Edge1
+e 16 7 Edge4 Edge3
+e 17 5 Edge4 Edge5
+e 18 14 Edge1 Edge5
+e 19 17 Edge5 Edge3
+t # 32
+v 0 NodeC NodeE
+v 1 NodeC NodeA
+v 2 NodeB NodeC
+v 3 NodeD NodeA
+v 4 NodeE NodeC
+v 5 NodeB NodeE
+v 6 NodeD NodeC
+v 7 NodeD NodeD
+v 8 NodeA NodeA
+v 9 NodeD NodeA
+v 10 NodeD NodeB
+v 11 NodeA NodeA
+v 12 NodeA NodeA
+v 13 NodeC NodeE
+v 14 NodeB NodeD
+v 15 NodeB NodeD
+v 16 NodeC NodeE
+v 17 NodeC NodeD
+v 18 NodeC NodeE
+v 19 NodeD NodeD
+e 0 17 Edge2 Edge1
+e 1 10 Edge5 Edge1
+e 2 5 Edge5 Edge2
+e 2 7 Edge1 Edge5
+e 3 16 Edge1 Edge3
+e 4 19 Edge4 Edge4
+e 5 8 Edge4 Edge3
+e 6 14 Edge2 Edge4
+e 6 12 Edge5 Edge5
+e 6 3 Edge1 Edge4
+e 7 9 Edge5 Edge3
+e 7 17 Edge2 Edge1
+e 8 12 Edge2 Edge5
+e 9 11 Edge1 Edge4
+e 10 15 Edge5 Edge4
+e 10 2 Edge1 Edge3
+e 11 4 Edge2 Edge2
+e 12 7 Edge3 Edge4
+e 12 3 Edge3 Edge4
+e 13 1 Edge5 Edge1
+e 13 10 Edge2 Edge5
+e 14 3 Edge3 Edge3
+e 15 2 Edge3 Edge1
+e 15 11 Edge1 Edge1
+e 16 0 Edge3 Edge4
+e 16 18 Edge5 Edge5
+e 17 18 Edge2 Edge2
+e 17 15 Edge4 Edge1
+e 18 13 Edge5 Edge5
+e 19 6 Edge2 Edge3
+t # 33
+v 0 NodeB NodeD
+v 1 NodeB NodeB
+v 2 NodeC NodeC
+v 3 NodeC NodeA
+v 4 NodeC NodeA
+v 5 NodeC NodeC
+v 6 NodeE NodeC
+v 7 NodeA NodeD
+v 8 NodeD NodeB
+v 9 NodeB NodeE
+v 10 NodeD NodeA
+v 11 NodeA NodeB
+v 12 NodeC NodeE
+v 13 NodeE NodeA
+v 14 NodeE NodeD
+v 15 NodeC NodeC
+v 16 NodeA NodeE
+v 17 NodeA NodeC
+v 18 NodeC NodeC
+v 19 NodeD NodeD
+e 1 0 Edge2 Edge2
+e 2 11 Edge5 Edge2
+e 2 7 Edge1 Edge1
+e 3 4 Edge1 Edge3
+e 3 15 Edge1 Edge3
+e 4 12 Edge3 Edge3
+e 4 18 Edge1 Edge2
+e 5 1 Edge3 Edge3
+e 6 2 Edge1 Edge4
+e 7 6 Edge1 Edge5
+e 7 1 Edge4 Edge2
+e 8 18 Edge2 Edge3
+e 8 16 Edge5 Edge3
+e 9 13 Edge4 Edge4
+e 9 2 Edge4 Edge3
+e 10 16 Edge3 Edge3
+e 10 8 Edge3 Edge1
+e 11 14 Edge1 Edge4
+e 11 1 Edge5 Edge5
+e 12 19 Edge2 Edge1
+e 13 7 Edge2 Edge3
+e 13 12 Edge4 Edge3
+e 14 8 Edge3 Edge5
+e 14 19 Edge4 Edge4
+e 15 10 Edge3 Edge3
+e 16 9 Edge5 Edge2
+e 17 3 Edge2 Edge3
+e 17 5 Edge1 Edge5
+e 18 17 Edge1 Edge2
+e 19 5 Edge3 Edge3
+t # 34
+v 0 NodeB NodeD
+v 1 NodeC NodeB
+v 2 NodeB NodeA
+v 3 NodeD NodeE
+v 4 NodeA NodeC
+v 5 NodeA NodeA
+v 6 NodeE NodeC
+v 7 NodeE NodeA
+v 8 NodeE NodeA
+v 9 NodeC NodeA
+v 10 NodeD NodeD
+v 11 NodeD NodeC
+v 12 NodeB NodeB
+v 13 NodeB NodeA
+v 14 NodeD NodeC
+v 15 NodeE NodeD
+v 16 NodeD NodeA
+v 17 NodeA NodeE
+v 18 NodeE NodeD
+v 19 NodeC NodeC
+e 0 1 Edge2 Edge4
+e 1 13 Edge1 Edge2
+e 1 2 Edge4 Edge3
+e 2 4 Edge5 Edge3
+e 3 13 Edge5 Edge5
+e 4 8 Edge2 Edge2
+e 5 0 Edge2 Edge3
+e 5 2 Edge5 Edge2
+e 6 15 Edge5 Edge2
+e 7 2 Edge2 Edge1
+e 8 5 Edge2 Edge4
+e 9 19 Edge1 Edge4
+e 10 3 Edge4 Edge3
+e 11 7 Edge3 Edge4
+e 11 8 Edge4 Edge1
+e 11 0 Edge4 Edge1
+e 12 10 Edge5 Edge4
+e 13 14 Edge5 Edge2
+e 13 12 Edge3 Edge4
+e 13 10 Edge5 Edge1
+e 14 18 Edge2 Edge4
+e 14 4 Edge3 Edge4
+e 14 12 Edge2 Edge5
+e 15 11 Edge1 Edge2
+e 16 9 Edge5 Edge3
+e 17 16 Edge4 Edge4
+e 18 17 Edge4 Edge5
+e 18 10 Edge4 Edge4
+e 18 5 Edge4 Edge4
+e 19 6 Edge5 Edge2
+t # 35
+v 0 NodeA NodeB
+v 1 NodeA NodeC
+v 2 NodeB NodeB
+v 3 NodeC NodeC
+v 4 NodeB NodeD
+v 5 NodeE NodeC
+v 6 NodeB NodeB
+v 7 NodeD NodeC
+v 8 NodeD NodeE
+v 9 NodeE NodeA
+v 10 NodeB NodeA
+v 11 NodeD NodeD
+v 12 NodeB NodeC
+v 13 NodeB NodeE
+v 14 NodeC NodeE
+v 15 NodeC NodeE
+v 16 NodeC NodeE
+v 17 NodeB NodeB
+v 18 NodeB NodeE
+v 19 NodeE NodeC
+e 0 7 Edge4 Edge4
+e 0 1 Edge1 Edge1
+e 1 19 Edge2 Edge2
+e 1 7 Edge1 Edge5
+e 1 14 Edge3 Edge5
+e 2 18 Edge3 Edge2
+e 3 11 Edge2 Edge1
+e 4 5 Edge5 Edge4
+e 4 9 Edge1 Edge3
+e 4 0 Edge1 Edge1
+e 5 6 Edge3 Edge1
+e 5 7 Edge4 Edge4
+e 6 15 Edge2 Edge1
+e 7 1 Edge5 Edge2
+e 8 2 Edge3 Edge1
+e 8 14 Edge4 Edge1
+e 9 17 Edge2 Edge2
+e 10 12 Edge2 Edge3
+e 11 9 Edge5 Edge1
+e 12 3 Edge3 Edge3
+e 12 18 Edge2 Edge5
+e 13 14 Edge3 Edge4
+e 13 18 Edge2 Edge1
+e 14 16 Edge2 Edge5
+e 14 18 Edge4 Edge1
+e 16 10 Edge5 Edge4
+e 17 8 Edge5 Edge1
+e 18 4 Edge4 Edge3
+e 18 6 Edge5 Edge3
+e 19 13 Edge2 Edge2
+t # 36
+v 0 NodeB NodeB
+v 1 NodeE NodeB
+v 2 NodeE NodeE
+v 3 NodeD NodeA
+v 4 NodeD NodeE
+v 5 NodeB NodeA
+v 6 NodeE NodeB
+v 7 NodeB NodeC
+v 8 NodeD NodeA
+v 9 NodeB NodeC
+v 10 NodeD NodeE
+v 11 NodeC NodeB
+v 12 NodeE NodeA
+v 13 NodeB NodeA
+v 14 NodeE NodeA
+v 15 NodeD NodeB
+v 16 NodeB NodeD
+v 17 NodeA NodeD
+v 18 NodeD NodeC
+v 19 NodeB NodeB
+e 0 4 Edge3 Edge5
+e 0 6 Edge5 Edge1
+e 1 12 Edge1 Edge2
+e 2 7 Edge3 Edge4
+e 3 8 Edge5 Edge3
+e 4 1 Edge4 Edge2
+e 5 18 Edge4 Edge4
+e 5 8 Edge3 Edge5
+e 6 16 Edge2 Edge2
+e 7 11 Edge3 Edge5
+e 7 12 Edge2 Edge2
+e 8 17 Edge5 Edge4
+e 8 14 Edge1 Edge2
+e 9 3 Edge4 Edge4
+e 10 2 Edge2 Edge4
+e 10 6 Edge5 Edge4
+e 11 5 Edge4 Edge5
+e 12 6 Edge2 Edge4
+e 13 10 Edge4 Edge4
+e 13 16 Edge3 Edge1
+e 14 0 Edge2 Edge2
+e 14 12 Edge2 Edge3
+e 15 9 Edge2 Edge1
+e 15 8 Edge2 Edge3
+e 16 19 Edge5 Edge2
+e 17 13 Edge4 Edge3
+e 18 14 Edge5 Edge1
+e 18 16 Edge3 Edge3
+e 19 15 Edge4 Edge5
+e 19 1 Edge3 Edge2
+t # 37
+v 0 NodeC NodeE
+v 1 NodeB NodeB
+v 2 NodeE NodeB
+v 3 NodeC NodeE
+v 4 NodeD NodeD
+v 5 NodeA NodeB
+v 6 NodeA NodeC
+v 7 NodeE NodeD
+v 8 NodeD NodeA
+v 9 NodeC NodeD
+v 10 NodeE NodeA
+v 11 NodeB NodeA
+v 12 NodeE NodeD
+v 13 NodeC NodeB
+v 14 NodeC NodeA
+v 15 NodeB NodeA
+v 16 NodeB NodeE
+v 17 NodeE NodeA
+v 18 NodeD NodeC
+v 19 NodeB NodeD
+e 0 18 Edge5 Edge2
+e 1 11 Edge5 Edge5
+e 1 6 Edge3 Edge3
+e 2 5 Edge4 Edge2
+e 3 4 Edge2 Edge4
+e 4 14 Edge1 Edge4
+e 5 13 Edge3 Edge1
+e 5 12 Edge1 Edge5
+e 5 18 Edge2 Edge2
+e 6 17 Edge4 Edge1
+e 7 15 Edge5 Edge3
+e 7 16 Edge5 Edge1
+e 8 12 Edge5 Edge1
+e 8 13 Edge1 Edge3
+e 8 2 Edge1 Edge4
+e 8 7 Edge5 Edge5
+e 9 2 Edge4 Edge5
+e 9 12 Edge4 Edge1
+e 10 1 Edge5 Edge1
+e 10 19 Edge5 Edge4
+e 11 3 Edge1 Edge1
+e 11 7 Edge1 Edge2
+e 12 16 Edge3 Edge2
+e 13 0 Edge3 Edge2
+e 14 8 Edge1 Edge4
+e 15 9 Edge5 Edge2
+e 16 7 Edge5 Edge4
+e 17 19 Edge5 Edge4
+e 17 14 Edge5 Edge3
+e 19 10 Edge2 Edge5
+t # 38
+v 0 NodeC NodeA
+v 1 NodeB NodeD
+v 2 NodeD NodeD
+v 3 NodeB NodeC
+v 4 NodeE NodeB
+v 5 NodeE NodeA
+v 6 NodeA NodeC
+v 7 NodeE NodeC
+v 8 NodeA NodeA
+v 9 NodeB NodeA
+v 10 NodeC NodeB
+v 11 NodeE NodeE
+v 12 NodeD NodeA
+v 13 NodeC NodeC
+v 14 NodeC NodeC
+v 15 NodeE NodeD
+v 16 NodeC NodeC
+v 17 NodeA NodeE
+v 18 NodeD NodeD
+v 19 NodeA NodeB
+e 0 15 Edge1 Edge3
+e 1 7 Edge4 Edge3
+e 2 5 Edge5 Edge3
+e 3 10 Edge4 Edge2
+e 4 8 Edge4 Edge5
+e 4 0 Edge1 Edge4
+e 5 16 Edge4 Edge4
+e 6 9 Edge2 Edge1
+e 7 0 Edge4 Edge1
+e 7 17 Edge5 Edge2
+e 7 2 Edge5 Edge1
+e 7 14 Edge2 Edge3
+e 8 13 Edge2 Edge5
+e 8 17 Edge4 Edge3
+e 9 2 Edge4 Edge3
+e 10 17 Edge2 Edge3
+e 10 7 Edge1 Edge3
+e 11 12 Edge3 Edge2
+e 11 17 Edge2 Edge1
+e 12 19 Edge4 Edge2
+e 12 18 Edge1 Edge3
+e 13 11 Edge4 Edge4
+e 14 18 Edge2 Edge4
+e 14 0 Edge4 Edge2
+e 15 14 Edge4 Edge2
+e 15 18 Edge4 Edge1
+e 16 4 Edge3 Edge2
+e 17 1 Edge2 Edge1
+e 17 10 Edge2 Edge3
+e 18 6 Edge2 Edge1
+t # 39
+v 0 NodeD NodeC
+v 1 NodeD NodeA
+v 2 NodeA NodeE
+v 3 NodeC NodeE
+v 4 NodeE NodeD
+v 5 NodeC NodeE
+v 6 NodeA NodeC
+v 7 NodeE NodeA
+v 8 NodeD NodeD
+v 9 NodeC NodeD
+v 10 NodeC NodeA
+v 11 NodeB NodeE
+v 12 NodeC NodeA
+v 13 NodeB NodeD
+v 14 NodeD NodeE
+v 15 NodeB NodeC
+v 16 NodeC NodeE
+v 17 NodeD NodeC
+v 18 NodeE NodeA
+v 19 NodeB NodeC
+e 1 12 Edge3 Edge3
+e 2 5 Edge1 Edge5
+e 3 9 Edge2 Edge3
+e 4 10 Edge4 Edge4
+e 4 0 Edge2 Edge1
+e 5 4 Edge2 Edge1
+e 6 16 Edge4 Edge1
+e 6 17 Edge2 Edge3
+e 6 15 Edge2 Edge3
+e 7 14 Edge4 Edge2
+e 8 2 Edge5 Edge5
+e 8 0 Edge5 Edge2
+e 9 7 Edge4 Edge1
+e 10 11 Edge5 Edge3
+e 10 13 Edge5 Edge5
+e 10 18 Edge1 Edge1
+e 11 0 Edge2 Edge3
+e 11 12 Edge5 Edge5
+e 11 19 Edge1 Edge4
+e 11 18 Edge2 Edge2
+e 12 17 Edge5 Edge4
+e 13 8 Edge4 Edge3
+e 14 13 Edge1 Edge1
+e 14 15 Edge3 Edge3
+e 15 6 Edge3 Edge2
+e 16 19 Edge5 Edge5
+e 17 3 Edge2 Edge4
+e 18 15 Edge1 Edge5
+e 18 7 Edge2 Edge3
+e 19 1 Edge3 Edge1
+t # 40
+v 0 NodeB NodeC
+v 1 NodeA NodeC
+v 2 NodeE NodeB
+v 3 NodeB NodeC
+v 4 NodeA NodeB
+v 5 NodeD NodeC
+v 6 NodeC NodeA
+v 7 NodeE NodeE
+v 8 NodeA NodeA
+v 9 NodeC NodeC
+v 10 NodeD NodeD
+v 11 NodeC NodeA
+v 12 NodeB NodeD
+v 13 NodeB NodeA
+v 14 NodeB NodeA
+v 15 NodeD NodeB
+v 16 NodeD NodeE
+v 17 NodeA NodeB
+v 18 NodeE NodeA
+v 19 NodeD NodeE
+e 1 16 Edge1 Edge1
+e 2 9 Edge4 Edge3
+e 3 17 Edge1 Edge2
+e 3 6 Edge1 Edge4
+e 4 2 Edge5 Edge2
+e 5 13 Edge5 Edge4
+e 6 15 Edge3 Edge5
+e 6 12 Edge2 Edge1
+e 6 7 Edge1 Edge2
+e 7 10 Edge5 Edge4
+e 7 16 Edge3 Edge1
+e 7 5 Edge4 Edge2
+e 8 12 Edge1 Edge5
+e 8 2 Edge5 Edge2
+e 9 6 Edge2 Edge3
+e 10 0 Edge4 Edge4
+e 11 8 Edge5 Edge1
+e 12 1 Edge4 Edge2
+e 13 19 Edge4 Edge5
+e 14 18 Edge5 Edge2
+e 14 4 Edge3 Edge1
+e 15 5 Edge1 Edge3
+e 16 14 Edge2 Edge2
+e 16 19 Edge1 Edge5
+e 17 7 Edge3 Edge1
+e 18 3 Edge2 Edge3
+e 18 11 Edge4 Edge3
+e 19 11 Edge1 Edge5
+e 19 5 Edge2 Edge5
+e 19 14 Edge5 Edge5
+t # 41
+v 0 NodeA NodeD
+v 1 NodeA NodeD
+v 2 NodeA NodeC
+v 3 NodeC NodeE
+v 4 NodeB NodeE
+v 5 NodeE NodeE
+v 6 NodeB NodeC
+v 7 NodeB NodeE
+v 8 NodeC NodeC
+v 9 NodeC NodeE
+v 10 NodeD NodeD
+v 11 NodeC NodeC
+v 12 NodeD NodeE
+v 13 NodeE NodeD
+v 14 NodeD NodeC
+v 15 NodeC NodeD
+v 16 NodeD NodeD
+v 17 NodeE NodeD
+v 18 NodeD NodeB
+v 19 NodeD NodeC
+e 0 3 Edge4 Edge1
+e 1 4 Edge1 Edge4
+e 1 2 Edge4 Edge4
+e 2 18 Edge3 Edge4
+e 3 16 Edge4 Edge5
+e 3 5 Edge2 Edge3
+e 4 10 Edge1 Edge3
+e 5 2 Edge4 Edge1
+e 6 8 Edge4 Edge4
+e 8 7 Edge1 Edge4
+e 8 2 Edge2 Edge5
+e 9 11 Edge4 Edge4
+e 9 5 Edge2 Edge1
+e 10 19 Edge5 Edge5
+e 10 3 Edge1 Edge2
+e 11 15 Edge3 Edge3
+e 12 14 Edge1 Edge1
+e 12 10 Edge2 Edge2
+e 13 6 Edge1 Edge5
+e 13 19 Edge1 Edge3
+e 14 13 Edge4 Edge3
+e 15 1 Edge1 Edge2
+e 15 5 Edge2 Edge1
+e 16 5 Edge3 Edge2
+e 16 11 Edge1 Edge2
+e 16 2 Edge4 Edge2
+e 17 9 Edge1 Edge2
+e 18 17 Edge2 Edge5
+e 19 12 Edge3 Edge5
+e 19 4 Edge3 Edge2
+t # 42
+v 0 NodeC NodeB
+v 1 NodeE NodeA
+v 2 NodeC NodeB
+v 3 NodeE NodeA
+v 4 NodeA NodeE
+v 5 NodeE NodeC
+v 6 NodeE NodeC
+v 7 NodeA NodeE
+v 8 NodeB NodeE
+v 9 NodeA NodeB
+v 10 NodeB NodeD
+v 11 NodeB NodeE
+v 12 NodeE NodeD
+v 13 NodeD NodeA
+v 14 NodeC NodeB
+v 15 NodeE NodeB
+v 16 NodeC NodeE
+v 17 NodeD NodeB
+v 18 NodeA NodeE
+v 19 NodeE NodeB
+e 0 19 Edge4 Edge4
+e 1 0 Edge3 Edge3
+e 1 9 Edge4 Edge2
+e 1 18 Edge1 Edge2
+e 2 7 Edge1 Edge2
+e 3 18 Edge5 Edge2
+e 3 0 Edge2 Edge5
+e 4 9 Edge2 Edge4
+e 5 6 Edge2 Edge2
+e 6 10 Edge4 Edge1
+e 7 4 Edge2 Edge5
+e 8 13 Edge5 Edge1
+e 9 12 Edge1 Edge1
+e 9 6 Edge4 Edge2
+e 9 18 Edge5 Edge1
+e 10 8 Edge5 Edge5
+e 10 12 Edge2 Edge4
+e 11 17 Edge4 Edge4
+e 11 9 Edge4 Edge4
+e 11 16 Edge2 Edge5
+e 12 1 Edge1 Edge4
+e 13 11 Edge1 Edge5
+e 13 2 Edge4 Edge5
+e 14 16 Edge1 Edge5
+e 15 5 Edge3 Edge1
+e 15 19 Edge5 Edge5
+e 17 3 Edge5 Edge1
+e 18 2 Edge4 Edge3
+e 18 16 Edge4 Edge1
+e 19 14 Edge2 Edge2
+t # 43
+v 0 NodeB NodeB
+v 1 NodeB NodeB
+v 2 NodeE NodeE
+v 3 NodeE NodeB
+v 4 NodeE NodeE
+v 5 NodeC NodeC
+v 6 NodeA NodeA
+v 7 NodeD NodeC
+v 8 NodeC NodeB
+v 9 NodeC NodeE
+v 10 NodeC NodeB
+v 11 NodeA NodeC
+v 12 NodeE NodeE
+v 13 NodeA NodeE
+v 14 NodeC NodeD
+v 15 NodeA NodeB
+v 16 NodeE NodeE
+v 17 NodeE NodeB
+v 18 NodeC NodeE
+v 19 NodeC NodeA
+e 0 3 Edge1 Edge1
+e 0 10 Edge3 Edge2
+e 2 8 Edge3 Edge4
+e 2 12 Edge3 Edge4
+e 3 13 Edge4 Edge2
+e 4 6 Edge1 Edge2
+e 5 9 Edge3 Edge2
+e 6 15 Edge2 Edge5
+e 7 11 Edge2 Edge1
+e 7 9 Edge2 Edge2
+e 8 17 Edge2 Edge1
+e 8 18 Edge3 Edge3
+e 8 16 Edge4 Edge1
+e 9 16 Edge3 Edge3
+e 9 13 Edge1 Edge4
+e 10 18 Edge2 Edge4
+e 10 12 Edge5 Edge4
+e 11 2 Edge2 Edge5
+e 11 0 Edge5 Edge3
+e 12 4 Edge2 Edge3
+e 13 12 Edge4 Edge4
+e 14 1 Edge2 Edge2
+e 15 19 Edge4 Edge1
+e 16 10 Edge1 Edge5
+e 16 17 Edge1 Edge1
+e 17 14 Edge1 Edge5
+e 17 9 Edge5 Edge2
+e 18 0 Edge5 Edge3
+e 18 15 Edge5 Edge4
+e 19 7 Edge4 Edge1
+t # 44
+v 0 NodeD NodeA
+v 1 NodeD NodeE
+v 2 NodeC NodeE
+v 3 NodeA NodeB
+v 4 NodeD NodeD
+v 5 NodeD NodeA
+v 6 NodeA NodeC
+v 7 NodeA NodeD
+v 8 NodeB NodeC
+v 9 NodeD NodeA
+v 10 NodeA NodeD
+v 11 NodeD NodeB
+v 12 NodeC NodeD
+v 13 NodeD NodeE
+v 14 NodeA NodeE
+v 15 NodeB NodeA
+v 16 NodeB NodeC
+v 17 NodeC NodeD
+v 18 NodeC NodeD
+v 19 NodeA NodeB
+e 0 19 Edge5 Edge2
+e 1 9 Edge2 Edge4
+e 2 16 Edge1 Edge5
+e 3 0 Edge1 Edge1
+e 4 8 Edge5 Edge5
+e 5 17 Edge4 Edge1
+e 6 4 Edge3 Edge3
+e 7 5 Edge5 Edge2
+e 7 11 Edge3 Edge5
+e 7 17 Edge2 Edge4
+e 8 1 Edge3 Edge3
+e 9 12 Edge2 Edge4
+e 9 19 Edge5 Edge1
+e 10 14 Edge4 Edge5
+e 10 13 Edge4 Edge2
+e 11 3 Edge1 Edge1
+e 12 11 Edge4 Edge5
+e 12 16 Edge2 Edge2
+e 12 4 Edge3 Edge1
+e 13 7 Edge1 Edge3
+e 14 13 Edge2 Edge5
+e 14 1 Edge4 Edge3
+e 14 2 Edge1 Edge5
+e 15 10 Edge2 Edge3
+e 16 18 Edge5 Edge2
+e 16 17 Edge1 Edge3
+e 17 2 Edge1 Edge2
+e 18 6 Edge1 Edge2
+e 18 0 Edge2 Edge1
+e 19 7 Edge4 Edge2
+t # 45
+v 0 NodeB NodeD
+v 1 NodeE NodeE
+v 2 NodeD NodeC
+v 3 NodeB NodeD
+v 4 NodeD NodeC
+v 5 NodeD NodeE
+v 6 NodeB NodeD
+v 7 NodeA NodeE
+v 8 NodeE NodeD
+v 9 NodeD NodeA
+v 10 NodeA NodeD
+v 11 NodeB NodeE
+v 12 NodeD NodeD
+v 13 NodeA NodeB
+v 14 NodeB NodeA
+v 15 NodeC NodeD
+v 16 NodeB NodeD
+v 17 NodeD NodeD
+v 18 NodeB NodeE
+v 19 NodeE NodeC
+e 0 15 Edge3 Edge4
+e 0 11 Edge3 Edge5
+e 0 18 Edge2 Edge5
+e 1 17 Edge5 Edge1
+e 1 10 Edge1 Edge3
+e 2 3 Edge5 Edge4
+e 2 10 Edge5 Edge2
+e 3 0 Edge4 Edge3
+e 4 12 Edge4 Edge3
+e 5 1 Edge2 Edge1
+e 5 3 Edge5 Edge3
+e 6 4 Edge5 Edge2
+e 6 5 Edge2 Edge2
+e 7 6 Edge2 Edge1
+e 7 4 Edge2 Edge2
+e 8 3 Edge5 Edge3
+e 9 16 Edge5 Edge3
+e 9 10 Edge1 Edge1
+e 9 15 Edge2 Edge3
+e 10 8 Edge1 Edge3
+e 11 13 Edge1 Edge5
+e 12 11 Edge1 Edge4
+e 13 5 Edge2 Edge3
+e 13 19 Edge4 Edge3
+e 14 19 Edge5 Edge5
+e 15 14 Edge1 Edge2
+e 16 7 Edge3 Edge3
+e 17 2 Edge3 Edge1
+e 18 10 Edge5 Edge1
+e 19 9 Edge2 Edge1
+t # 46
+v 0 NodeD NodeC
+v 1 NodeA NodeA
+v 2 NodeD NodeB
+v 3 NodeD NodeB
+v 4 NodeB NodeD
+v 5 NodeD NodeA
+v 6 NodeE NodeE
+v 7 NodeA NodeA
+v 8 NodeE NodeC
+v 9 NodeA NodeA
+v 10 NodeE NodeB
+v 11 NodeE NodeE
+v 12 NodeB NodeD
+v 13 NodeA NodeA
+v 14 NodeC NodeD
+v 15 NodeC NodeE
+v 16 NodeE NodeB
+v 17 NodeC NodeD
+v 18 NodeA NodeD
+v 19 NodeA NodeC
+e 0 9 Edge4 Edge3
+e 1 3 Edge5 Edge1
+e 2 4 Edge3 Edge1
+e 3 14 Edge3 Edge4
+e 4 17 Edge4 Edge4
+e 4 5 Edge4 Edge3
+e 5 6 Edge2 Edge3
+e 6 8 Edge5 Edge2
+e 6 16 Edge2 Edge4
+e 7 18 Edge2 Edge4
+e 8 1 Edge5 Edge5
+e 9 19 Edge1 Edge1
+e 9 15 Edge3 Edge2
+e 10 7 Edge4 Edge2
+e 10 11 Edge3 Edge2
+e 11 12 Edge3 Edge1
+e 11 0 Edge4 Edge4
+e 12 15 Edge1 Edge1
+e 12 13 Edge2 Edge3
+e 13 2 Edge1 Edge1
+e 13 15 Edge5 Edge5
+e 14 16 Edge4 Edge2
+e 14 4 Edge3 Edge4
+e 15 13 Edge4 Edge3
+e 15 8 Edge5 Edge1
+e 16 0 Edge1 Edge4
+e 17 10 Edge2 Edge5
+e 18 5 Edge2 Edge5
+e 18 9 Edge4 Edge4
+e 19 11 Edge2 Edge1
+t # 47
+v 0 NodeD NodeB
+v 1 NodeE NodeE
+v 2 NodeE NodeD
+v 3 NodeE NodeE
+v 4 NodeA NodeA
+v 5 NodeC NodeC
+v 6 NodeC NodeE
+v 7 NodeB NodeA
+v 8 NodeD NodeE
+v 9 NodeE NodeA
+v 10 NodeB NodeB
+v 11 NodeB NodeC
+v 12 NodeC NodeC
+v 13 NodeB NodeE
+v 14 NodeC NodeD
+v 15 NodeC NodeB
+v 16 NodeE NodeB
+v 17 NodeB NodeE
+v 18 NodeE NodeB
+v 19 NodeB NodeE
+e 0 2 Edge3 Edge2
+e 1 0 Edge3 Edge1
+e 1 5 Edge5 Edge1
+e 2 13 Edge4 Edge3
+e 3 17 Edge4 Edge3
+e 4 14 Edge4 Edge4
+e 5 11 Edge3 Edge1
+e 6 12 Edge1 Edge3
+e 7 5 Edge5 Edge5
+e 8 19 Edge4 Edge5
+e 9 6 Edge3 Edge3
+e 10 3 Edge5 Edge3
+e 10 17 Edge1 Edge4
+e 10 0 Edge4 Edge1
+e 11 18 Edge5 Edge4
+e 11 16 Edge4 Edge2
+e 12 9 Edge5 Edge2
+e 13 4 Edge3 Edge5
+e 13 15 Edge5 Edge2
+e 14 6 Edge5 Edge4
+e 14 18 Edge3 Edge1
+e 15 16 Edge3 Edge3
+e 16 10 Edge5 Edge1
+e 16 17 Edge4 Edge4
+e 17 7 Edge4 Edge3
+e 17 15 Edge5 Edge5
+e 17 8 Edge2 Edge5
+e 18 1 Edge4 Edge3
+e 19 15 Edge4 Edge3
+e 19 4 Edge4 Edge2
+t # 48
+v 0 NodeE NodeE
+v 1 NodeE NodeE
+v 2 NodeE NodeE
+v 3 NodeE NodeB
+v 4 NodeB NodeA
+v 5 NodeE NodeA
+v 6 NodeE NodeE
+v 7 NodeE NodeE
+v 8 NodeB NodeA
+v 9 NodeA NodeD
+v 10 NodeB NodeE
+v 11 NodeD NodeB
+v 12 NodeB NodeA
+v 13 NodeB NodeC
+v 14 NodeD NodeC
+v 15 NodeB NodeB
+v 16 NodeD NodeA
+v 17 NodeC NodeD
+v 18 NodeC NodeC
+v 19 NodeC NodeD
+e 0 17 Edge4 Edge2
+e 1 11 Edge5 Edge5
+e 2 14 Edge3 Edge2
+e 3 18 Edge2 Edge1
+e 3 9 Edge1 Edge5
+e 4 15 Edge2 Edge3
+e 4 2 Edge1 Edge2
+e 5 8 Edge3 Edge1
+e 5 0 Edge5 Edge4
+e 6 1 Edge3 Edge2
+e 6 17 Edge5 Edge1
+e 8 9 Edge2 Edge5
+e 8 10 Edge3 Edge1
+e 9 7 Edge3 Edge2
+e 9 11 Edge4 Edge4
+e 10 16 Edge4 Edge1
+e 11 19 Edge5 Edge5
+e 12 4 Edge5 Edge2
+e 13 10 Edge2 Edge3
+e 13 5 Edge2 Edge4
+e 14 0 Edge1 Edge1
+e 15 2 Edge2 Edge5
+e 16 3 Edge2 Edge4
+e 16 4 Edge4 Edge2
+e 16 0 Edge4 Edge5
+e 17 13 Edge4 Edge1
+e 17 19 Edge5 Edge1
+e 18 5 Edge3 Edge4
+e 18 1 Edge4 Edge2
+e 19 12 Edge2 Edge3
+t # 49
+v 0 NodeD NodeB
+v 1 NodeE NodeD
+v 2 NodeD NodeC
+v 3 NodeD NodeC
+v 4 NodeA NodeB
+v 5 NodeE NodeD
+v 6 NodeB NodeC
+v 7 NodeC NodeB
+v 8 NodeE NodeE
+v 9 NodeD NodeB
+v 10 NodeB NodeC
+v 11 NodeE NodeE
+v 12 NodeE NodeD
+v 13 NodeA NodeD
+v 14 NodeD NodeC
+v 15 NodeE NodeD
+v 16 NodeD NodeA
+v 17 NodeD NodeB
+v 18 NodeE NodeC
+v 19 NodeD NodeC
+e 0 19 Edge3 Edge2
+e 1 16 Edge4 Edge4
+e 2 15 Edge5 Edge2
+e 2 0 Edge5 Edge2
+e 3 4 Edge5 Edge1
+e 4 0 Edge2 Edge4
+e 4 9 Edge4 Edge1
+e 4 17 Edge5 Edge1
+e 5 10 Edge4 Edge2
+e 5 17 Edge5 Edge4
+e 6 8 Edge3 Edge3
+e 7 3 Edge3 Edge1
+e 7 2 Edge2 Edge3
+e 8 2 Edge3 Edge5
+e 9 12 Edge2 Edge4
+e 9 15 Edge3 Edge2
+e 10 9 Edge1 Edge3
+e 11 5 Edge2 Edge4
+e 13 18 Edge5 Edge4
+e 13 19 Edge3 Edge4
+e 14 7 Edge5 Edge4
+e 15 1 Edge4 Edge5
+e 15 4 Edge1 Edge1
+e 16 17 Edge4 Edge5
+e 17 14 Edge4 Edge2
+e 17 19 Edge2 Edge1
+e 17 8 Edge4 Edge4
+e 18 11 Edge4 Edge1
+e 19 13 Edge3 Edge3
+e 19 10 Edge1 Edge2

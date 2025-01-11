@@ -1,0 +1,14 @@
+t # 0 g1
+v 0 A
+v 1 B
+v 2 A
+e 0 1 a
+e 1 2 b
+e 2 0 c
+t # 1 g2
+v 0 A
+v 1 B
+v 2
+e 1 0 a
+e 2 1 b
+e 0 2 c

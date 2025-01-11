@@ -1,0 +1,27 @@
+t # 0 G1
+v 0 ObjectA
+v 1 ObjectB
+v 2 ObjectC
+v 3 ObjectD
+e 0 1 relatesTo
+e 2 1 subclassOf
+e 3 1 subclassOf
+e 2 3 relatesTo
+t # 0 G2
+v 0 ObjectA
+v 1 ObjectB
+v 2 ObjectC
+v 3 ObjectD
+e 0 1 relatesTo
+e 2 1 subclassOf
+e 3 1 subclassOf
+e 2 3 relatesTo
+t # 0 G3
+v 0 ObjectA
+v 1 ObjectB
+v 2 ObjectC
+v 3 ObjectD
+e 0 1 relatesTo
+e 2 1 subclassOf
+e 3 1 subclassOf
+e 2 3 relatesTo

@@ -1,0 +1,10 @@
+t # 0
+v 0 blue
+v 1 yellow
+v 2 red
+v 3 purple
+e 0 1 white
+e 1 2 white
+e 3 2 white
+s 3
+f 6
