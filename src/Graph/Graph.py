@@ -704,7 +704,11 @@ class MultiDiGraph(nx.MultiDiGraph):
 
         return matrix
 
+    def a(self, node):
+        return "".join(sorted([self.edges[edge]['type'] for edge in self.edges(node, keys=True)]))
 
+    def b(self, node):
+        return "".join(sorted([self.edges[edge]['type'] for edge in self.in_edges(node, keys=True)]))
 
     def canonical_code(self):
         edges = list(set(self.edges(keys=False)))
@@ -716,8 +720,8 @@ class MultiDiGraph(nx.MultiDiGraph):
         # Creazione del grafo per igraph
         igraph = igraphGraph(edges=edges, directed=True)
         nodes = sorted(self.nodes())
-        node_colors = ["".join(sorted(self.get_node_labels(node))) for node in nodes]
-
+        node_colors = ["".join(sorted(self.get_node_labels(node))) + self.a(node) + self.b(node)  for node in nodes]
+        # print(node_colors)
         # Mappa dei colori a interi
         node_colors_map_to_int = {color: i for i, color in enumerate(sorted(set(node_colors)))}
         node_colors_int = [node_colors_map_to_int[color] for color in node_colors]
@@ -726,10 +730,15 @@ class MultiDiGraph(nx.MultiDiGraph):
         # Calcolo della permutazione canonica
         canonical_permutation = igraph.canonical_permutation(color=node_colors_int)
 
+        # print(canonical_permutation)
+
         del igraph
 
         # # Permuta la matrice di adiacenza
         adjacency_matrix = self.permutated_adjacency_matrix(canonical_permutation)
+
+        # for row in adjacency_matrix:
+        #     print(row)
 
         inverse_canonical_permutation = {canonical_permutation[i]: i for i in range(len(canonical_permutation))}
 

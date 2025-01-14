@@ -1076,13 +1076,13 @@ class CMiner:
 
                 self.stack.push(node_extended_pattern)
 
-                # edge_extensions = node_extended_pattern.find_edge_extensions(self.min_support)
-                #
-                # for edge_ext in edge_extensions:
-                #
-                #     edge_extended_pattern = node_extended_pattern.apply_edge_extension(edge_ext)
-                #
-                #     self.stack.push(edge_extended_pattern)
+                edge_extensions = node_extended_pattern.find_edge_extensions(self.min_support)
+
+                for edge_ext in edge_extensions:
+
+                    edge_extended_pattern = node_extended_pattern.apply_edge_extension(edge_ext)
+
+                    self.stack.push(edge_extended_pattern)
 
     # def mine(self):
     #     self._read_graphs_from_file()
