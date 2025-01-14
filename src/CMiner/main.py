@@ -35,11 +35,11 @@ def main_function():
     parser.add_argument('-u', '--max_nodes', type=int, help="Maximum number of nodes", default=float('inf'))
     parser.add_argument('-n', '--num_nodes', type=int, help="Number of nodes", default=None)
     parser.add_argument('-m', '--show_mappings', type=int, help="Show pattern mappings", default=0)
-    # parser.add_argument('-o', '--output_path', type=str, help="Output file", default=None)
+    parser.add_argument('-o', '--output_path', type=str, help="Output file", default=None)
     parser.add_argument('-p', '--patterns_path', type=str, help="Starting patterns file", default=None)
     parser.add_argument('-d', '--is_directed', type=int, help="Specify if the graph is directed", default=0)
     parser.add_argument('-f', '--with_frequencies', type=int, help="Show the relative frequencies of the pattern", default=0)
-    # parser.add_argument('-c', '--closed_patterns', type=int, help="Show only the maximum closed patterns", default=0)
+    parser.add_argument('-c', '--closed_patterns', type=int, help="Show only the maximum closed patterns", default=0)
 
     args = parser.parse_args()
 

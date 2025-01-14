@@ -728,16 +728,8 @@ class MultiDiGraph(nx.MultiDiGraph):
 
         del igraph
 
-
-        ###################
         # # Permuta la matrice di adiacenza
         adjacency_matrix = self.permutated_adjacency_matrix(canonical_permutation)
-        # print(igraph.get_adjacency())
-        # adjacency_matrix = igraph.permute_vertices(canonical_permutation).get_adjacency()
-        ###################
-        # print(canonical_permutation)
-
-        # print(adjacency_matrix)
 
         inverse_canonical_permutation = {canonical_permutation[i]: i for i in range(len(canonical_permutation))}
 

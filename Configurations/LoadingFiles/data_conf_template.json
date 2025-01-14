@@ -1,0 +1,8 @@
+{
+    "file_path" : "path to the network file",
+    "file_name" : "network file name",
+    "sep_label" : "separator for the features (default is ','; used only labels into the same row)",
+    "is_mr"     : "1 if True the file contains multiple rows for each node",
+    "is_directed"  : "1 is the network is directed, 0 otherwise",
+    "is_multigraph": "1 if the network is a multigraph, 0 otherwise"
+}

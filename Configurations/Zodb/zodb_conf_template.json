@@ -1,0 +1,6 @@
+{
+   "in_memory"       : "0 if not in memory, 1 if in memory. it is an integer",
+   "blobs_dir"       : "directory where blob dat will be saved",
+   "filesystem_dir"  : "directory where the file system is stored. you need to set it if in memory is 0",
+   "filesystem_name" : "name of the file system (example: cminer.fs). you need to set it if in memory is 0"
+}
