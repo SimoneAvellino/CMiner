@@ -122,7 +122,7 @@ Some usage examples from the folder `test/Datasets/toy-db`:
 - Mine patterns from 2 up to 3 nodes, present in at least 50% of graphs in the database.
 
 ```bash
-CMiner /test/Datasets/toy-db/db1.data 0.5 -l 4 -u 8
+CMiner /test/Datasets/toy-db/db1.data 0.5 -l 2 -u 3
  ```
 
 - Mining all patterns present in at least 2 graphs in the database.
