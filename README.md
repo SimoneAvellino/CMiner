@@ -2,19 +2,17 @@
 
 CMiner is an algorithm for mining patterns from graphs using a user-defined support technique. This implementation provides a command-line interface for running the algorithm, with configurable options like minimum and maximum nodes, support, and search approach.
 
-## Prerequisites
+
+
+## Installation
+
+### Prerequisites
 
 Make sure you have the following requirements to run the project:
 
 - **Python**: Version 3.11 or higher
 - **pip**: Version  24.2 or higher
 
-## Installation
-
-### Prerequisites
-
-- Python 3.x
-- `pip` (Python package manager)
 
 ### Installation steps
 
