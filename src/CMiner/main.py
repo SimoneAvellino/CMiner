@@ -35,17 +35,17 @@ def main_function():
     parser.add_argument('-u', '--max_nodes', type=int, help="Maximum number of nodes", default=float('inf'))
     parser.add_argument('-n', '--num_nodes', type=int, help="Number of nodes", default=None)
     parser.add_argument('-m', '--show_mappings', type=int, help="Show pattern mappings", default=0)
-    parser.add_argument('-o', '--output_path', type=str, help="Output file", default=None)
-    parser.add_argument('-p', '--patterns_path', type=str, help="Starting patterns file", default=None)
+    # parser.add_argument('-o', '--output_path', type=str, help="Output file", default=None)
+    parser.add_argument('-t', '--templates_path', type=str, help="Starting patterns file", default=None)
     parser.add_argument('-d', '--is_directed', type=int, help="Specify if the graph is directed", default=0)
     parser.add_argument('-f', '--with_frequencies', type=int, help="Show the relative frequencies of the pattern", default=0)
-    parser.add_argument('-c', '--closed_patterns', type=int, help="Show only the maximum closed patterns", default=0)
+    # parser.add_argument('-c', '--closed_patterns', type=int, help="Show only the maximum closed patterns", default=0)
 
     args = parser.parse_args()
 
     start_patterns = None
-    if args.patterns_path is not None:
-        with open(args.patterns_path, 'r') as f:
+    if args.templates_path is not None:
+        with open(args.templates_path, 'r') as f:
             patterns = f.read().split("----------")
             start_patterns = [parse_graph_str(pattern) for pattern in patterns]
 
@@ -59,11 +59,11 @@ def main_function():
         min_nodes=args.min_nodes,
         max_nodes=args.max_nodes,
         show_mappings=args.show_mappings,
-        output_path=args.output_path,
+        # output_path=args.output_path,
         start_patterns=start_patterns,
         is_directed=args.is_directed,
         with_frequencies=args.with_frequencies,
-        only_closed_patterns=args.closed_patterns
+        # only_closed_patterns=args.closed_patterns
     )
 
     start_time = time.time()

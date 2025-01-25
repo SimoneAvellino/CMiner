@@ -1,0 +1,3 @@
+v 0 red
+v 1 yellow
+e 0 1 white
