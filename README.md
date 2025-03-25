@@ -17,7 +17,10 @@ Make sure you have the following requirements to run the project:
 ### Installation steps
 
 1. Download the repository from https://anonymous.4open.science/r/CMiner.
-2. Move into the repository folder.
+2. Move into the repository folder:
+    ```bash
+    cd CMiner
+    ```
 
 2. Install the dependencies:
     ```bash
@@ -106,11 +109,11 @@ CMiner <db_file> <support> [options]
 ### Additional options:
 - `-l`, `--min_nodes`: Minimum number of nodes in the pattern (default: 1).
 - `-u`, `--max_nodes`: Maximum number of nodes in the pattern (default: infinite).
-- `-n`, `--num_nodes`: Exact number of nodes in the pattern (if not set -l and -u are considered).
-- `-d`, `--directed`: Flag to indicate if the graphs are directed (default: 0).
-- `-m`, `--show_mappings`: Display mappings of found patterns (default: 0).
+- `-n`, `--num_nodes`: Exact number of nodes in the pattern (if this option is set, -l and -u are not considered).
+- `-d`, `--directed`: Flag to indicate if the graphs are directed (default: 0, not directed).
+- `-m`, `--show_mappings`: Display mappings of found patterns (default: 0, not displayed).
 - `-t`, `--templates_path`: File paths to start the search.
-- `-f`, `--with_frequencies`: Flag to indicate if the frequencies of the patterns for each graph must be shown (default: 0).
+- `-f`, `--with_frequencies`: Display for each pattern the frequency in each graph. (default: 0, not displayed).
 
 [//]: # (- `-o`, `--output_path`: File path to save results, if not set the results are shown in the console.)
 [//]: # (- `-c`, `--only_closed_patterns`: Flag to indicate if only closed patterns should be shown &#40;default: False&#41;.)
@@ -125,13 +128,13 @@ Some usage examples from the folder `test/Datasets/toy-db`:
 CMiner /test/Datasets/toy-db/db1.data 0.5 -l 2 -u 3
  ```
 
-- Mining all patterns present in at least 2 graphs in the database.
+- Mine all patterns present in at least 2 graphs in the database.
 
 ```bash
 CMiner ./test/Datasets/toy-db/db3.data 2
  ```
 
-- Mining all patterns present in at least 2 graphs in the database that have the pattern inside the file `pattern.txt`
+- Mine all patterns present in at least 2 graphs in the database that have the template inside the file `pattern.txt`
 
 ```bash
 CMiner ./test/Datasets/toy-db/db3.data 2 -t ./test/Datasets/toy-db/pattern.txt
