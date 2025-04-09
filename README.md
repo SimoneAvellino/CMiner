@@ -115,9 +115,7 @@ CMiner <db_file> <support> [options]
 - `-t`, `--templates_path`: File paths to start the search. The index of the nodes must start from 0.
 - `-f`, `--with_frequencies`: Display for each pattern the frequency in each graph. (default: 0, not displayed).
 - `-x`, `--pattern_type`: Flag to indicate the type of pattern that CMiner return. It can be 'all', 'maximum' (default: all).
-
-[//]: # (- `-o`, `--output_path`: File path to save results, if not set the results are shown in the console.)
-[//]: # (- `-c`, `--only_closed_patterns`: Flag to indicate if only closed patterns should be shown &#40;default: False&#41;.)
+- `-o`, `--output_path`: File path to save results, if not set the results are shown in the console. 
 
 ### Usage example
 
