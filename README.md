@@ -103,7 +103,7 @@ CMiner <db_file> <support> [options]
 
 ### Required arguments:
 - `db_file`: Absolute path to the graph database file.
-- `support`: **Minimum support for pattern extraction**: Specify a value between `0` and `1` for percentage (e.g., `0.2` for 20%) or an absolute number (e.g., `20` for at least 20 graphs).
+- `support`: **Minimum support for pattern extraction**: Specify a value between `0` and `1` to represent a percentage (e.g., `0.2` for 20%) or an absolute number (e.g., `20` for at least 20 graphs). To find patterns in all graphs, use `1` (100%). For patterns in at least one graph, use a value greater than `1` (e.g., `1.1`).
 
 
 ### Additional options:
@@ -112,8 +112,9 @@ CMiner <db_file> <support> [options]
 - `-n`, `--num_nodes`: Exact number of nodes in the pattern (if this option is set, -l and -u are not considered).
 - `-d`, `--directed`: Flag to indicate if the graphs are directed (default: 0, not directed).
 - `-m`, `--show_mappings`: Display mappings of found patterns (default: 0, not displayed).
-- `-t`, `--templates_path`: File paths to start the search.
+- `-t`, `--templates_path`: File paths to start the search. The index of the nodes must start from 0.
 - `-f`, `--with_frequencies`: Display for each pattern the frequency in each graph. (default: 0, not displayed).
+- `-x`, `--pattern_type`: Flag to indicate the type of pattern that CMiner return. It can be 'all', 'maximum' (default: all).
 
 [//]: # (- `-o`, `--output_path`: File path to save results, if not set the results are shown in the console.)
 [//]: # (- `-c`, `--only_closed_patterns`: Flag to indicate if only closed patterns should be shown &#40;default: False&#41;.)

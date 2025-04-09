@@ -31,6 +31,7 @@ class MultiDiGraph(nx.MultiDiGraph):
         self.edge_labels = None
         if incoming_graph_data:
             self._initialize_from_graph_data(incoming_graph_data)
+            
 
     def _initialize_from_graph_data(self, incoming_graph_data):
         for node, node_data in incoming_graph_data.nodes(data=True):
@@ -39,6 +40,18 @@ class MultiDiGraph(nx.MultiDiGraph):
         for u, v, edge_data in incoming_graph_data.edges(data=True):
             self.add_edge(u, v, key=edge_key, **edge_data)
             edge_key += 1
+            
+    def zero_index_graph(self):
+        """
+        Return a copy of the graph with nodes reindexed starting from 0.
+        """
+        mapping = {node: i for i, node in enumerate(self.nodes())}
+        new_graph = MultiDiGraph()
+        for node in self.nodes(data=True):
+            new_graph.add_node(mapping[node[0]], **node[1])
+        for edge in self.edges(data=True, keys=True):
+            new_graph.add_edge(mapping[edge[0]], mapping[edge[1]], key=edge[2], **edge[3])
+        return new_graph
 
 
     def reset_memoization(self):
@@ -89,11 +102,14 @@ class MultiDiGraph(nx.MultiDiGraph):
         return self[source][destination][key]['type']
 
     def get_node_labels(self, _id):
+        if 'labels' not in self.nodes[_id]:
+            return []
         return sorted(list(self.nodes[_id]["labels"]))
 
     def get_all_node_labels(self):
         if self.node_labels is None:
-            self.node_labels = sorted(set(flat_map([self.nodes[node]['labels'] for node in self.nodes])))
+            self.node_labels = sorted(set(flat_map([self.get_node_labels(node) for node in self.nodes])))
+            # self.node_labels = sorted(set(flat_map([self.nodes[node]['labels'] for node in self.nodes])))
         return self.node_labels
 
     def get_all_edge_labels(self):
@@ -318,34 +334,6 @@ class MultiDiGraph(nx.MultiDiGraph):
             return True
         else:
             return False
-
-    # DELETE
-    def old_compute_orbits_nodes(self):
-
-        # Lista per memorizzare le orbite
-        orbits = []
-
-        # Insieme dei nodi non ancora visitati
-        unvisited_nodes = set(self.nodes())
-
-        # Finché ci sono nodi non visitati
-        while unvisited_nodes:
-            # Prendi un nodo di partenza dalla lista dei nodi non visitati
-            start_node = unvisited_nodes.pop()
-            orbit = {start_node}
-
-            # Copia di unvisited_nodes per iterare
-            nodes_to_check = unvisited_nodes.copy()
-
-            # Verifica l'equivalenza con gli altri nodi
-            for node in nodes_to_check:
-                if self.are_equivalent(start_node, node):
-                    orbit.add(node)
-                    unvisited_nodes.remove(node)
-            # Aggiungi l'orbita alla lista delle orbite
-            orbits.append(orbit)
-
-        return orbits
 
     def adjacency_list(self):
         adj_list = {}
@@ -685,7 +673,7 @@ class MultiDiGraph(nx.MultiDiGraph):
 
         return code
 
-    def permutated_adjacency_matrix(self, permutation):
+    def permutated_adjacency_matrix(self, permutation, reindex):
         """
         Returns the adjacency matrix of the graph.
 
@@ -700,7 +688,7 @@ class MultiDiGraph(nx.MultiDiGraph):
 
         # Fill the adjacency matrix with the edge labels
         for u, v in self.edges(keys=False):
-            matrix[permutation[u]][permutation[v]] = 1
+            matrix[permutation[reindex[u]]][permutation[reindex[v]]] = 1
 
         return matrix
 
@@ -711,7 +699,11 @@ class MultiDiGraph(nx.MultiDiGraph):
         return "".join(sorted([self.edges[edge]['type'] for edge in self.in_edges(node, keys=True)]))
 
     def canonical_code(self):
-        edges = list(set(self.edges(keys=False)))
+        
+        # ig the graph has nodes id different from 0 to n-1, we need to reindex the nodes
+        reindex = {node: i for i, node in enumerate(sorted(self.nodes()))}
+        
+        edges = [(reindex[src], reindex[dst]) for src, dst in self.edges(keys=False)]
 
         if len(edges) == 0:
             # Se il grafo non ha archi, restituisci solo le etichette dei nodi ordinate
@@ -725,47 +717,40 @@ class MultiDiGraph(nx.MultiDiGraph):
         # Mappa dei colori a interi
         node_colors_map_to_int = {color: i for i, color in enumerate(sorted(set(node_colors)))}
         node_colors_int = [node_colors_map_to_int[color] for color in node_colors]
+        
 
 
         # Calcolo della permutazione canonica
         canonical_permutation = igraph.canonical_permutation(color=node_colors_int)
 
-        # print(canonical_permutation)
-
         del igraph
 
         # # Permuta la matrice di adiacenza
-        adjacency_matrix = self.permutated_adjacency_matrix(canonical_permutation)
-
-        # for row in adjacency_matrix:
-        #     print(row)
+        adjacency_matrix = self.permutated_adjacency_matrix(canonical_permutation, reindex)
 
         inverse_canonical_permutation = {canonical_permutation[i]: i for i in range(len(canonical_permutation))}
 
+        inverse_reindex = {v: k for k, v in reindex.items()}
         # Costruisci il codice canonico
         code = ""
         for i, row in enumerate(adjacency_matrix):
             src = inverse_canonical_permutation[i]
             # Aggiungi le etichette del nodo di origine
-            src_labels = "".join(sorted(self.get_node_labels(src)))
+            src_labels = "".join(sorted(self.get_node_labels(inverse_reindex[src])))
             code += src_labels
             for j, bit in enumerate(row):
                 if bit == 1:  # C'è un arco
                     dst = inverse_canonical_permutation[j]
 
                     # Aggiungi le etichette del nodo di destinazione e dell'arco
-                    dst_labels = "".join(sorted(self.get_node_labels(dst)))
-                    edge_labels = "".join(sorted(self.get_edge_labels_with_duplicate(src, dst)))
-                    code += dst_labels + edge_labels
+                    dst_labels = "".join(sorted(self.get_node_labels(inverse_reindex[dst])))
+                    edge_labels = "".join(sorted(self.get_edge_labels_with_duplicate(inverse_reindex[src], inverse_reindex[dst])))
+                    code += "1" + dst_labels + edge_labels # if the graph has no labels, the code will be 1
                 else:
                     # Aggiungi uno 0 per indicare assenza di arco
                     code += "0"
 
         return code
-
-
-
-
 
     def make_undirected(self):
         edges = list(self.edges(keys=True))

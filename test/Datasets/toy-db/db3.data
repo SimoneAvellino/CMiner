@@ -24,6 +24,7 @@ v 4 purple
 v 5 purple
 v 6 red
 v 7 yellow
+v 8 blue
 e 1 2 white
 e 1 3 white
 e 3 2 white
@@ -34,6 +35,7 @@ e 5 3 white
 e 6 5 white
 e 6 7 white
 e 7 5 white
+e 8 7 white
 t # 2 G3
 v 1 blue
 v 2 yellow

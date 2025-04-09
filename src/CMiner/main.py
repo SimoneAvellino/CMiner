@@ -3,7 +3,7 @@ import argparse
 from CMiner import CMiner
 from Graph.Graph import MultiDiGraph
 
-def parse_graph_str(str):
+def parse_graph_str(str, is_directed):
     graph = MultiDiGraph()
     nodes, edges = [], []
 
@@ -20,10 +20,30 @@ def parse_graph_str(str):
             edges.append((int(src), int(tgt), labels))
 
     for node_id, labels in nodes:
-        graph.add_node(node_id, labels=labels)
+        if len(labels) > 0:
+            graph.add_node(node_id, labels=labels)
+        else:
+            graph.add_node(node_id)
     for src, tgt, labels in edges:
-        for label in labels:
-            graph.add_edge(src, tgt, type=label)
+        if len(labels) > 0:
+            for label in labels:
+                graph.add_edge(src, tgt, type=label)
+        else:
+            graph.add_edge(src, tgt)
+
+    if not is_directed:
+        edges = list(graph.edges(keys=True))
+        for edge in edges:
+            src, dst, key = edge
+            src_labels_code = "".join(sorted(graph.get_node_labels(src)))
+            dst_labels_code = "".join(sorted(graph.get_node_labels(dst)))
+            if src_labels_code == dst_labels_code:
+                all_keys = graph.edge_keys(dst, src) if graph.has_edge(dst, src) else [-1]
+                graph.add_edge(dst, src, key=max(all_keys) + 1, type=graph.get_edge_label(edge))
+            elif src_labels_code > dst_labels_code:
+                edge_label = graph.get_edge_label(edge)
+                graph.remove_edge(src, dst, key=key)
+                graph.add_edge(dst, src, key=key, type=edge_label)
 
     return graph
 
@@ -35,11 +55,11 @@ def main_function():
     parser.add_argument('-u', '--max_nodes', type=int, help="Maximum number of nodes", default=float('inf'))
     parser.add_argument('-n', '--num_nodes', type=int, help="Number of nodes", default=None)
     parser.add_argument('-m', '--show_mappings', type=int, help="Show pattern mappings", default=0)
-    # parser.add_argument('-o', '--output_path', type=str, help="Output file", default=None)
+    parser.add_argument('-o', '--output_path', type=str, help="Output file", default=None)
     parser.add_argument('-t', '--templates_path', type=str, help="Starting patterns file", default=None)
     parser.add_argument('-d', '--is_directed', type=int, help="Specify if the graph is directed", default=0)
     parser.add_argument('-f', '--with_frequencies', type=int, help="Show the relative frequencies of the pattern", default=0)
-    # parser.add_argument('-c', '--closed_patterns', type=int, help="Show only the maximum closed patterns", default=0)
+    parser.add_argument('-x', '--pattern_type', type=str, help="[all | maximum]", default='all')
 
     args = parser.parse_args()
 
@@ -47,7 +67,7 @@ def main_function():
     if args.templates_path is not None:
         with open(args.templates_path, 'r') as f:
             patterns = f.read().split("----------")
-            start_patterns = [parse_graph_str(pattern) for pattern in patterns]
+            start_patterns = [parse_graph_str(pattern, args.is_directed) for pattern in patterns]
 
     if args.num_nodes is not None:
         args.min_nodes = args.num_nodes
@@ -59,14 +79,24 @@ def main_function():
         min_nodes=args.min_nodes,
         max_nodes=args.max_nodes,
         show_mappings=args.show_mappings,
-        # output_path=args.output_path,
+        output_path=args.output_path,
         start_patterns=start_patterns,
         is_directed=args.is_directed,
         with_frequencies=args.with_frequencies,
-        # only_closed_patterns=args.closed_patterns
+        pattern_type=args.pattern_type
     )
 
     start_time = time.time()
-    miner.mine()
-    end_time = time.time()
-    print(f"\n-> Execution time: {end_time - start_time} seconds")
+
+    try:
+        miner.mine()
+    except KeyboardInterrupt:
+        print("\n-> Ctrl+C detected. Closing miner...")
+        miner.close()
+    finally:
+        end_time = time.time()
+        print(f"\n-> Execution time: {end_time - start_time} seconds")
+
+    
+    
+

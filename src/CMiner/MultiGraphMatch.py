@@ -4,6 +4,7 @@ from CMiner.CompatibilityDomain import CompatibilityDomainWithDictionary
 from CMiner.Ordering import Ordering
 import ray
 from sympy import false
+from Graph.Graph import MultiDiGraph
 
 
 class Mapping:
@@ -15,6 +16,18 @@ class Mapping:
         self.extended_mapping = extended_mapping
         self.node_mapping = {} if node_mapping is None else node_mapping
         self.edge_mapping = {} if edge_mapping is None else edge_mapping
+        
+    def get_mapped_graph(self, target_graph):
+        mapped_graph = MultiDiGraph()
+        node_mapping = self._retrieve_node_mapping()
+        edge_mapping = self._retrieve_edge_mapping()
+        for pattern_node, target_node in node_mapping.items():
+            mapped_graph.add_node(int(target_node), labels=target_graph.get_node_labels(target_node))
+        for pattern_edge, target_edge in edge_mapping.items():
+            for label in target_graph.get_edge_labels(target_edge[0], target_edge[1]):
+                mapped_graph.add_edge(int(target_edge[0]), int(target_edge[1]), type=label)
+        return mapped_graph
+            
 
     def nodes_mapping(self) -> dict:
         node_mapping = {}
@@ -351,7 +364,11 @@ class MultiGraphMatch:
                         target_edge = (t_i, t_j, target_key)
 
                         if (
-                                self.target.get_edge_label(target_edge) == self.query.get_edge_label(query_edge) and
+                                (
+                                    # if query edge label is not specified it means that any edge label is accepted
+                                    not self.query.edge_has_label(query_edge) or
+                                    self.target.get_edge_label(target_edge) == self.query.get_edge_label(query_edge)
+                                ) and
                                 self.target.node_contains_attributes(t_i, self.query.get_node_attributes(q_i)) and
                                 self.target.edge_contains_attributes(target_edge,
                                                                      self.query.get_edge_attributes(query_edge))
