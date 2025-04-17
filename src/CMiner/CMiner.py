@@ -972,8 +972,8 @@ class Pattern(MultiDiGraph):
             if src_code != dst_code:
                 continue
             
-            if len(self.edges[s, d, k]) == 1:
-                continue
+            # if len(self.edges[s, d, k]) == 1:
+            #     continue
 
             if (d, s) in to_remove:
                 continue
