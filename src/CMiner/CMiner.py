@@ -1101,6 +1101,7 @@ class CMiner:
         self._read_graphs_from_file()
         self._parse_support()
         self._find_start_patterns()
+        self._parse_graphs_direction()
         if self.pattern_type == 'all':
             self.mine_all()
         elif self.pattern_type == 'maximum':
