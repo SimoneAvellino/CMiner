@@ -6,15 +6,68 @@ from CMiner.MultiGraphMatch import MultiGraphMatch, Mapping
 from Graph.Graph import MultiDiGraph
 from CMiner.SolutionSaver import FileSolutionSaver, ConsoleSolutionSaver
 import pandas as pd
+from collections import defaultdict
 import itertools
 
 def print_red(s):
+    
     print("\033[91m{}\033[00m".format(s))
     
 def print_green(s):
+    
     print("\033[92m{}\033[00m".format(s))
 
-pattern_count = 0
+      
+class DBGraph(MultiDiGraph):
+
+    def __init__(self, graph, name):
+        """
+        Represents a graph in the database.
+        """
+        super().__init__(graph)
+        self.name = name
+        self.matcher = None
+
+    def _init_matcher(self):
+        """
+        Initialize the matching algorithm.
+        """
+        bit_matrix = TargetBitMatrixOptimized(self, BitMatrixStrategy2())
+        bit_matrix.compute()
+        self.matcher = MultiGraphMatch(self, target_bit_matrix=bit_matrix)
+
+    def localize(self, pattern) -> list['Mapping']:
+        """
+        Find all the mappings of the pattern in the graph.
+        """
+        if self.matcher is None:
+            self._init_matcher()
+        
+        return self.matcher.match(pattern)
+
+    def get_name(self):
+        """
+        Return the name of the graph
+        """
+        return self.name
+
+    def __str__(self):
+        return self.name
+
+    def all_edges_of_subgraph(self, nodes):
+        """
+        Return all edges of the subgraph induced by the given nodes.
+        The edges are returned as a set of tuples (u, v, key).
+        """
+        nodes_set = set(nodes)
+        edges = set()
+
+        for src, dst in itertools.combinations(nodes, 2):
+            for u, v, key in self.edges([src, dst], keys=True):
+                if u in nodes_set and v in nodes_set:
+                    edges.add((u, v, key))
+
+        return edges
 
 class EdgeGroupsFinder:
     """
@@ -306,56 +359,6 @@ class EdgeExtension(Extension):
             self.location
         )
 
-class DBGraph(MultiDiGraph):
-
-    def __init__(self, graph, name):
-        """
-        Represents a graph in the database.
-        """
-        super().__init__(graph)
-        self.name = name
-        self.matcher = None
-
-    def _init_matcher(self):
-        """
-        Initialize the matching algorithm.
-        """
-        bit_matrix = TargetBitMatrixOptimized(self, BitMatrixStrategy2())
-        bit_matrix.compute()
-        self.matcher = MultiGraphMatch(self, target_bit_matrix=bit_matrix)
-
-    def localize(self, pattern) -> list['Mapping']:
-        """
-        Find all the mappings of the pattern in the graph.
-        """
-        if self.matcher is None:
-            self._init_matcher()
-        return self.matcher.match(pattern)
-
-    def get_name(self):
-        """
-        Return the name of the graph
-        """
-        return self.name
-
-    def __str__(self):
-        return self.name
-
-    def all_edges_of_subgraph(self, nodes):
-        """
-        Return all edges of the subgraph induced by the given nodes.
-        The edges are returned as a set of tuples (u, v, key).
-        """
-        nodes_set = set(nodes)
-        edges = set()
-
-        for src, dst in itertools.combinations(nodes, 2):
-            for u, v, key in self.edges([src, dst], keys=True):
-                if u in nodes_set and v in nodes_set:
-                    edges.add((u, v, key))
-
-        return edges
-
 class PatternMappings:
 
     def __init__(self):
@@ -393,7 +396,7 @@ class PatternMappings:
         if graph not in self.patterns_mappings:
             self.patterns_mappings[graph] = []
         self.patterns_mappings[graph].append(mapping)
-        
+
 class NodeExtensionManager:
 
     def __init__(self, support):
@@ -870,15 +873,17 @@ class Pattern(MultiDiGraph):
         for g in self.graphs():
             output += g.get_name() + " " + str(len(self.pattern_mappings.mappings(g))) + "\n"
         return output
-    def mappings_str(self):
+    
+    def mappings_str(self, mapping_info: bool = False):
         """
         Return the mappings of the pattern.
         """
         output = ""
         for g in self.graphs():
             output += g.get_name() + " " + str(len(self.pattern_mappings.mappings(g))) + "\n"
-            for _map in self.pattern_mappings.mappings(g):
-                output += "    " + str(_map) + "\n"
+            if mapping_info:
+                for _map in self.pattern_mappings.mappings(g):
+                    output += "    " + str(_map) + "\n"
         return output
 
     def edge_to_remove_when_undirected(self):
@@ -966,6 +971,9 @@ class Pattern(MultiDiGraph):
             dst_code = "".join(sorted(self.get_node_labels(d)))
             if src_code != dst_code:
                 continue
+            
+            if len(self.edges[s, d, k]) == 1:
+                continue
 
             if (d, s) in to_remove:
                 continue
@@ -982,6 +990,7 @@ class Pattern(MultiDiGraph):
                 graph_str += f"e {s} {d} {data['type']}\n"
 
         return graph_str
+
 
 class DFSStack(list):
 
@@ -1007,6 +1016,7 @@ class DFSStack(list):
             self.solution_saver = FileSolutionSaver(output_options["output_path"], output_options["is_directed"], output_options["show_mappings"], output_options["with_frequencies"])
         else:
             self.solution_saver = ConsoleSolutionSaver(output_options["is_directed"], output_options["show_mappings"], output_options["with_frequencies"])
+            
 
     def pop(self, __index = -1, backtracking = False) -> Pattern:
         """
@@ -1023,7 +1033,7 @@ class DFSStack(list):
         """
         Push the pattern into the stack.
         """
-        if len(pattern.nodes()) <= self.max_nodes and not self.was_stacked(pattern):
+        if len(pattern.nodes()) <= self.max_nodes and not self.was_stacked(pattern) and pattern.frequency() > 0:
                 super().append(pattern)
                 code = pattern.canonical_code()
                 if code not in self.found_patterns:
@@ -1055,7 +1065,7 @@ class DFSStack(list):
         Close the solution saver.
         """
         self.solution_saver.close()
-        
+
 class CMiner:
 
     def __init__(self,
@@ -1086,8 +1096,11 @@ class CMiner:
         self.is_directed = is_directed
         self.with_frequencies = with_frequencies
         self.pattern_type = pattern_type
-        
+
     def mine(self):
+        self._read_graphs_from_file()
+        self._parse_support()
+        self._find_start_patterns()
         if self.pattern_type == 'all':
             self.mine_all()
         elif self.pattern_type == 'maximum':
@@ -1097,10 +1110,6 @@ class CMiner:
         self.stack.close()
 
     def mine_all(self):
-        # MAIN METHOD
-        self._read_graphs_from_file()
-        self._parse_support()
-        self._find_start_patterns()
 
         backtracking = False
 
@@ -1148,8 +1157,6 @@ class CMiner:
                     edge_extended_pattern.update_edge_mappings(edge_ext)
 
                     self.stack.push(edge_extended_pattern)
-                    
-
 
     def mine_maximum(self):
         self._read_graphs_from_file()
@@ -1222,68 +1229,159 @@ class CMiner:
     
                     self.stack.push(edge_extended_pattern)
 
+    def _parse_template_when_undirected(self, graph):
+        edges = list(graph.edges(keys=True))
+        for edge in edges:
+            src, dst, key = edge
+            src_labels_code = "".join(sorted(graph.get_node_labels(src)))
+            dst_labels_code = "".join(sorted(graph.get_node_labels(dst)))
+            if (src_labels_code == "" or dst_labels_code == "") and dst_labels_code > src_labels_code:
+                edge_label = graph.get_edge_label(edge)
+                graph.remove_edge(src, dst, key=key)
+                graph.add_edge(dst, src, key=key, type=edge_label)
+            elif src_labels_code == dst_labels_code and src_labels_code != "":
+                all_keys = graph.edge_keys(dst, src) if graph.has_edge(dst, src) else [-1]
+                graph.add_edge(dst, src, key=max(all_keys) + 1, type=graph.get_edge_label(edge))
+            elif src_labels_code > dst_labels_code:
+                edge_label = graph.get_edge_label(edge)
+                graph.remove_edge(src, dst, key=key)
+                graph.add_edge(dst, src, key=key, type=edge_label)
+
     def _find_start_patterns(self) -> [Pattern]:
         
         if self._start_patterns is None:
             for p in self._mine_1node_patterns():
                 self.stack.push(p)
             return
+
+        if not self.is_directed: 
+            [g.add_reverse_edges() for g in self.db]
+        
+
+
+        pattern_codes = set()
         
         for p in self._start_patterns:
             pattern_mappings_dict = {}
             graphs_dict = {}
             for g in self.db:
                 matchings = g.localize(p)
+                mappings_codes = set()
                 for m in matchings:
+                    mapping_code = m.code()
+                    if mapping_code in mappings_codes:
+                        continue
+                    mappings_codes.add(mapping_code)
+
                     mapped_graph = m.get_mapped_graph(g)
-                    pp = Pattern(extended_pattern=mapped_graph, pattern_mappings=PatternMappings())
+                    
                     code = mapped_graph.canonical_code()
                     
                     if code not in pattern_mappings_dict:
                         pattern_mappings_dict[code] = PatternMappings()
                         graphs_dict[code] = mapped_graph.zero_index_graph()
                     del mapped_graph
+                    
+                    # fix the edge mapping so that they are mapped to edges not reversed
+                    edge_mapping = m._retrieve_edge_mapping()
+                    to_delete = []
+                    to_add = []
+                    for (p_src, p_dst, p_key), (g_src, g_dst, g_key) in edge_mapping.items():
+                        if not 'dummy' in g.edges[g_src, g_dst, g_key]:
+                            continue
+                        changed = False
+                        candidate_edges_same_direction = set(g.edge_keys(g_src, g_dst)).difference(set([g_key]))
+                        for key in candidate_edges_same_direction:
+                            if not 'dummy' in g.edges[g_src, g_dst, key]:
+                                # modify the mapping
+                                to_add.append(((p_src, p_dst, p_key), (g_src, g_dst, key)))
+                                to_delete.append((p_src, p_dst, p_key))
+                                changed = True
+                                break
+                        if changed:
+                            continue
+                        # if no candidates of the same direction are found, we set an edge of opposite direction
+                        key_mapped = []
+                        for src, dst, key in edge_mapping.values():
+                            if src == g_dst and dst == g_src:
+                                key_mapped.append(key)
+                        for _, (src, dst, key) in to_add:
+                            if src == g_dst and dst == g_src:
+                                key_mapped.append(key)
+                        candidate_edges_opposite_direction = set(g.edge_keys(g_dst, g_src)).difference(set(key_mapped))
+                        for key in candidate_edges_opposite_direction:
+                            if not 'dummy' in g.edges[g_dst, g_src, key]:
+                                # modify the mapping
+                                to_add.append(((p_dst, p_src, p_key), (g_dst, g_src, key)))
+                                to_delete.append((p_src, p_dst, p_key))
+                                changed = True
+                                continue
+                        if changed:
+                            continue
+                    for src, dst, key in to_delete:
+                        del edge_mapping[(src, dst, key)]
+                    for (src, dst, key), (g_src, g_dst, g_key) in to_add:
+                        edge_mapping[(src, dst, key)] = (g_src, g_dst, g_key)
+                    m.edge_mapping = edge_mapping
                     pattern_mappings_dict[code].add_mapping(g, m)
             
             for code in pattern_mappings_dict.keys():
                 pattern_mappings = pattern_mappings_dict[code]
                 graph = graphs_dict[code]
+                
+                graph.add_reverse_edges()
+                code = graph.canonical_code()
+                if code in pattern_codes:
+                    continue
+                pattern_codes.add(code)
+                graph.remove_reverse_edges()
+                
                 pattern = Pattern(extended_pattern=graph, pattern_mappings=pattern_mappings)
                 if pattern.support() >= self.min_support:
                     self.stack.push(pattern)
                 else:
                     del pattern
-                
+        
+        if not self.is_directed: [g.remove_reverse_edges() for g in self.db]
+
     def _mine_1node_patterns(self) -> list[Pattern]:
-        counter = {}
+        # Costruisci un dizionario che mappa un pattern di etichette (tuple) 
+        # ad un dizionario: {graph: [lista dei nodi che hanno questo pattern]}
+        counter = defaultdict(lambda: defaultdict(list))
+        
         for g in self.db:
             for node in g.nodes():
-                sorted_labels = g.get_node_labels(node)
-                sorted_labels_str = " ".join(sorted_labels)
-                if sorted_labels_str in counter:
-                    counter[sorted_labels_str].add(g)
-                else:
-                    counter[sorted_labels_str] = {g}
-
-        # update the mappings
+                # Recupera le etichette del nodo una sola volta
+                node_labels = g.get_node_labels(node)
+                # Se le etichette sono già ordinate, convertili in tuple per usarle come chiavi
+                labels_tuple = tuple(node_labels)
+                counter[labels_tuple][g].append(node)
+        
         patterns = []
-        for sorted_labels_str, graphs in counter.items():
-            if len(graphs) >= self.min_support:
+        # Itera sui pattern raccolti
+        for labels_tuple, graph_nodes in counter.items():
+            # Se il pattern appare in un numero di grafi maggiore o uguale a self.min_support
+            if len(graph_nodes) >= self.min_support:
                 pattern_mappings = PatternMappings()
                 p = Pattern(pattern_mappings)
-                p.add_node(0, labels=sorted_labels_str.split(" "))
-                for g in graphs:
-                    p.pattern_mappings.set_mapping(g, [Mapping(node_mapping={0: node}) for node in g.nodes() if
-                                                       g.get_node_labels(node) == sorted_labels_str.split(" ")])
+                # Aggiungi il nodo modello, usando la lista delle etichette (convertita da tuple a list)
+                p.add_node(0, labels=list(labels_tuple))
+                # Per ogni grafo, aggiungi le mapping per tutti i nodi che hanno questo pattern
+                for g, nodes in graph_nodes.items():
+                    mappings = [Mapping(node_mapping={0: node}) for node in nodes]
+                    p.pattern_mappings.set_mapping(g, mappings)
                 patterns.append(p)
+        
         return patterns
 
+
     def _read_graphs_from_file(self):
+        print("Reading graphs from file...", end=' ')
         type_file = self.db_file.split('.')[-1]
         configurator = NetworkConfigurator(self.db_file, type_file)
         for name, network in NetworksLoading(type_file, configurator.config).Networks.items():
             self.db.append(DBGraph(network, name))
-        self._parse_graphs_direction()
+        print("done.")
 
     def _parse_graphs_direction(self):
         """
@@ -1325,8 +1423,7 @@ class CMiner:
         if self.min_support <= 1:
             db_len = len(self.db)
             self.min_support = int(self.min_support * db_len)
-            
-            
+
     def close(self):
         """
         Close the solution saver.

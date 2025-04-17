@@ -7,7 +7,7 @@ def load_graphs(graphs_file):
     Carica il database dei grafi dal file ontographs.data.
     
     In questo formato ogni grafo è definito in una sezione che inizia con una riga 
-    del tipo "t # <nome_grafo>" (case insensitive). Le righe successive definiscono i nodi
+    del tipo "t # <id> <nome_grafo>" (case insensitive). Le righe successive definiscono i nodi
     e gli archi:
       - I nodi sono definiti da righe che iniziano con "v " e hanno il formato:
             v <id_nodo> <etichetta_nodo>
@@ -41,7 +41,7 @@ def load_graphs(graphs_file):
             if line.lower().startswith("t #"):
                 if current_graph is not None:
                     graphs[current_graph] = {"nodes": nodes, "edges": edges}
-                current_graph = line[3:].strip()
+                current_graph = line.split(' ')[-1]  # Nome del grafo
                 nodes = {}
                 edges = []
             elif line.lower().startswith("v "):
@@ -137,8 +137,10 @@ def parse_cminer_output(cminer_file):
                     if mapping_match:
                         nodes_map_str = mapping_match.group(1)
                         node_mappings = {}
-                        for item in nodes_map_str.split(","):
+                        for item in nodes_map_str.split(" "):
                             item = item.strip()
+                            # rimuovi le virgole
+                            item = item.replace(",", "")                            
                             if "->" in item:
                                 src, tgt = item.split("->")
                                 node_mappings[src.strip()] = tgt.strip()
@@ -149,7 +151,7 @@ def parse_cminer_output(cminer_file):
         patterns.append(current_pattern)
     return patterns
 
-def evaluate_mappings(patterns, graphs):
+def evaluate_mappings(patterns, graphs, directed_edges=False):
     """
     Per ciascun pattern e per ogni mapping, verifica che:
       1. Per ogni nodo del pattern (definito con "v") l'etichetta attesa corrisponda all'etichetta 
@@ -231,14 +233,14 @@ def evaluate_mappings(patterns, graphs):
                         for target_edge in graph_edges:
                             # Verifica sia nella direzione originale che invertita
                             if ((target_edge["source"] == t_source and target_edge["target"] == t_target) or
-                                (target_edge["source"] == t_target and target_edge["target"] == t_source)) and \
+                                (not directed_edges and target_edge["source"] == t_target and target_edge["target"] == t_source)) and \
                                 target_edge["label"] == p_label:
                                 found = True
                                 break
                         if not found:
                             mapping_result["correct"] = False
                             mapping_result["details"].append(
-                                f"Arco del pattern da '{p_source}' a '{p_target}' con label '{p_label}', mappato in target come '{t_source}'-{t_target}', non trovato (considerate entrambe le direzioni) nel grafo '{graph_filename}'."
+                                f"Arco del pattern da '{p_source}' a '{p_target}' con label '{p_label}', mappato in target come '{t_source}-{t_target}', non trovato {'(considerate entrambe le direzioni)' if not directed_edges else ''} nel grafo '{graph_filename}'."
                             )
                 results.append(mapping_result)
     return results
@@ -246,20 +248,26 @@ def evaluate_mappings(patterns, graphs):
 def main():
     # Esecuzione:
     # python validate_mapping.py output.txt ontographs.data result.txt
-    if len(sys.argv) != 4:
-        print("Uso: python validate_mapping.py <cminer_output_file> <graphs_file> <result_file>")
+    if len(sys.argv) != 5:
+        print("Uso: python validate_mapping.py <cminer_output_file> <graphs_file> <result_file> <directed_edges>")
         sys.exit(1)
         
     cminer_file = sys.argv[1]
     graphs_file = sys.argv[2]
     result_file = sys.argv[3]
+    directed_edges = sys.argv[4].lower() == 'true'
 
     graphs = load_graphs(graphs_file)
     patterns = parse_cminer_output(cminer_file)
-    eval_results = evaluate_mappings(patterns, graphs)
+    eval_results = evaluate_mappings(patterns, graphs, directed_edges)
+    
+    wrong_mappings = [res for res in eval_results if not res["correct"]]
 
     with open(result_file, 'w', encoding='utf-8') as fout:
-        json.dump(eval_results, fout, indent=2, ensure_ascii=False)
+        if len(wrong_mappings) == 0:
+            fout.write("Tutti i mapping sono corretti.\n")
+        else:
+            json.dump(wrong_mappings, fout, indent=2, ensure_ascii=False)
 
     print(f"Valutazione completata. Risultati salvati in '{result_file}'.")
 

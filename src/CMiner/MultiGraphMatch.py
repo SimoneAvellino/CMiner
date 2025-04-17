@@ -17,6 +17,10 @@ class Mapping:
         self.node_mapping = {} if node_mapping is None else node_mapping
         self.edge_mapping = {} if edge_mapping is None else edge_mapping
         
+    def code(self): # FIX - it do not consider
+        mapped_node_ids = list(self.nodes_mapping().values())
+        return "".join(sorted([str(x) for x in mapped_node_ids]))
+        
     def get_mapped_graph(self, target_graph):
         mapped_graph = MultiDiGraph()
         node_mapping = self._retrieve_node_mapping()
@@ -128,6 +132,15 @@ class Mapping:
             del self.edge_mapping[pattern_edge]
         if self.extended_mapping is not None:
             self.extended_mapping.remove_edge(pattern_edge)
+            
+    def reset_edge_mapping(self, edge_mapping = None):
+        """
+        Reset the keys of the edge mapping so 
+        that for each edge the keys start from 0
+        """
+        edge_mapping = edge_mapping if edge_mapping is not None else self._retrieve_edge_mapping()
+        for edge in self.edge_mapping.keys():
+            src, dst, key = edge
 
 class MultiGraphMatch:
 
@@ -206,7 +219,7 @@ class MultiGraphMatch:
               ordering=None,
               breaking_conditions_nodes=None,
               breaking_conditions_edges=None):
-
+        
         # check if all the labels that have the query are also inside the target
         query_node_labels = query.get_all_node_labels()
         target_node_labels = self.target.get_all_node_labels()

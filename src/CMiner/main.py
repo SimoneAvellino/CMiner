@@ -30,21 +30,7 @@ def parse_graph_str(str, is_directed):
                 graph.add_edge(src, tgt, type=label)
         else:
             graph.add_edge(src, tgt)
-
-    if not is_directed:
-        edges = list(graph.edges(keys=True))
-        for edge in edges:
-            src, dst, key = edge
-            src_labels_code = "".join(sorted(graph.get_node_labels(src)))
-            dst_labels_code = "".join(sorted(graph.get_node_labels(dst)))
-            if src_labels_code == dst_labels_code:
-                all_keys = graph.edge_keys(dst, src) if graph.has_edge(dst, src) else [-1]
-                graph.add_edge(dst, src, key=max(all_keys) + 1, type=graph.get_edge_label(edge))
-            elif src_labels_code > dst_labels_code:
-                edge_label = graph.get_edge_label(edge)
-                graph.remove_edge(src, dst, key=key)
-                graph.add_edge(dst, src, key=key, type=edge_label)
-
+            
     return graph
 
 def main_function():

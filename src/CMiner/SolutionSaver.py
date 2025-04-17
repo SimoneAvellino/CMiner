@@ -28,22 +28,6 @@ class SolutionSaver(ABC):
         """
         pass
     
-    def patter_to_str(self, pattern: 'Pattern') -> str:
-        """
-        Converts a pattern to a string representation.
-        """
-        self.pattern_count += 1
-        output = f"t # {self.pattern_count}\n"
-        output += pattern.directed_pattern_str() if self.is_directed else pattern.undirected_pattern_str()
-        output += f"s {pattern.support()}\n"
-        output += f"f {pattern.frequency()}\n"
-        if self.show_frequencies or self.show_mappings:
-            output += f"\ninfo:\n"
-            output += f"{pattern.granular_frequencies_str()}\n" if self.show_frequencies and not self.show_mappings else ""
-            output += f"{pattern.mappings_str()}\n" if self.show_mappings else ""
-        output += "----------\n"
-        return output
-    
 class FileSolutionSaver(SolutionSaver):
     """
     This class is responsible for saving solutions to a file in a separate thread.
@@ -57,6 +41,32 @@ class FileSolutionSaver(SolutionSaver):
         self.running = True
         self.thread = threading.Thread(target=self._run)
         self.thread.start()
+        
+    def patter_to_str(self, pattern: 'Pattern') -> str:
+        """
+        Converts a pattern to a string representation.
+        """
+        console_str = ""
+        file_str = ""
+        self.pattern_count += 1
+        console_str = f"t # {self.pattern_count}\n"
+        console_str += pattern.directed_pattern_str() if self.is_directed else pattern.undirected_pattern_str()
+        console_str += f"s {pattern.support()}\n"
+        console_str += f"f {pattern.frequency()}\n"
+
+        file_str = console_str
+        if self.show_frequencies or self.show_mappings:
+            console_str += f"\ninfo:\n"
+            console_str += f"{pattern.granular_frequencies_str()}\n" if self.show_frequencies and not self.show_mappings else ""
+            console_str += f"{pattern.mappings_str()}\n" if self.show_mappings else ""
+
+            file_str += f"\ninfo:\n"
+            file_str += f"{pattern.granular_frequencies_str()}\n" if self.show_frequencies and not self.show_mappings else ""
+            file_str += f"{pattern.mappings_str(mapping_info = True)}\n" if self.show_mappings else ""
+        
+        console_str += "----------\n"
+        file_str += "----------\n"
+        return console_str, file_str
 
     def save(self, solution: str):
         """
@@ -83,9 +93,9 @@ class FileSolutionSaver(SolutionSaver):
                 pattern = self.queue.get()
                 if pattern is None:  # Sentinel value to exit the loop
                     break
-                out_str = self.patter_to_str(pattern)
-                print(out_str)
-                f.write(out_str)
+                console_str, file_str = self.patter_to_str(pattern)
+                print(console_str)
+                f.write(file_str)
                 self.queue.task_done()
                 
             
@@ -95,6 +105,22 @@ class ConsoleSolutionSaver(SolutionSaver):
     """
     def __init__(self, is_directed: bool = False, show_mappings: bool = False, show_frequencies: bool = False):
         super().__init__(is_directed, show_mappings, show_frequencies)
+        
+    def patter_to_str(self, pattern: 'Pattern') -> str:
+        """
+        Converts a pattern to a string representation.
+        """
+        self.pattern_count += 1
+        output = f"t # {self.pattern_count}\n"
+        output += pattern.directed_pattern_str() if self.is_directed else pattern.undirected_pattern_str()
+        output += f"s {pattern.support()}\n"
+        output += f"f {pattern.frequency()}\n"
+        if self.show_frequencies or self.show_mappings:
+            output += f"\ninfo:\n"
+            output += f"{pattern.granular_frequencies_str()}\n" if self.show_frequencies and not self.show_mappings else ""
+            output += f"{pattern.mappings_str()}\n" if self.show_mappings else ""
+        output += "----------\n"
+        return output
 
     def save(self, pattern: 'Pattern'):
         """

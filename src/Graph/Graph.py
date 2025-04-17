@@ -4,6 +4,7 @@ from igraph import Graph as igraphGraph
 from pynauty import Graph as nautyGraph, autgrp
 from more_itertools.more import adjacent
 from sympy import false
+from collections import defaultdict
 
 
 # TO DO: improve random query generation
@@ -154,6 +155,15 @@ class MultiDiGraph(nx.MultiDiGraph):
         if self.has_edge(node_id_2, node_id_1):
             edges.extend((node_id_2, node_id_1, key) for key in self[node_id_2][node_id_1])
         return edges
+    
+    def miss_some_labels(self):
+        """ Returns true if the pattern miss some labels on nodes or edges """
+        for node in self.nodes():
+            if len(self.get_node_labels(node)) == 0:
+                return True
+        for src, dst in self.edges():
+            if len(self.get_edge_labels(src, dst)) == 0:
+                return True
 
     def edges_keys(self, edge):
         """
@@ -691,6 +701,33 @@ class MultiDiGraph(nx.MultiDiGraph):
             matrix[permutation[reindex[u]]][permutation[reindex[v]]] = 1
 
         return matrix
+    
+    def add_reverse_edges(self):
+        """
+        Add reverse edges to the graph.
+        """
+        edge_to_add = defaultdict(list)
+        for src, dst, key in self.edges(keys=True):
+            type = self.get_edge_label((src, dst, key))
+            if (dst, src, type) in edge_to_add:
+                edge_to_add[(dst, src, type)].append(max(self.edge_keys(dst, src)) + 1)
+            else:
+                keys = self.edge_keys(dst, src) if self.has_edge(dst, src, key=key) else [-1]
+            edge_to_add[(dst, src, type)].append( max(keys) + 1)
+        
+        for (src, dst, type), keys in edge_to_add.items():
+            for key in keys:
+                self.add_edge(src, dst, key=key, type=type, dummy=True)
+                
+    def remove_reverse_edges(self):
+        """
+        Remove reverse edges from the graph.
+        """
+        edges_to_remove = [
+            (src, dst, key) for src, dst, key, data in self.edges(keys=True, data=True) if 'dummy' in data
+        ]
+        for src, dst, key in edges_to_remove:
+            self.remove_edge(src, dst, key=key)
 
     def a(self, node):
         return "".join(sorted([self.edges[edge]['type'] for edge in self.edges(node, keys=True)]))
