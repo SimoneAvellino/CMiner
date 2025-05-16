@@ -117,30 +117,93 @@ CMiner <db_file> <support> [options]
 - `-x`, `--pattern_type`: Flag to indicate the type of pattern that CMiner return. It can be 'all', 'maximum' (default: all).
 - `-o`, `--output_path`: File path to save results, if not set the results are shown in the console. 
 
-### Usage example
-
-Some usage examples from the folder `test/Datasets/toy-db`:
+### Basic usage example
 
 - Mine patterns from 2 up to 3 nodes, present in at least 50% of graphs in the database.
 
 ```bash
-CMiner /test/Datasets/toy-db/db1.data 0.5 -l 2 -u 3
+CMiner /path/to/db.data 0.5 -l 2 -u 3
  ```
 
-- Mine all patterns present in at least 2 graphs in the database.
+- Mine all patterns present in at least 2 graphs in the database that have exactly 5 nodes.
 
 ```bash
-CMiner ./test/Datasets/toy-db/db3.data 2
- ```
-
-- Mine all patterns present in at least 2 graphs in the database that have the template inside the file `pattern.txt`
-
-```bash
-CMiner ./test/Datasets/toy-db/db3.data 2 -t ./test/Datasets/toy-db/pattern.txt
+CMiner /path/to/db.data 2 -n 5
 ```
-Content of `./test/Datasets/toy-db/pattern.txt`
+
+### Template usage examples
+
+Some usage examples from the folder `test/Datasets/OntoUML`:
+
+- Mine all patterns present in at least 2 graphs in the database that match the template defined in `S1.txt`:
+
 ```bash
-v 0 red
-v 1 yellow
-e 0 1 white
- ```
+CMiner ./ontographs.data 2 -t ./S1.txt -n 3
+```
+
+Note: we specify `-n 3` so that only solutions that are exactly the template are returned.
+
+<div style="display: flex; align-items: flex-start; gap: 40px;">
+
+  <div style="background-color: #1e1e1e; padding: 16px; border-radius: 8px; color: white; font-family: monospace;">
+  <strong>File:</strong>
+  <pre><code>v 0 kind
+v 1 subkind
+v 2 subkind
+e 1 0 Generalization
+e 2 0 Generalization</code></pre>
+</div>
+
+  <div>
+    <div style="font-family: sans-serif; font-size: 16px; margin-bottom: 8px;"><strong>Graphically:</strong></div>
+    <img src="./img/S1.png" alt="S1 Graph" style="max-width: 300px; border-radius: 4px;"/>
+  </div>
+
+</div>
+
+- Same as before, but this time node labels are not specified:
+
+```bash
+CMiner ./ontographs.data 2 -t ./S2.txt -n 3
+```
+<div style="display: flex; align-items: flex-start; gap: 40px;">
+
+  <div style="background-color: #1e1e1e; padding: 16px; border-radius: 8px; color: white; font-family: monospace;">
+  <strong>File:</strong>
+  <pre><code>v 0
+v 1
+v 2
+e 1 0 Generalization
+e 2 0 Generalization</code></pre>
+</div>
+
+  <div>
+    <div style="font-family: sans-serif; font-size: 16px; margin-bottom: 8px;"><strong>Graphically:</strong></div>
+    <img src="./img/S2.png" alt="S1 Graph" style="max-width: 300px; border-radius: 4px;"/>
+  </div>
+
+</div>
+
+- You can also partially or completely omit labels for both nodes and edges:
+
+
+```bash
+CMiner ./ontographs.data 2 -t ./S3.txt -n 3
+```
+<div style="display: flex; align-items: flex-start; gap: 40px;">
+
+  <div style="background-color: #1e1e1e; padding: 16px; border-radius: 8px; color: white; font-family: monospace;">
+  <strong>File:</strong>
+  <pre><code>v 0 kind
+v 1
+v 2
+e 1 0
+e 2 0</code></pre>
+</div>
+
+  <div>
+    <div style="font-family: sans-serif; font-size: 16px; margin-bottom: 8px;"><strong>Graphically:</strong></div>
+    <img src="./img/S3.png" alt="S1 Graph" style="max-width: 300px; border-radius: 4px;"/>
+  </div>
+
+</div>
