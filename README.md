@@ -156,7 +156,7 @@ e 2 0 Generalization</code></pre>
 
   <div>
     <div style="font-family: sans-serif; font-size: 16px; margin-bottom: 8px;"><strong>Graphically:</strong></div>
-    <img src="./img/S1.png" alt="S1 Graph" style="max-width: 300px; border-radius: 4px;"/>
+    <img src="https://anonymous.4open.science/r/CMiner/img/S1.png" alt="S1 Graph" style="max-width: 300px; border-radius: 4px;"/>
   </div>
 
 </div>
@@ -179,7 +179,7 @@ e 2 0 Generalization</code></pre>
 
   <div>
     <div style="font-family: sans-serif; font-size: 16px; margin-bottom: 8px;"><strong>Graphically:</strong></div>
-    <img src="./img/S2.png" alt="S1 Graph" style="max-width: 300px; border-radius: 4px;"/>
+    <img src="https://anonymous.4open.science/r/CMiner/img/S2.png" alt="S1 Graph" style="max-width: 300px; border-radius: 4px;"/>
   </div>
 
 </div>
@@ -203,7 +203,7 @@ e 2 0</code></pre>
 
   <div>
     <div style="font-family: sans-serif; font-size: 16px; margin-bottom: 8px;"><strong>Graphically:</strong></div>
-    <img src="./img/S3.png" alt="S1 Graph" style="max-width: 300px; border-radius: 4px;"/>
+    <img src="https://anonymous.4open.science/r/CMiner/img/S3.png" alt="S1 Graph" style="max-width: 300px; border-radius: 4px;"/>
   </div>
 
 </div>
