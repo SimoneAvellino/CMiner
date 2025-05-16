@@ -11,19 +11,22 @@ def generate_graphs(num_graphs, required_subgraphs=[], filename="graph.data"):
     number_of_nodes_of_patterns = sum(len(subgraph['nodes']) for subgraph in required_subgraphs)
     
     with open(filename, "w") as f:
-        for graph_index in range(num_graphs):
-            G = nx.MultiDiGraph()
-            f.write(f"t # {graph_index} G{graph_index + 1}\n")
+        
+        for pattern_num, subgraph in enumerate(required_subgraphs):
             
-            node_reindex = {i: i for i in range(number_of_nodes_of_patterns)}
+            times_per_graph = subgraph.get("times_per_graph", [1] * num_graphs)
             
-            for subgraph in required_subgraphs:
+            print(f"The pattern {pattern_num + 1} will be added to the graphs {sum(times_per_graph)} times.")
+            
+            for graph_index in range(num_graphs):
+                G = nx.MultiDiGraph()
+                f.write(f"t # {graph_index} G{graph_index + 1}\n")
                 
-                times_per_graph = subgraph.get("times_per_graph", 1)
+                node_reindex = {i: i for i in range(number_of_nodes_of_patterns)}
                 
                 number_of_nodes = len(subgraph['nodes']) # used to reindex nodes
                 
-                for _ in range(times_per_graph):
+                for _ in range(times_per_graph[graph_index]):
                     
                     for node, label in subgraph['nodes']:
                         G.add_node(node_reindex[node], label=label)
@@ -44,7 +47,7 @@ def generate_graphs(num_graphs, required_subgraphs=[], filename="graph.data"):
             for i in range(len(nodes) - 1):
                 u, v = nodes[i], nodes[i + 1]
                 if not G.has_edge(u, v):
-                    edge_label = f"from_graph_{graph_index}" # We use the graph index as a label for the edge so that it's impossible to have new patterns between different graphs
+                    edge_label = f"from_graph_{graph_index}_{i}" # We use the graph index as a label for the edge so that it's impossible to have new patterns between different graphs
                     G.add_edge(u, v, label=edge_label)
                     f.write(f"e {u} {v} {edge_label}\n")
 
@@ -96,30 +99,10 @@ def plot_graphs(graphs):
 # Example subgraph constraints
 required_subgraphs = [
     {
-        "nodes": [(0, ["C","A","B"]), (1,["D", "C"]), (2,["D", "A"]), (3,["B", "C"]), (4,["B", "C"]), (5,["F", "A"])],
-        "edges": [(0,1,"x"),(1,0,"z"),(5,0,"x"), (0,3, "x"),(3,0,"x"), (1,2,"y"), (3,2,"y"), (4,5,"x"), (4,3,"z"), (3,4,"z")],
-        "times_per_graph": 6
-    },
-    {
-        "nodes": [(0, ["p1_A", "p1_B", "p1_E"]), (1, ["p1_B", "p1_C"]), (2, ["p1_C","p1_F"]), (3, ["p1_D", "p1_C"]), (4,["p1_A", "p1_E"]), (5, ["p1_B", "p1_F"]), (6, ["p1_H", "p1_D"]), (7, ["p1_H", "p1_G"]) ], 
-        "edges": [(0, 1, "p1_y"), (0, 2,  "p1_z"), (0, 3, "p1_x"), (1,4, "p1_z"), (4,1,  "p1_y"), (2,5, "p1_y"),(5,2,"p1_x"), (3,7, "p1_x"),(7,3, "p1_y"), (5,6,"p1_x"), (6,5,"p1_x")],
-        "times_per_graph":4
-    },
-    # {
-    #     "nodes": [(0, ["p2_C","p2_A","p2_B"]), (1,["p2_D", "p2_C"]), (2,["p2_D", "p2_A"]), (3,["p2_B", "p2_C"]), (4,["p2_B", "p2_C"]), (5,["p2_F", "p2_A"])],
-    #     "edges": [(0,1,"p2_x"),(1,0,"p2_z"),(5,0,"p2_x"), (0,3, "p2_x"),(3,0,"p2_x"), (1,2,"p2_y"), (3,2,"p2_y"), (4,5,"p2_x"), (4,3,"p2_z"), (3,4,"p2_z")],
-    #     "times_per_graph": 6
-    # },
-    {
-        "nodes": [(0, ["p3_A", "p3_A"]), (1, ["p3_A", "p3_B", "p3_C"]), (2, ["p3_D", "p3_E"]), (3, ["p3_A", "p3_A"]), (4, ["p3_A", "p3_A"]), (5, ["p3_B", "p3_B"]), (6, ["p3_C", "p3_A"]), (7, ["p3_D", "p3_D"]), (8, ["p3_E"])],
-        "edges": [(1, 0, "p3_x"), (1, 0, "p3_y"), (0, 2, "p3_x"), (2, 0, "p3_y"), (2, 0, "p3_y"), (1, 2, "p3_z"), (1, 3, "p3_y"), (1, 3, "p3_y"), (2, 4, "p3_z"), (4, 2, "p3_x"), (4, 2, "p3_x"), (4, 3, "p3_z"), (5, 3, "p3_x"), (3, 5, "p3_y"), (5, 6, "p3_x"), (6, 5, "p3_z"), (6, 3, "p3_z"), (6, 7, "p3_x"), (6, 7, "p3_x"), (7, 8, "p3_y"), (7, 8, "p3_z"), (4, 7, "p3_z"), (8, 4, "p3_z")],
-        "times_per_graph": 8
-    },
-    {
-        "nodes": [(0, ["p4_A"]), (1, ["p4_B"]), (2, ["p4_C", "p4_C"]), (3, ["p4_A", "p4_A"]), (4, ["p4_D", "p4_A", "p4_C"])],
-        "edges": [(0, 1, "p4_x"), (1, 0, "p4_y"), (1, 2, "p4_x"), (1, 2, "p4_x"), (1, 2, "p4_y"), (2, 1, "p4_y"), (2, 1, "p4_y"), (2, 1, "p4_z"), (2, 3, "p4_x")],
-        "times_per_graph": 10
+        "nodes": [(0,["Book"]), (1,["Author"]), (2, ["entity","BookItem"]), (3,["entity","Account"]), (4,["Catalog"]), (5,["Library"]), (6, ["interface","Search"]), (7,["interface","Manage"]), (8,["Librarian"])],
+        "edges": [(1,0,"wrote"), (1,0, "1*-1*"), (2,0, "Generalization"), (3,2,"borrowed"), (3,2,"reserved"), (4,2,"records"), (2,5,"aggregation"), (4,5,"composition"), (5,4,"composition"), (4,6,"realization"), (4,7, "realization"), (8,7,"dependecy"), (8,7,"users"), (8,6,"dependency"), (8,6,"users")],
+        "times_per_graph": [50, 10, 25, 70, 5, 5, 10, 20, 90, 10, 10, 5, 15, 300, 20, 5, 10, 15, 20, 10]
     }
 ]
 
-generate_graphs(num_graphs=10, required_subgraphs=required_subgraphs, filename="/Users/simoneavellino/Desktop/graph.data")
+generate_graphs(num_graphs=20, required_subgraphs=required_subgraphs, filename="/Users/simoneavellino/Desktop/graph.data")
