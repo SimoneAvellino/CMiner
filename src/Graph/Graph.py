@@ -788,17 +788,3 @@ class MultiDiGraph(nx.MultiDiGraph):
                     code += "0"
 
         return code
-
-    def make_undirected(self):
-        edges = list(self.edges(keys=True))
-        for edge in edges:
-            src, dst, key = edge
-            src_labels_code = "".join(sorted(self.get_node_labels(src)))
-            dst_labels_code = "".join(sorted(self.get_node_labels(dst)))
-            if src_labels_code == dst_labels_code:
-                all_keys = self.edge_keys(dst, src) if self.has_edge(dst, src) else [-1]
-                self.add_edge(dst, src, key=max(all_keys) + 1, type=self.get_edge_label(edge))
-            elif src_labels_code > dst_labels_code:
-                edge_label = self.get_edge_label(edge)
-                self.remove_edge(src, dst, key=key)
-                self.add_edge(dst, src, key=key, type=edge_label)

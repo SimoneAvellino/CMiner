@@ -1142,7 +1142,6 @@ class CMiner:
                     continue
                 
                 node_extended_pattern.update_node_mappings(node_ext)
-                
 
                 self.stack.push(node_extended_pattern)
 
@@ -1151,10 +1150,10 @@ class CMiner:
                 for edge_ext in edge_extensions:
 
                     edge_extended_pattern = node_extended_pattern.apply_edge_extension(edge_ext)
-                    
+
                     if self.stack.was_stacked(edge_extended_pattern):
                         continue
-                    
+
                     edge_extended_pattern.update_edge_mappings(edge_ext)
 
                     self.stack.push(edge_extended_pattern)

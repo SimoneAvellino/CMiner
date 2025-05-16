@@ -1,9 +1,0 @@
-v 0 Composition
-v 1 Grouping
-v 2 Composition
-v 3 Composition
-v 4 Composition
-e 0 1 source
-e 2 1 source
-e 3 1 source
-e 4 1 source
