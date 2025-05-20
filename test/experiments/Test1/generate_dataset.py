@@ -100,9 +100,9 @@ def plot_graphs(graphs):
 required_subgraphs = [
     {
         "nodes": [(0,["Book"]), (1,["Author"]), (2, ["entity","BookItem"]), (3,["entity","Account"]), (4,["Catalog"]), (5,["Library"]), (6, ["interface","Search"]), (7,["interface","Manage"]), (8,["Librarian"])],
-        "edges": [(1,0,"wrote"), (1,0, "1*-1*"), (2,0, "Generalization"), (3,2,"borrowed"), (3,2,"reserved"), (4,2,"records"), (2,5,"aggregation"), (4,5,"composition"), (5,4,"composition"), (4,6,"realization"), (4,7, "realization"), (8,7,"dependecy"), (8,7,"uses"), (8,6,"dependency"), (8,6,"uses")],
-        "times_per_graph": [50, 10, 25, 70, 5, 5, 10, 20, 90, 10]
+        "edges": [(1,0,"wrote"), (1,0, "1*-1*"), (2,0, "Generalization"), (3,2,"borrowed"), (3,2,"reserved"), (4,2,"records"), (2,5,"aggregation"), (4,5,"composition"), (5,4,"composition"), (4,6,"realization"), (4,7, "realization"), (8,7,"dependecy"), (8,7,"users"), (8,6,"dependency"), (8,6,"users")],
+        "times_per_graph": [150, 10, 5, 10, 50, 10, 20, 10, 10, 10, 10, 10 , 5, 3, 2, 10, 10, 15, 10, 10]
     }
 ]
 
-generate_graphs(num_graphs=10, required_subgraphs=required_subgraphs, filename="/Users/simoneavellino/Desktop/CMiner/test/Datasets/Synthetic/synthetic.data")
+generate_graphs(num_graphs=20, required_subgraphs=required_subgraphs, filename="/path/to/graph.data")
