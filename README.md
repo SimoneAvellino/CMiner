@@ -16,7 +16,7 @@ Make sure you have the following requirements to run the project:
 
 ### Installation steps
 
-1. Download the repository from https://anonymous.4open.science/r/CMiner.
+1. Download the repository from https://github.com/SimoneAvellino/CMiner.
 2. Move into the repository folder:
     ```bash
     cd CMiner
