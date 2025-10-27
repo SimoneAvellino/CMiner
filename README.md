@@ -10,7 +10,7 @@ CMiner is an algorithm for mining patterns from graphs using a user-defined supp
 
 Make sure you have the following requirements to run the project:
 
-- **Python**: Version 3.11.6 or higher
+- **Python**: Version 3.11.6
 - **pip**: Version  24.2 or higher
 
 
