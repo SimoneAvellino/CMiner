@@ -1,5 +1,0 @@
-v 0 BusinessProcess
-v 1
-v 2
-e 0 1
-e 0 2

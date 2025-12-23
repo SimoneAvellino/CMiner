@@ -1,5 +1,0 @@
-v 0 BusinessProcess
-v 1 BusinessProcess
-v 2 BusinessProcess
-e 0 1 Triggering
-e 0 2 Triggering

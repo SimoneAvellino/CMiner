@@ -1,5 +1,0 @@
-v 0 kind
-v 1 subkind
-v 2 subkind
-e 1 0 Generalization
-e 2 0 Generalization
