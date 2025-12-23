@@ -1,0 +1,120 @@
+t # 0 G1
+v 1 purple
+v 2 purple
+v 3 purple yellow
+v 4 yellow
+v 5 red
+v 6 blue
+v 7 orange
+v 8 blue
+v 9 red
+v 10 purple yellow
+v 11 yellow
+v 12 purple
+v 13 purple
+v 14 blue
+v 15 yellow
+v 16 red
+v 17 purple yellow
+v 18 purple
+v 19 purple
+e 1 2 white
+e 2 1 white
+e 3 1 white
+e 4 1 white
+e 4 1 white
+e 3 2 white
+e 3 4 white
+e 3 6 white
+e 3 5 white
+e 2 5 white
+e 2 5 white
+e 4 6 white
+e 5 6 white
+e 5 6 white
+e 6 5 white
+e 6 4 white
+e 6 4 white
+e 6 7 white
+e 8 7 white
+e 14 7 white
+e 13 9 white
+e 13 9 white
+e 13 12 white
+e 12 13 white
+e 10 13 white
+e 10 12 white
+e 10 9 white
+e 10 11 white
+e 10 8 white
+e 9 8 white
+e 9 8 white
+e 8 9 white
+e 8 11 white
+e 8 11 white
+e 11 8 white
+e 11 12 white
+e 11 12 white
+e 14 15 white
+e 14 15 white
+e 15 14 white
+e 14 16 white
+e 17 14 white
+e 16 14 white
+e 16 14 white
+e 17 15 white
+e 17 16 white
+e 17 18 white
+e 17 19 white
+e 19 16 white
+e 19 16 white
+e 19 18 white
+e 18 19 white
+e 15 18 white
+e 15 18 white
+t # 1 G2
+v 1 purple
+v 2 purple
+v 3 purple yellow
+v 4 red
+v 5 yellow
+v 6 blue
+v 7 yellow
+v 8 purple yellow
+v 9 red
+v 10 purple
+v 11 purple
+e 1 2 white
+e 2 1 white
+e 3 1 white
+e 3 2 white
+e 1 4 white
+e 1 4 white
+e 5 2 white
+e 5 2 white
+e 3 5 white
+e 3 4 white
+e 3 6 white
+e 4 6 white
+e 4 6 white
+e 5 6 white
+e 6 5 white
+e 6 5 white
+e 6 4 white
+e 6 7 white
+e 6 7 white
+e 9 6 white
+e 9 6 white
+e 6 9 white
+e 7 6 white
+e 8 6 white
+e 8 7 white
+e 8 9 white
+e 11 9 white
+e 11 9 white
+e 7 10 white
+e 7 10 white
+e 8 10 white
+e 8 11 white
+e 10 11 white
+e 11 10 white

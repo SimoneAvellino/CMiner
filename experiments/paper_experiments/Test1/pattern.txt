@@ -1,0 +1,24 @@
+v 0 Librarian
+v 1 Manage interface
+v 2 Catalog
+v 3 BookItem entity
+v 4 Book
+v 5 Author
+v 6 Account entity
+v 7 Library
+v 8 Search interface
+e 0 1 dependecy
+e 0 1 users
+e 0 8 dependency
+e 0 8 users
+e 2 1 realization
+e 2 3 records
+e 2 7 composition
+e 2 8 realization
+e 3 4 Generalization
+e 3 7 aggregation
+e 5 4 1*-1*
+e 5 4 wrote
+e 6 3 borrowed
+e 6 3 reserved
+e 7 2 composition

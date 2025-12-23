@@ -1,0 +1,2 @@
+NULL_LABEL = ""
+DUMMY_LABEL = "DUMMY"

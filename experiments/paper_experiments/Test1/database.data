@@ -1,0 +1,8988 @@
+t # 0 G1
+v 0 Book
+v 1 Author
+v 2 entity BookItem
+v 3 entity Account
+v 4 Catalog
+v 5 Library
+v 6 interface Search
+v 7 interface Manage
+v 8 Librarian
+e 1 0 wrote
+e 1 0 1*-1*
+e 2 0 Generalization
+e 3 2 borrowed
+e 3 2 reserved
+e 4 2 records
+e 2 5 aggregation
+e 4 5 composition
+e 5 4 composition
+e 4 6 realization
+e 4 7 realization
+e 8 7 dependecy
+e 8 7 users
+e 8 6 dependency
+e 8 6 users
+v 9 Book
+v 10 Author
+v 11 entity BookItem
+v 12 entity Account
+v 13 Catalog
+v 14 Library
+v 15 interface Search
+v 16 interface Manage
+v 17 Librarian
+e 10 9 wrote
+e 10 9 1*-1*
+e 11 9 Generalization
+e 12 11 borrowed
+e 12 11 reserved
+e 13 11 records
+e 11 14 aggregation
+e 13 14 composition
+e 14 13 composition
+e 13 15 realization
+e 13 16 realization
+e 17 16 dependecy
+e 17 16 users
+e 17 15 dependency
+e 17 15 users
+v 18 Book
+v 19 Author
+v 20 entity BookItem
+v 21 entity Account
+v 22 Catalog
+v 23 Library
+v 24 interface Search
+v 25 interface Manage
+v 26 Librarian
+e 19 18 wrote
+e 19 18 1*-1*
+e 20 18 Generalization
+e 21 20 borrowed
+e 21 20 reserved
+e 22 20 records
+e 20 23 aggregation
+e 22 23 composition
+e 23 22 composition
+e 22 24 realization
+e 22 25 realization
+e 26 25 dependecy
+e 26 25 users
+e 26 24 dependency
+e 26 24 users
+v 27 Book
+v 28 Author
+v 29 entity BookItem
+v 30 entity Account
+v 31 Catalog
+v 32 Library
+v 33 interface Search
+v 34 interface Manage
+v 35 Librarian
+e 28 27 wrote
+e 28 27 1*-1*
+e 29 27 Generalization
+e 30 29 borrowed
+e 30 29 reserved
+e 31 29 records
+e 29 32 aggregation
+e 31 32 composition
+e 32 31 composition
+e 31 33 realization
+e 31 34 realization
+e 35 34 dependecy
+e 35 34 users
+e 35 33 dependency
+e 35 33 users
+v 36 Book
+v 37 Author
+v 38 entity BookItem
+v 39 entity Account
+v 40 Catalog
+v 41 Library
+v 42 interface Search
+v 43 interface Manage
+v 44 Librarian
+e 37 36 wrote
+e 37 36 1*-1*
+e 38 36 Generalization
+e 39 38 borrowed
+e 39 38 reserved
+e 40 38 records
+e 38 41 aggregation
+e 40 41 composition
+e 41 40 composition
+e 40 42 realization
+e 40 43 realization
+e 44 43 dependecy
+e 44 43 users
+e 44 42 dependency
+e 44 42 users
+v 45 Book
+v 46 Author
+v 47 entity BookItem
+v 48 entity Account
+v 49 Catalog
+v 50 Library
+v 51 interface Search
+v 52 interface Manage
+v 53 Librarian
+e 46 45 wrote
+e 46 45 1*-1*
+e 47 45 Generalization
+e 48 47 borrowed
+e 48 47 reserved
+e 49 47 records
+e 47 50 aggregation
+e 49 50 composition
+e 50 49 composition
+e 49 51 realization
+e 49 52 realization
+e 53 52 dependecy
+e 53 52 users
+e 53 51 dependency
+e 53 51 users
+v 54 Book
+v 55 Author
+v 56 entity BookItem
+v 57 entity Account
+v 58 Catalog
+v 59 Library
+v 60 interface Search
+v 61 interface Manage
+v 62 Librarian
+e 55 54 wrote
+e 55 54 1*-1*
+e 56 54 Generalization
+e 57 56 borrowed
+e 57 56 reserved
+e 58 56 records
+e 56 59 aggregation
+e 58 59 composition
+e 59 58 composition
+e 58 60 realization
+e 58 61 realization
+e 62 61 dependecy
+e 62 61 users
+e 62 60 dependency
+e 62 60 users
+v 63 Book
+v 64 Author
+v 65 entity BookItem
+v 66 entity Account
+v 67 Catalog
+v 68 Library
+v 69 interface Search
+v 70 interface Manage
+v 71 Librarian
+e 64 63 wrote
+e 64 63 1*-1*
+e 65 63 Generalization
+e 66 65 borrowed
+e 66 65 reserved
+e 67 65 records
+e 65 68 aggregation
+e 67 68 composition
+e 68 67 composition
+e 67 69 realization
+e 67 70 realization
+e 71 70 dependecy
+e 71 70 users
+e 71 69 dependency
+e 71 69 users
+v 72 Book
+v 73 Author
+v 74 entity BookItem
+v 75 entity Account
+v 76 Catalog
+v 77 Library
+v 78 interface Search
+v 79 interface Manage
+v 80 Librarian
+e 73 72 wrote
+e 73 72 1*-1*
+e 74 72 Generalization
+e 75 74 borrowed
+e 75 74 reserved
+e 76 74 records
+e 74 77 aggregation
+e 76 77 composition
+e 77 76 composition
+e 76 78 realization
+e 76 79 realization
+e 80 79 dependecy
+e 80 79 users
+e 80 78 dependency
+e 80 78 users
+v 81 Book
+v 82 Author
+v 83 entity BookItem
+v 84 entity Account
+v 85 Catalog
+v 86 Library
+v 87 interface Search
+v 88 interface Manage
+v 89 Librarian
+e 82 81 wrote
+e 82 81 1*-1*
+e 83 81 Generalization
+e 84 83 borrowed
+e 84 83 reserved
+e 85 83 records
+e 83 86 aggregation
+e 85 86 composition
+e 86 85 composition
+e 85 87 realization
+e 85 88 realization
+e 89 88 dependecy
+e 89 88 users
+e 89 87 dependency
+e 89 87 users
+v 90 Book
+v 91 Author
+v 92 entity BookItem
+v 93 entity Account
+v 94 Catalog
+v 95 Library
+v 96 interface Search
+v 97 interface Manage
+v 98 Librarian
+e 91 90 wrote
+e 91 90 1*-1*
+e 92 90 Generalization
+e 93 92 borrowed
+e 93 92 reserved
+e 94 92 records
+e 92 95 aggregation
+e 94 95 composition
+e 95 94 composition
+e 94 96 realization
+e 94 97 realization
+e 98 97 dependecy
+e 98 97 users
+e 98 96 dependency
+e 98 96 users
+v 99 Book
+v 100 Author
+v 101 entity BookItem
+v 102 entity Account
+v 103 Catalog
+v 104 Library
+v 105 interface Search
+v 106 interface Manage
+v 107 Librarian
+e 100 99 wrote
+e 100 99 1*-1*
+e 101 99 Generalization
+e 102 101 borrowed
+e 102 101 reserved
+e 103 101 records
+e 101 104 aggregation
+e 103 104 composition
+e 104 103 composition
+e 103 105 realization
+e 103 106 realization
+e 107 106 dependecy
+e 107 106 users
+e 107 105 dependency
+e 107 105 users
+v 108 Book
+v 109 Author
+v 110 entity BookItem
+v 111 entity Account
+v 112 Catalog
+v 113 Library
+v 114 interface Search
+v 115 interface Manage
+v 116 Librarian
+e 109 108 wrote
+e 109 108 1*-1*
+e 110 108 Generalization
+e 111 110 borrowed
+e 111 110 reserved
+e 112 110 records
+e 110 113 aggregation
+e 112 113 composition
+e 113 112 composition
+e 112 114 realization
+e 112 115 realization
+e 116 115 dependecy
+e 116 115 users
+e 116 114 dependency
+e 116 114 users
+v 117 Book
+v 118 Author
+v 119 entity BookItem
+v 120 entity Account
+v 121 Catalog
+v 122 Library
+v 123 interface Search
+v 124 interface Manage
+v 125 Librarian
+e 118 117 wrote
+e 118 117 1*-1*
+e 119 117 Generalization
+e 120 119 borrowed
+e 120 119 reserved
+e 121 119 records
+e 119 122 aggregation
+e 121 122 composition
+e 122 121 composition
+e 121 123 realization
+e 121 124 realization
+e 125 124 dependecy
+e 125 124 users
+e 125 123 dependency
+e 125 123 users
+v 126 Book
+v 127 Author
+v 128 entity BookItem
+v 129 entity Account
+v 130 Catalog
+v 131 Library
+v 132 interface Search
+v 133 interface Manage
+v 134 Librarian
+e 127 126 wrote
+e 127 126 1*-1*
+e 128 126 Generalization
+e 129 128 borrowed
+e 129 128 reserved
+e 130 128 records
+e 128 131 aggregation
+e 130 131 composition
+e 131 130 composition
+e 130 132 realization
+e 130 133 realization
+e 134 133 dependecy
+e 134 133 users
+e 134 132 dependency
+e 134 132 users
+v 135 Book
+v 136 Author
+v 137 entity BookItem
+v 138 entity Account
+v 139 Catalog
+v 140 Library
+v 141 interface Search
+v 142 interface Manage
+v 143 Librarian
+e 136 135 wrote
+e 136 135 1*-1*
+e 137 135 Generalization
+e 138 137 borrowed
+e 138 137 reserved
+e 139 137 records
+e 137 140 aggregation
+e 139 140 composition
+e 140 139 composition
+e 139 141 realization
+e 139 142 realization
+e 143 142 dependecy
+e 143 142 users
+e 143 141 dependency
+e 143 141 users
+v 144 Book
+v 145 Author
+v 146 entity BookItem
+v 147 entity Account
+v 148 Catalog
+v 149 Library
+v 150 interface Search
+v 151 interface Manage
+v 152 Librarian
+e 145 144 wrote
+e 145 144 1*-1*
+e 146 144 Generalization
+e 147 146 borrowed
+e 147 146 reserved
+e 148 146 records
+e 146 149 aggregation
+e 148 149 composition
+e 149 148 composition
+e 148 150 realization
+e 148 151 realization
+e 152 151 dependecy
+e 152 151 users
+e 152 150 dependency
+e 152 150 users
+v 153 Book
+v 154 Author
+v 155 entity BookItem
+v 156 entity Account
+v 157 Catalog
+v 158 Library
+v 159 interface Search
+v 160 interface Manage
+v 161 Librarian
+e 154 153 wrote
+e 154 153 1*-1*
+e 155 153 Generalization
+e 156 155 borrowed
+e 156 155 reserved
+e 157 155 records
+e 155 158 aggregation
+e 157 158 composition
+e 158 157 composition
+e 157 159 realization
+e 157 160 realization
+e 161 160 dependecy
+e 161 160 users
+e 161 159 dependency
+e 161 159 users
+v 162 Book
+v 163 Author
+v 164 entity BookItem
+v 165 entity Account
+v 166 Catalog
+v 167 Library
+v 168 interface Search
+v 169 interface Manage
+v 170 Librarian
+e 163 162 wrote
+e 163 162 1*-1*
+e 164 162 Generalization
+e 165 164 borrowed
+e 165 164 reserved
+e 166 164 records
+e 164 167 aggregation
+e 166 167 composition
+e 167 166 composition
+e 166 168 realization
+e 166 169 realization
+e 170 169 dependecy
+e 170 169 users
+e 170 168 dependency
+e 170 168 users
+v 171 Book
+v 172 Author
+v 173 entity BookItem
+v 174 entity Account
+v 175 Catalog
+v 176 Library
+v 177 interface Search
+v 178 interface Manage
+v 179 Librarian
+e 172 171 wrote
+e 172 171 1*-1*
+e 173 171 Generalization
+e 174 173 borrowed
+e 174 173 reserved
+e 175 173 records
+e 173 176 aggregation
+e 175 176 composition
+e 176 175 composition
+e 175 177 realization
+e 175 178 realization
+e 179 178 dependecy
+e 179 178 users
+e 179 177 dependency
+e 179 177 users
+v 180 Book
+v 181 Author
+v 182 entity BookItem
+v 183 entity Account
+v 184 Catalog
+v 185 Library
+v 186 interface Search
+v 187 interface Manage
+v 188 Librarian
+e 181 180 wrote
+e 181 180 1*-1*
+e 182 180 Generalization
+e 183 182 borrowed
+e 183 182 reserved
+e 184 182 records
+e 182 185 aggregation
+e 184 185 composition
+e 185 184 composition
+e 184 186 realization
+e 184 187 realization
+e 188 187 dependecy
+e 188 187 users
+e 188 186 dependency
+e 188 186 users
+v 189 Book
+v 190 Author
+v 191 entity BookItem
+v 192 entity Account
+v 193 Catalog
+v 194 Library
+v 195 interface Search
+v 196 interface Manage
+v 197 Librarian
+e 190 189 wrote
+e 190 189 1*-1*
+e 191 189 Generalization
+e 192 191 borrowed
+e 192 191 reserved
+e 193 191 records
+e 191 194 aggregation
+e 193 194 composition
+e 194 193 composition
+e 193 195 realization
+e 193 196 realization
+e 197 196 dependecy
+e 197 196 users
+e 197 195 dependency
+e 197 195 users
+v 198 Book
+v 199 Author
+v 200 entity BookItem
+v 201 entity Account
+v 202 Catalog
+v 203 Library
+v 204 interface Search
+v 205 interface Manage
+v 206 Librarian
+e 199 198 wrote
+e 199 198 1*-1*
+e 200 198 Generalization
+e 201 200 borrowed
+e 201 200 reserved
+e 202 200 records
+e 200 203 aggregation
+e 202 203 composition
+e 203 202 composition
+e 202 204 realization
+e 202 205 realization
+e 206 205 dependecy
+e 206 205 users
+e 206 204 dependency
+e 206 204 users
+v 207 Book
+v 208 Author
+v 209 entity BookItem
+v 210 entity Account
+v 211 Catalog
+v 212 Library
+v 213 interface Search
+v 214 interface Manage
+v 215 Librarian
+e 208 207 wrote
+e 208 207 1*-1*
+e 209 207 Generalization
+e 210 209 borrowed
+e 210 209 reserved
+e 211 209 records
+e 209 212 aggregation
+e 211 212 composition
+e 212 211 composition
+e 211 213 realization
+e 211 214 realization
+e 215 214 dependecy
+e 215 214 users
+e 215 213 dependency
+e 215 213 users
+v 216 Book
+v 217 Author
+v 218 entity BookItem
+v 219 entity Account
+v 220 Catalog
+v 221 Library
+v 222 interface Search
+v 223 interface Manage
+v 224 Librarian
+e 217 216 wrote
+e 217 216 1*-1*
+e 218 216 Generalization
+e 219 218 borrowed
+e 219 218 reserved
+e 220 218 records
+e 218 221 aggregation
+e 220 221 composition
+e 221 220 composition
+e 220 222 realization
+e 220 223 realization
+e 224 223 dependecy
+e 224 223 users
+e 224 222 dependency
+e 224 222 users
+v 225 Book
+v 226 Author
+v 227 entity BookItem
+v 228 entity Account
+v 229 Catalog
+v 230 Library
+v 231 interface Search
+v 232 interface Manage
+v 233 Librarian
+e 226 225 wrote
+e 226 225 1*-1*
+e 227 225 Generalization
+e 228 227 borrowed
+e 228 227 reserved
+e 229 227 records
+e 227 230 aggregation
+e 229 230 composition
+e 230 229 composition
+e 229 231 realization
+e 229 232 realization
+e 233 232 dependecy
+e 233 232 users
+e 233 231 dependency
+e 233 231 users
+v 234 Book
+v 235 Author
+v 236 entity BookItem
+v 237 entity Account
+v 238 Catalog
+v 239 Library
+v 240 interface Search
+v 241 interface Manage
+v 242 Librarian
+e 235 234 wrote
+e 235 234 1*-1*
+e 236 234 Generalization
+e 237 236 borrowed
+e 237 236 reserved
+e 238 236 records
+e 236 239 aggregation
+e 238 239 composition
+e 239 238 composition
+e 238 240 realization
+e 238 241 realization
+e 242 241 dependecy
+e 242 241 users
+e 242 240 dependency
+e 242 240 users
+v 243 Book
+v 244 Author
+v 245 entity BookItem
+v 246 entity Account
+v 247 Catalog
+v 248 Library
+v 249 interface Search
+v 250 interface Manage
+v 251 Librarian
+e 244 243 wrote
+e 244 243 1*-1*
+e 245 243 Generalization
+e 246 245 borrowed
+e 246 245 reserved
+e 247 245 records
+e 245 248 aggregation
+e 247 248 composition
+e 248 247 composition
+e 247 249 realization
+e 247 250 realization
+e 251 250 dependecy
+e 251 250 users
+e 251 249 dependency
+e 251 249 users
+v 252 Book
+v 253 Author
+v 254 entity BookItem
+v 255 entity Account
+v 256 Catalog
+v 257 Library
+v 258 interface Search
+v 259 interface Manage
+v 260 Librarian
+e 253 252 wrote
+e 253 252 1*-1*
+e 254 252 Generalization
+e 255 254 borrowed
+e 255 254 reserved
+e 256 254 records
+e 254 257 aggregation
+e 256 257 composition
+e 257 256 composition
+e 256 258 realization
+e 256 259 realization
+e 260 259 dependecy
+e 260 259 users
+e 260 258 dependency
+e 260 258 users
+v 261 Book
+v 262 Author
+v 263 entity BookItem
+v 264 entity Account
+v 265 Catalog
+v 266 Library
+v 267 interface Search
+v 268 interface Manage
+v 269 Librarian
+e 262 261 wrote
+e 262 261 1*-1*
+e 263 261 Generalization
+e 264 263 borrowed
+e 264 263 reserved
+e 265 263 records
+e 263 266 aggregation
+e 265 266 composition
+e 266 265 composition
+e 265 267 realization
+e 265 268 realization
+e 269 268 dependecy
+e 269 268 users
+e 269 267 dependency
+e 269 267 users
+v 270 Book
+v 271 Author
+v 272 entity BookItem
+v 273 entity Account
+v 274 Catalog
+v 275 Library
+v 276 interface Search
+v 277 interface Manage
+v 278 Librarian
+e 271 270 wrote
+e 271 270 1*-1*
+e 272 270 Generalization
+e 273 272 borrowed
+e 273 272 reserved
+e 274 272 records
+e 272 275 aggregation
+e 274 275 composition
+e 275 274 composition
+e 274 276 realization
+e 274 277 realization
+e 278 277 dependecy
+e 278 277 users
+e 278 276 dependency
+e 278 276 users
+v 279 Book
+v 280 Author
+v 281 entity BookItem
+v 282 entity Account
+v 283 Catalog
+v 284 Library
+v 285 interface Search
+v 286 interface Manage
+v 287 Librarian
+e 280 279 wrote
+e 280 279 1*-1*
+e 281 279 Generalization
+e 282 281 borrowed
+e 282 281 reserved
+e 283 281 records
+e 281 284 aggregation
+e 283 284 composition
+e 284 283 composition
+e 283 285 realization
+e 283 286 realization
+e 287 286 dependecy
+e 287 286 users
+e 287 285 dependency
+e 287 285 users
+v 288 Book
+v 289 Author
+v 290 entity BookItem
+v 291 entity Account
+v 292 Catalog
+v 293 Library
+v 294 interface Search
+v 295 interface Manage
+v 296 Librarian
+e 289 288 wrote
+e 289 288 1*-1*
+e 290 288 Generalization
+e 291 290 borrowed
+e 291 290 reserved
+e 292 290 records
+e 290 293 aggregation
+e 292 293 composition
+e 293 292 composition
+e 292 294 realization
+e 292 295 realization
+e 296 295 dependecy
+e 296 295 users
+e 296 294 dependency
+e 296 294 users
+v 297 Book
+v 298 Author
+v 299 entity BookItem
+v 300 entity Account
+v 301 Catalog
+v 302 Library
+v 303 interface Search
+v 304 interface Manage
+v 305 Librarian
+e 298 297 wrote
+e 298 297 1*-1*
+e 299 297 Generalization
+e 300 299 borrowed
+e 300 299 reserved
+e 301 299 records
+e 299 302 aggregation
+e 301 302 composition
+e 302 301 composition
+e 301 303 realization
+e 301 304 realization
+e 305 304 dependecy
+e 305 304 users
+e 305 303 dependency
+e 305 303 users
+v 306 Book
+v 307 Author
+v 308 entity BookItem
+v 309 entity Account
+v 310 Catalog
+v 311 Library
+v 312 interface Search
+v 313 interface Manage
+v 314 Librarian
+e 307 306 wrote
+e 307 306 1*-1*
+e 308 306 Generalization
+e 309 308 borrowed
+e 309 308 reserved
+e 310 308 records
+e 308 311 aggregation
+e 310 311 composition
+e 311 310 composition
+e 310 312 realization
+e 310 313 realization
+e 314 313 dependecy
+e 314 313 users
+e 314 312 dependency
+e 314 312 users
+v 315 Book
+v 316 Author
+v 317 entity BookItem
+v 318 entity Account
+v 319 Catalog
+v 320 Library
+v 321 interface Search
+v 322 interface Manage
+v 323 Librarian
+e 316 315 wrote
+e 316 315 1*-1*
+e 317 315 Generalization
+e 318 317 borrowed
+e 318 317 reserved
+e 319 317 records
+e 317 320 aggregation
+e 319 320 composition
+e 320 319 composition
+e 319 321 realization
+e 319 322 realization
+e 323 322 dependecy
+e 323 322 users
+e 323 321 dependency
+e 323 321 users
+v 324 Book
+v 325 Author
+v 326 entity BookItem
+v 327 entity Account
+v 328 Catalog
+v 329 Library
+v 330 interface Search
+v 331 interface Manage
+v 332 Librarian
+e 325 324 wrote
+e 325 324 1*-1*
+e 326 324 Generalization
+e 327 326 borrowed
+e 327 326 reserved
+e 328 326 records
+e 326 329 aggregation
+e 328 329 composition
+e 329 328 composition
+e 328 330 realization
+e 328 331 realization
+e 332 331 dependecy
+e 332 331 users
+e 332 330 dependency
+e 332 330 users
+v 333 Book
+v 334 Author
+v 335 entity BookItem
+v 336 entity Account
+v 337 Catalog
+v 338 Library
+v 339 interface Search
+v 340 interface Manage
+v 341 Librarian
+e 334 333 wrote
+e 334 333 1*-1*
+e 335 333 Generalization
+e 336 335 borrowed
+e 336 335 reserved
+e 337 335 records
+e 335 338 aggregation
+e 337 338 composition
+e 338 337 composition
+e 337 339 realization
+e 337 340 realization
+e 341 340 dependecy
+e 341 340 users
+e 341 339 dependency
+e 341 339 users
+v 342 Book
+v 343 Author
+v 344 entity BookItem
+v 345 entity Account
+v 346 Catalog
+v 347 Library
+v 348 interface Search
+v 349 interface Manage
+v 350 Librarian
+e 343 342 wrote
+e 343 342 1*-1*
+e 344 342 Generalization
+e 345 344 borrowed
+e 345 344 reserved
+e 346 344 records
+e 344 347 aggregation
+e 346 347 composition
+e 347 346 composition
+e 346 348 realization
+e 346 349 realization
+e 350 349 dependecy
+e 350 349 users
+e 350 348 dependency
+e 350 348 users
+v 351 Book
+v 352 Author
+v 353 entity BookItem
+v 354 entity Account
+v 355 Catalog
+v 356 Library
+v 357 interface Search
+v 358 interface Manage
+v 359 Librarian
+e 352 351 wrote
+e 352 351 1*-1*
+e 353 351 Generalization
+e 354 353 borrowed
+e 354 353 reserved
+e 355 353 records
+e 353 356 aggregation
+e 355 356 composition
+e 356 355 composition
+e 355 357 realization
+e 355 358 realization
+e 359 358 dependecy
+e 359 358 users
+e 359 357 dependency
+e 359 357 users
+v 360 Book
+v 361 Author
+v 362 entity BookItem
+v 363 entity Account
+v 364 Catalog
+v 365 Library
+v 366 interface Search
+v 367 interface Manage
+v 368 Librarian
+e 361 360 wrote
+e 361 360 1*-1*
+e 362 360 Generalization
+e 363 362 borrowed
+e 363 362 reserved
+e 364 362 records
+e 362 365 aggregation
+e 364 365 composition
+e 365 364 composition
+e 364 366 realization
+e 364 367 realization
+e 368 367 dependecy
+e 368 367 users
+e 368 366 dependency
+e 368 366 users
+v 369 Book
+v 370 Author
+v 371 entity BookItem
+v 372 entity Account
+v 373 Catalog
+v 374 Library
+v 375 interface Search
+v 376 interface Manage
+v 377 Librarian
+e 370 369 wrote
+e 370 369 1*-1*
+e 371 369 Generalization
+e 372 371 borrowed
+e 372 371 reserved
+e 373 371 records
+e 371 374 aggregation
+e 373 374 composition
+e 374 373 composition
+e 373 375 realization
+e 373 376 realization
+e 377 376 dependecy
+e 377 376 users
+e 377 375 dependency
+e 377 375 users
+v 378 Book
+v 379 Author
+v 380 entity BookItem
+v 381 entity Account
+v 382 Catalog
+v 383 Library
+v 384 interface Search
+v 385 interface Manage
+v 386 Librarian
+e 379 378 wrote
+e 379 378 1*-1*
+e 380 378 Generalization
+e 381 380 borrowed
+e 381 380 reserved
+e 382 380 records
+e 380 383 aggregation
+e 382 383 composition
+e 383 382 composition
+e 382 384 realization
+e 382 385 realization
+e 386 385 dependecy
+e 386 385 users
+e 386 384 dependency
+e 386 384 users
+v 387 Book
+v 388 Author
+v 389 entity BookItem
+v 390 entity Account
+v 391 Catalog
+v 392 Library
+v 393 interface Search
+v 394 interface Manage
+v 395 Librarian
+e 388 387 wrote
+e 388 387 1*-1*
+e 389 387 Generalization
+e 390 389 borrowed
+e 390 389 reserved
+e 391 389 records
+e 389 392 aggregation
+e 391 392 composition
+e 392 391 composition
+e 391 393 realization
+e 391 394 realization
+e 395 394 dependecy
+e 395 394 users
+e 395 393 dependency
+e 395 393 users
+v 396 Book
+v 397 Author
+v 398 entity BookItem
+v 399 entity Account
+v 400 Catalog
+v 401 Library
+v 402 interface Search
+v 403 interface Manage
+v 404 Librarian
+e 397 396 wrote
+e 397 396 1*-1*
+e 398 396 Generalization
+e 399 398 borrowed
+e 399 398 reserved
+e 400 398 records
+e 398 401 aggregation
+e 400 401 composition
+e 401 400 composition
+e 400 402 realization
+e 400 403 realization
+e 404 403 dependecy
+e 404 403 users
+e 404 402 dependency
+e 404 402 users
+v 405 Book
+v 406 Author
+v 407 entity BookItem
+v 408 entity Account
+v 409 Catalog
+v 410 Library
+v 411 interface Search
+v 412 interface Manage
+v 413 Librarian
+e 406 405 wrote
+e 406 405 1*-1*
+e 407 405 Generalization
+e 408 407 borrowed
+e 408 407 reserved
+e 409 407 records
+e 407 410 aggregation
+e 409 410 composition
+e 410 409 composition
+e 409 411 realization
+e 409 412 realization
+e 413 412 dependecy
+e 413 412 users
+e 413 411 dependency
+e 413 411 users
+v 414 Book
+v 415 Author
+v 416 entity BookItem
+v 417 entity Account
+v 418 Catalog
+v 419 Library
+v 420 interface Search
+v 421 interface Manage
+v 422 Librarian
+e 415 414 wrote
+e 415 414 1*-1*
+e 416 414 Generalization
+e 417 416 borrowed
+e 417 416 reserved
+e 418 416 records
+e 416 419 aggregation
+e 418 419 composition
+e 419 418 composition
+e 418 420 realization
+e 418 421 realization
+e 422 421 dependecy
+e 422 421 users
+e 422 420 dependency
+e 422 420 users
+v 423 Book
+v 424 Author
+v 425 entity BookItem
+v 426 entity Account
+v 427 Catalog
+v 428 Library
+v 429 interface Search
+v 430 interface Manage
+v 431 Librarian
+e 424 423 wrote
+e 424 423 1*-1*
+e 425 423 Generalization
+e 426 425 borrowed
+e 426 425 reserved
+e 427 425 records
+e 425 428 aggregation
+e 427 428 composition
+e 428 427 composition
+e 427 429 realization
+e 427 430 realization
+e 431 430 dependecy
+e 431 430 users
+e 431 429 dependency
+e 431 429 users
+v 432 Book
+v 433 Author
+v 434 entity BookItem
+v 435 entity Account
+v 436 Catalog
+v 437 Library
+v 438 interface Search
+v 439 interface Manage
+v 440 Librarian
+e 433 432 wrote
+e 433 432 1*-1*
+e 434 432 Generalization
+e 435 434 borrowed
+e 435 434 reserved
+e 436 434 records
+e 434 437 aggregation
+e 436 437 composition
+e 437 436 composition
+e 436 438 realization
+e 436 439 realization
+e 440 439 dependecy
+e 440 439 users
+e 440 438 dependency
+e 440 438 users
+v 441 Book
+v 442 Author
+v 443 entity BookItem
+v 444 entity Account
+v 445 Catalog
+v 446 Library
+v 447 interface Search
+v 448 interface Manage
+v 449 Librarian
+e 442 441 wrote
+e 442 441 1*-1*
+e 443 441 Generalization
+e 444 443 borrowed
+e 444 443 reserved
+e 445 443 records
+e 443 446 aggregation
+e 445 446 composition
+e 446 445 composition
+e 445 447 realization
+e 445 448 realization
+e 449 448 dependecy
+e 449 448 users
+e 449 447 dependency
+e 449 447 users
+v 450 Book
+v 451 Author
+v 452 entity BookItem
+v 453 entity Account
+v 454 Catalog
+v 455 Library
+v 456 interface Search
+v 457 interface Manage
+v 458 Librarian
+e 451 450 wrote
+e 451 450 1*-1*
+e 452 450 Generalization
+e 453 452 borrowed
+e 453 452 reserved
+e 454 452 records
+e 452 455 aggregation
+e 454 455 composition
+e 455 454 composition
+e 454 456 realization
+e 454 457 realization
+e 458 457 dependecy
+e 458 457 users
+e 458 456 dependency
+e 458 456 users
+v 459 Book
+v 460 Author
+v 461 entity BookItem
+v 462 entity Account
+v 463 Catalog
+v 464 Library
+v 465 interface Search
+v 466 interface Manage
+v 467 Librarian
+e 460 459 wrote
+e 460 459 1*-1*
+e 461 459 Generalization
+e 462 461 borrowed
+e 462 461 reserved
+e 463 461 records
+e 461 464 aggregation
+e 463 464 composition
+e 464 463 composition
+e 463 465 realization
+e 463 466 realization
+e 467 466 dependecy
+e 467 466 users
+e 467 465 dependency
+e 467 465 users
+v 468 Book
+v 469 Author
+v 470 entity BookItem
+v 471 entity Account
+v 472 Catalog
+v 473 Library
+v 474 interface Search
+v 475 interface Manage
+v 476 Librarian
+e 469 468 wrote
+e 469 468 1*-1*
+e 470 468 Generalization
+e 471 470 borrowed
+e 471 470 reserved
+e 472 470 records
+e 470 473 aggregation
+e 472 473 composition
+e 473 472 composition
+e 472 474 realization
+e 472 475 realization
+e 476 475 dependecy
+e 476 475 users
+e 476 474 dependency
+e 476 474 users
+v 477 Book
+v 478 Author
+v 479 entity BookItem
+v 480 entity Account
+v 481 Catalog
+v 482 Library
+v 483 interface Search
+v 484 interface Manage
+v 485 Librarian
+e 478 477 wrote
+e 478 477 1*-1*
+e 479 477 Generalization
+e 480 479 borrowed
+e 480 479 reserved
+e 481 479 records
+e 479 482 aggregation
+e 481 482 composition
+e 482 481 composition
+e 481 483 realization
+e 481 484 realization
+e 485 484 dependecy
+e 485 484 users
+e 485 483 dependency
+e 485 483 users
+v 486 Book
+v 487 Author
+v 488 entity BookItem
+v 489 entity Account
+v 490 Catalog
+v 491 Library
+v 492 interface Search
+v 493 interface Manage
+v 494 Librarian
+e 487 486 wrote
+e 487 486 1*-1*
+e 488 486 Generalization
+e 489 488 borrowed
+e 489 488 reserved
+e 490 488 records
+e 488 491 aggregation
+e 490 491 composition
+e 491 490 composition
+e 490 492 realization
+e 490 493 realization
+e 494 493 dependecy
+e 494 493 users
+e 494 492 dependency
+e 494 492 users
+v 495 Book
+v 496 Author
+v 497 entity BookItem
+v 498 entity Account
+v 499 Catalog
+v 500 Library
+v 501 interface Search
+v 502 interface Manage
+v 503 Librarian
+e 496 495 wrote
+e 496 495 1*-1*
+e 497 495 Generalization
+e 498 497 borrowed
+e 498 497 reserved
+e 499 497 records
+e 497 500 aggregation
+e 499 500 composition
+e 500 499 composition
+e 499 501 realization
+e 499 502 realization
+e 503 502 dependecy
+e 503 502 users
+e 503 501 dependency
+e 503 501 users
+v 504 Book
+v 505 Author
+v 506 entity BookItem
+v 507 entity Account
+v 508 Catalog
+v 509 Library
+v 510 interface Search
+v 511 interface Manage
+v 512 Librarian
+e 505 504 wrote
+e 505 504 1*-1*
+e 506 504 Generalization
+e 507 506 borrowed
+e 507 506 reserved
+e 508 506 records
+e 506 509 aggregation
+e 508 509 composition
+e 509 508 composition
+e 508 510 realization
+e 508 511 realization
+e 512 511 dependecy
+e 512 511 users
+e 512 510 dependency
+e 512 510 users
+v 513 Book
+v 514 Author
+v 515 entity BookItem
+v 516 entity Account
+v 517 Catalog
+v 518 Library
+v 519 interface Search
+v 520 interface Manage
+v 521 Librarian
+e 514 513 wrote
+e 514 513 1*-1*
+e 515 513 Generalization
+e 516 515 borrowed
+e 516 515 reserved
+e 517 515 records
+e 515 518 aggregation
+e 517 518 composition
+e 518 517 composition
+e 517 519 realization
+e 517 520 realization
+e 521 520 dependecy
+e 521 520 users
+e 521 519 dependency
+e 521 519 users
+v 522 Book
+v 523 Author
+v 524 entity BookItem
+v 525 entity Account
+v 526 Catalog
+v 527 Library
+v 528 interface Search
+v 529 interface Manage
+v 530 Librarian
+e 523 522 wrote
+e 523 522 1*-1*
+e 524 522 Generalization
+e 525 524 borrowed
+e 525 524 reserved
+e 526 524 records
+e 524 527 aggregation
+e 526 527 composition
+e 527 526 composition
+e 526 528 realization
+e 526 529 realization
+e 530 529 dependecy
+e 530 529 users
+e 530 528 dependency
+e 530 528 users
+v 531 Book
+v 532 Author
+v 533 entity BookItem
+v 534 entity Account
+v 535 Catalog
+v 536 Library
+v 537 interface Search
+v 538 interface Manage
+v 539 Librarian
+e 532 531 wrote
+e 532 531 1*-1*
+e 533 531 Generalization
+e 534 533 borrowed
+e 534 533 reserved
+e 535 533 records
+e 533 536 aggregation
+e 535 536 composition
+e 536 535 composition
+e 535 537 realization
+e 535 538 realization
+e 539 538 dependecy
+e 539 538 users
+e 539 537 dependency
+e 539 537 users
+v 540 Book
+v 541 Author
+v 542 entity BookItem
+v 543 entity Account
+v 544 Catalog
+v 545 Library
+v 546 interface Search
+v 547 interface Manage
+v 548 Librarian
+e 541 540 wrote
+e 541 540 1*-1*
+e 542 540 Generalization
+e 543 542 borrowed
+e 543 542 reserved
+e 544 542 records
+e 542 545 aggregation
+e 544 545 composition
+e 545 544 composition
+e 544 546 realization
+e 544 547 realization
+e 548 547 dependecy
+e 548 547 users
+e 548 546 dependency
+e 548 546 users
+v 549 Book
+v 550 Author
+v 551 entity BookItem
+v 552 entity Account
+v 553 Catalog
+v 554 Library
+v 555 interface Search
+v 556 interface Manage
+v 557 Librarian
+e 550 549 wrote
+e 550 549 1*-1*
+e 551 549 Generalization
+e 552 551 borrowed
+e 552 551 reserved
+e 553 551 records
+e 551 554 aggregation
+e 553 554 composition
+e 554 553 composition
+e 553 555 realization
+e 553 556 realization
+e 557 556 dependecy
+e 557 556 users
+e 557 555 dependency
+e 557 555 users
+v 558 Book
+v 559 Author
+v 560 entity BookItem
+v 561 entity Account
+v 562 Catalog
+v 563 Library
+v 564 interface Search
+v 565 interface Manage
+v 566 Librarian
+e 559 558 wrote
+e 559 558 1*-1*
+e 560 558 Generalization
+e 561 560 borrowed
+e 561 560 reserved
+e 562 560 records
+e 560 563 aggregation
+e 562 563 composition
+e 563 562 composition
+e 562 564 realization
+e 562 565 realization
+e 566 565 dependecy
+e 566 565 users
+e 566 564 dependency
+e 566 564 users
+v 567 Book
+v 568 Author
+v 569 entity BookItem
+v 570 entity Account
+v 571 Catalog
+v 572 Library
+v 573 interface Search
+v 574 interface Manage
+v 575 Librarian
+e 568 567 wrote
+e 568 567 1*-1*
+e 569 567 Generalization
+e 570 569 borrowed
+e 570 569 reserved
+e 571 569 records
+e 569 572 aggregation
+e 571 572 composition
+e 572 571 composition
+e 571 573 realization
+e 571 574 realization
+e 575 574 dependecy
+e 575 574 users
+e 575 573 dependency
+e 575 573 users
+v 576 Book
+v 577 Author
+v 578 entity BookItem
+v 579 entity Account
+v 580 Catalog
+v 581 Library
+v 582 interface Search
+v 583 interface Manage
+v 584 Librarian
+e 577 576 wrote
+e 577 576 1*-1*
+e 578 576 Generalization
+e 579 578 borrowed
+e 579 578 reserved
+e 580 578 records
+e 578 581 aggregation
+e 580 581 composition
+e 581 580 composition
+e 580 582 realization
+e 580 583 realization
+e 584 583 dependecy
+e 584 583 users
+e 584 582 dependency
+e 584 582 users
+v 585 Book
+v 586 Author
+v 587 entity BookItem
+v 588 entity Account
+v 589 Catalog
+v 590 Library
+v 591 interface Search
+v 592 interface Manage
+v 593 Librarian
+e 586 585 wrote
+e 586 585 1*-1*
+e 587 585 Generalization
+e 588 587 borrowed
+e 588 587 reserved
+e 589 587 records
+e 587 590 aggregation
+e 589 590 composition
+e 590 589 composition
+e 589 591 realization
+e 589 592 realization
+e 593 592 dependecy
+e 593 592 users
+e 593 591 dependency
+e 593 591 users
+v 594 Book
+v 595 Author
+v 596 entity BookItem
+v 597 entity Account
+v 598 Catalog
+v 599 Library
+v 600 interface Search
+v 601 interface Manage
+v 602 Librarian
+e 595 594 wrote
+e 595 594 1*-1*
+e 596 594 Generalization
+e 597 596 borrowed
+e 597 596 reserved
+e 598 596 records
+e 596 599 aggregation
+e 598 599 composition
+e 599 598 composition
+e 598 600 realization
+e 598 601 realization
+e 602 601 dependecy
+e 602 601 users
+e 602 600 dependency
+e 602 600 users
+v 603 Book
+v 604 Author
+v 605 entity BookItem
+v 606 entity Account
+v 607 Catalog
+v 608 Library
+v 609 interface Search
+v 610 interface Manage
+v 611 Librarian
+e 604 603 wrote
+e 604 603 1*-1*
+e 605 603 Generalization
+e 606 605 borrowed
+e 606 605 reserved
+e 607 605 records
+e 605 608 aggregation
+e 607 608 composition
+e 608 607 composition
+e 607 609 realization
+e 607 610 realization
+e 611 610 dependecy
+e 611 610 users
+e 611 609 dependency
+e 611 609 users
+v 612 Book
+v 613 Author
+v 614 entity BookItem
+v 615 entity Account
+v 616 Catalog
+v 617 Library
+v 618 interface Search
+v 619 interface Manage
+v 620 Librarian
+e 613 612 wrote
+e 613 612 1*-1*
+e 614 612 Generalization
+e 615 614 borrowed
+e 615 614 reserved
+e 616 614 records
+e 614 617 aggregation
+e 616 617 composition
+e 617 616 composition
+e 616 618 realization
+e 616 619 realization
+e 620 619 dependecy
+e 620 619 users
+e 620 618 dependency
+e 620 618 users
+v 621 Book
+v 622 Author
+v 623 entity BookItem
+v 624 entity Account
+v 625 Catalog
+v 626 Library
+v 627 interface Search
+v 628 interface Manage
+v 629 Librarian
+e 622 621 wrote
+e 622 621 1*-1*
+e 623 621 Generalization
+e 624 623 borrowed
+e 624 623 reserved
+e 625 623 records
+e 623 626 aggregation
+e 625 626 composition
+e 626 625 composition
+e 625 627 realization
+e 625 628 realization
+e 629 628 dependecy
+e 629 628 users
+e 629 627 dependency
+e 629 627 users
+v 630 Book
+v 631 Author
+v 632 entity BookItem
+v 633 entity Account
+v 634 Catalog
+v 635 Library
+v 636 interface Search
+v 637 interface Manage
+v 638 Librarian
+e 631 630 wrote
+e 631 630 1*-1*
+e 632 630 Generalization
+e 633 632 borrowed
+e 633 632 reserved
+e 634 632 records
+e 632 635 aggregation
+e 634 635 composition
+e 635 634 composition
+e 634 636 realization
+e 634 637 realization
+e 638 637 dependecy
+e 638 637 users
+e 638 636 dependency
+e 638 636 users
+v 639 Book
+v 640 Author
+v 641 entity BookItem
+v 642 entity Account
+v 643 Catalog
+v 644 Library
+v 645 interface Search
+v 646 interface Manage
+v 647 Librarian
+e 640 639 wrote
+e 640 639 1*-1*
+e 641 639 Generalization
+e 642 641 borrowed
+e 642 641 reserved
+e 643 641 records
+e 641 644 aggregation
+e 643 644 composition
+e 644 643 composition
+e 643 645 realization
+e 643 646 realization
+e 647 646 dependecy
+e 647 646 users
+e 647 645 dependency
+e 647 645 users
+v 648 Book
+v 649 Author
+v 650 entity BookItem
+v 651 entity Account
+v 652 Catalog
+v 653 Library
+v 654 interface Search
+v 655 interface Manage
+v 656 Librarian
+e 649 648 wrote
+e 649 648 1*-1*
+e 650 648 Generalization
+e 651 650 borrowed
+e 651 650 reserved
+e 652 650 records
+e 650 653 aggregation
+e 652 653 composition
+e 653 652 composition
+e 652 654 realization
+e 652 655 realization
+e 656 655 dependecy
+e 656 655 users
+e 656 654 dependency
+e 656 654 users
+v 657 Book
+v 658 Author
+v 659 entity BookItem
+v 660 entity Account
+v 661 Catalog
+v 662 Library
+v 663 interface Search
+v 664 interface Manage
+v 665 Librarian
+e 658 657 wrote
+e 658 657 1*-1*
+e 659 657 Generalization
+e 660 659 borrowed
+e 660 659 reserved
+e 661 659 records
+e 659 662 aggregation
+e 661 662 composition
+e 662 661 composition
+e 661 663 realization
+e 661 664 realization
+e 665 664 dependecy
+e 665 664 users
+e 665 663 dependency
+e 665 663 users
+v 666 Book
+v 667 Author
+v 668 entity BookItem
+v 669 entity Account
+v 670 Catalog
+v 671 Library
+v 672 interface Search
+v 673 interface Manage
+v 674 Librarian
+e 667 666 wrote
+e 667 666 1*-1*
+e 668 666 Generalization
+e 669 668 borrowed
+e 669 668 reserved
+e 670 668 records
+e 668 671 aggregation
+e 670 671 composition
+e 671 670 composition
+e 670 672 realization
+e 670 673 realization
+e 674 673 dependecy
+e 674 673 users
+e 674 672 dependency
+e 674 672 users
+v 675 Book
+v 676 Author
+v 677 entity BookItem
+v 678 entity Account
+v 679 Catalog
+v 680 Library
+v 681 interface Search
+v 682 interface Manage
+v 683 Librarian
+e 676 675 wrote
+e 676 675 1*-1*
+e 677 675 Generalization
+e 678 677 borrowed
+e 678 677 reserved
+e 679 677 records
+e 677 680 aggregation
+e 679 680 composition
+e 680 679 composition
+e 679 681 realization
+e 679 682 realization
+e 683 682 dependecy
+e 683 682 users
+e 683 681 dependency
+e 683 681 users
+v 684 Book
+v 685 Author
+v 686 entity BookItem
+v 687 entity Account
+v 688 Catalog
+v 689 Library
+v 690 interface Search
+v 691 interface Manage
+v 692 Librarian
+e 685 684 wrote
+e 685 684 1*-1*
+e 686 684 Generalization
+e 687 686 borrowed
+e 687 686 reserved
+e 688 686 records
+e 686 689 aggregation
+e 688 689 composition
+e 689 688 composition
+e 688 690 realization
+e 688 691 realization
+e 692 691 dependecy
+e 692 691 users
+e 692 690 dependency
+e 692 690 users
+v 693 Book
+v 694 Author
+v 695 entity BookItem
+v 696 entity Account
+v 697 Catalog
+v 698 Library
+v 699 interface Search
+v 700 interface Manage
+v 701 Librarian
+e 694 693 wrote
+e 694 693 1*-1*
+e 695 693 Generalization
+e 696 695 borrowed
+e 696 695 reserved
+e 697 695 records
+e 695 698 aggregation
+e 697 698 composition
+e 698 697 composition
+e 697 699 realization
+e 697 700 realization
+e 701 700 dependecy
+e 701 700 users
+e 701 699 dependency
+e 701 699 users
+v 702 Book
+v 703 Author
+v 704 entity BookItem
+v 705 entity Account
+v 706 Catalog
+v 707 Library
+v 708 interface Search
+v 709 interface Manage
+v 710 Librarian
+e 703 702 wrote
+e 703 702 1*-1*
+e 704 702 Generalization
+e 705 704 borrowed
+e 705 704 reserved
+e 706 704 records
+e 704 707 aggregation
+e 706 707 composition
+e 707 706 composition
+e 706 708 realization
+e 706 709 realization
+e 710 709 dependecy
+e 710 709 users
+e 710 708 dependency
+e 710 708 users
+v 711 Book
+v 712 Author
+v 713 entity BookItem
+v 714 entity Account
+v 715 Catalog
+v 716 Library
+v 717 interface Search
+v 718 interface Manage
+v 719 Librarian
+e 712 711 wrote
+e 712 711 1*-1*
+e 713 711 Generalization
+e 714 713 borrowed
+e 714 713 reserved
+e 715 713 records
+e 713 716 aggregation
+e 715 716 composition
+e 716 715 composition
+e 715 717 realization
+e 715 718 realization
+e 719 718 dependecy
+e 719 718 users
+e 719 717 dependency
+e 719 717 users
+v 720 Book
+v 721 Author
+v 722 entity BookItem
+v 723 entity Account
+v 724 Catalog
+v 725 Library
+v 726 interface Search
+v 727 interface Manage
+v 728 Librarian
+e 721 720 wrote
+e 721 720 1*-1*
+e 722 720 Generalization
+e 723 722 borrowed
+e 723 722 reserved
+e 724 722 records
+e 722 725 aggregation
+e 724 725 composition
+e 725 724 composition
+e 724 726 realization
+e 724 727 realization
+e 728 727 dependecy
+e 728 727 users
+e 728 726 dependency
+e 728 726 users
+v 729 Book
+v 730 Author
+v 731 entity BookItem
+v 732 entity Account
+v 733 Catalog
+v 734 Library
+v 735 interface Search
+v 736 interface Manage
+v 737 Librarian
+e 730 729 wrote
+e 730 729 1*-1*
+e 731 729 Generalization
+e 732 731 borrowed
+e 732 731 reserved
+e 733 731 records
+e 731 734 aggregation
+e 733 734 composition
+e 734 733 composition
+e 733 735 realization
+e 733 736 realization
+e 737 736 dependecy
+e 737 736 users
+e 737 735 dependency
+e 737 735 users
+v 738 Book
+v 739 Author
+v 740 entity BookItem
+v 741 entity Account
+v 742 Catalog
+v 743 Library
+v 744 interface Search
+v 745 interface Manage
+v 746 Librarian
+e 739 738 wrote
+e 739 738 1*-1*
+e 740 738 Generalization
+e 741 740 borrowed
+e 741 740 reserved
+e 742 740 records
+e 740 743 aggregation
+e 742 743 composition
+e 743 742 composition
+e 742 744 realization
+e 742 745 realization
+e 746 745 dependecy
+e 746 745 users
+e 746 744 dependency
+e 746 744 users
+v 747 Book
+v 748 Author
+v 749 entity BookItem
+v 750 entity Account
+v 751 Catalog
+v 752 Library
+v 753 interface Search
+v 754 interface Manage
+v 755 Librarian
+e 748 747 wrote
+e 748 747 1*-1*
+e 749 747 Generalization
+e 750 749 borrowed
+e 750 749 reserved
+e 751 749 records
+e 749 752 aggregation
+e 751 752 composition
+e 752 751 composition
+e 751 753 realization
+e 751 754 realization
+e 755 754 dependecy
+e 755 754 users
+e 755 753 dependency
+e 755 753 users
+v 756 Book
+v 757 Author
+v 758 entity BookItem
+v 759 entity Account
+v 760 Catalog
+v 761 Library
+v 762 interface Search
+v 763 interface Manage
+v 764 Librarian
+e 757 756 wrote
+e 757 756 1*-1*
+e 758 756 Generalization
+e 759 758 borrowed
+e 759 758 reserved
+e 760 758 records
+e 758 761 aggregation
+e 760 761 composition
+e 761 760 composition
+e 760 762 realization
+e 760 763 realization
+e 764 763 dependecy
+e 764 763 users
+e 764 762 dependency
+e 764 762 users
+v 765 Book
+v 766 Author
+v 767 entity BookItem
+v 768 entity Account
+v 769 Catalog
+v 770 Library
+v 771 interface Search
+v 772 interface Manage
+v 773 Librarian
+e 766 765 wrote
+e 766 765 1*-1*
+e 767 765 Generalization
+e 768 767 borrowed
+e 768 767 reserved
+e 769 767 records
+e 767 770 aggregation
+e 769 770 composition
+e 770 769 composition
+e 769 771 realization
+e 769 772 realization
+e 773 772 dependecy
+e 773 772 users
+e 773 771 dependency
+e 773 771 users
+v 774 Book
+v 775 Author
+v 776 entity BookItem
+v 777 entity Account
+v 778 Catalog
+v 779 Library
+v 780 interface Search
+v 781 interface Manage
+v 782 Librarian
+e 775 774 wrote
+e 775 774 1*-1*
+e 776 774 Generalization
+e 777 776 borrowed
+e 777 776 reserved
+e 778 776 records
+e 776 779 aggregation
+e 778 779 composition
+e 779 778 composition
+e 778 780 realization
+e 778 781 realization
+e 782 781 dependecy
+e 782 781 users
+e 782 780 dependency
+e 782 780 users
+v 783 Book
+v 784 Author
+v 785 entity BookItem
+v 786 entity Account
+v 787 Catalog
+v 788 Library
+v 789 interface Search
+v 790 interface Manage
+v 791 Librarian
+e 784 783 wrote
+e 784 783 1*-1*
+e 785 783 Generalization
+e 786 785 borrowed
+e 786 785 reserved
+e 787 785 records
+e 785 788 aggregation
+e 787 788 composition
+e 788 787 composition
+e 787 789 realization
+e 787 790 realization
+e 791 790 dependecy
+e 791 790 users
+e 791 789 dependency
+e 791 789 users
+v 792 Book
+v 793 Author
+v 794 entity BookItem
+v 795 entity Account
+v 796 Catalog
+v 797 Library
+v 798 interface Search
+v 799 interface Manage
+v 800 Librarian
+e 793 792 wrote
+e 793 792 1*-1*
+e 794 792 Generalization
+e 795 794 borrowed
+e 795 794 reserved
+e 796 794 records
+e 794 797 aggregation
+e 796 797 composition
+e 797 796 composition
+e 796 798 realization
+e 796 799 realization
+e 800 799 dependecy
+e 800 799 users
+e 800 798 dependency
+e 800 798 users
+v 801 Book
+v 802 Author
+v 803 entity BookItem
+v 804 entity Account
+v 805 Catalog
+v 806 Library
+v 807 interface Search
+v 808 interface Manage
+v 809 Librarian
+e 802 801 wrote
+e 802 801 1*-1*
+e 803 801 Generalization
+e 804 803 borrowed
+e 804 803 reserved
+e 805 803 records
+e 803 806 aggregation
+e 805 806 composition
+e 806 805 composition
+e 805 807 realization
+e 805 808 realization
+e 809 808 dependecy
+e 809 808 users
+e 809 807 dependency
+e 809 807 users
+v 810 Book
+v 811 Author
+v 812 entity BookItem
+v 813 entity Account
+v 814 Catalog
+v 815 Library
+v 816 interface Search
+v 817 interface Manage
+v 818 Librarian
+e 811 810 wrote
+e 811 810 1*-1*
+e 812 810 Generalization
+e 813 812 borrowed
+e 813 812 reserved
+e 814 812 records
+e 812 815 aggregation
+e 814 815 composition
+e 815 814 composition
+e 814 816 realization
+e 814 817 realization
+e 818 817 dependecy
+e 818 817 users
+e 818 816 dependency
+e 818 816 users
+v 819 Book
+v 820 Author
+v 821 entity BookItem
+v 822 entity Account
+v 823 Catalog
+v 824 Library
+v 825 interface Search
+v 826 interface Manage
+v 827 Librarian
+e 820 819 wrote
+e 820 819 1*-1*
+e 821 819 Generalization
+e 822 821 borrowed
+e 822 821 reserved
+e 823 821 records
+e 821 824 aggregation
+e 823 824 composition
+e 824 823 composition
+e 823 825 realization
+e 823 826 realization
+e 827 826 dependecy
+e 827 826 users
+e 827 825 dependency
+e 827 825 users
+v 828 Book
+v 829 Author
+v 830 entity BookItem
+v 831 entity Account
+v 832 Catalog
+v 833 Library
+v 834 interface Search
+v 835 interface Manage
+v 836 Librarian
+e 829 828 wrote
+e 829 828 1*-1*
+e 830 828 Generalization
+e 831 830 borrowed
+e 831 830 reserved
+e 832 830 records
+e 830 833 aggregation
+e 832 833 composition
+e 833 832 composition
+e 832 834 realization
+e 832 835 realization
+e 836 835 dependecy
+e 836 835 users
+e 836 834 dependency
+e 836 834 users
+v 837 Book
+v 838 Author
+v 839 entity BookItem
+v 840 entity Account
+v 841 Catalog
+v 842 Library
+v 843 interface Search
+v 844 interface Manage
+v 845 Librarian
+e 838 837 wrote
+e 838 837 1*-1*
+e 839 837 Generalization
+e 840 839 borrowed
+e 840 839 reserved
+e 841 839 records
+e 839 842 aggregation
+e 841 842 composition
+e 842 841 composition
+e 841 843 realization
+e 841 844 realization
+e 845 844 dependecy
+e 845 844 users
+e 845 843 dependency
+e 845 843 users
+v 846 Book
+v 847 Author
+v 848 entity BookItem
+v 849 entity Account
+v 850 Catalog
+v 851 Library
+v 852 interface Search
+v 853 interface Manage
+v 854 Librarian
+e 847 846 wrote
+e 847 846 1*-1*
+e 848 846 Generalization
+e 849 848 borrowed
+e 849 848 reserved
+e 850 848 records
+e 848 851 aggregation
+e 850 851 composition
+e 851 850 composition
+e 850 852 realization
+e 850 853 realization
+e 854 853 dependecy
+e 854 853 users
+e 854 852 dependency
+e 854 852 users
+v 855 Book
+v 856 Author
+v 857 entity BookItem
+v 858 entity Account
+v 859 Catalog
+v 860 Library
+v 861 interface Search
+v 862 interface Manage
+v 863 Librarian
+e 856 855 wrote
+e 856 855 1*-1*
+e 857 855 Generalization
+e 858 857 borrowed
+e 858 857 reserved
+e 859 857 records
+e 857 860 aggregation
+e 859 860 composition
+e 860 859 composition
+e 859 861 realization
+e 859 862 realization
+e 863 862 dependecy
+e 863 862 users
+e 863 861 dependency
+e 863 861 users
+v 864 Book
+v 865 Author
+v 866 entity BookItem
+v 867 entity Account
+v 868 Catalog
+v 869 Library
+v 870 interface Search
+v 871 interface Manage
+v 872 Librarian
+e 865 864 wrote
+e 865 864 1*-1*
+e 866 864 Generalization
+e 867 866 borrowed
+e 867 866 reserved
+e 868 866 records
+e 866 869 aggregation
+e 868 869 composition
+e 869 868 composition
+e 868 870 realization
+e 868 871 realization
+e 872 871 dependecy
+e 872 871 users
+e 872 870 dependency
+e 872 870 users
+v 873 Book
+v 874 Author
+v 875 entity BookItem
+v 876 entity Account
+v 877 Catalog
+v 878 Library
+v 879 interface Search
+v 880 interface Manage
+v 881 Librarian
+e 874 873 wrote
+e 874 873 1*-1*
+e 875 873 Generalization
+e 876 875 borrowed
+e 876 875 reserved
+e 877 875 records
+e 875 878 aggregation
+e 877 878 composition
+e 878 877 composition
+e 877 879 realization
+e 877 880 realization
+e 881 880 dependecy
+e 881 880 users
+e 881 879 dependency
+e 881 879 users
+v 882 Book
+v 883 Author
+v 884 entity BookItem
+v 885 entity Account
+v 886 Catalog
+v 887 Library
+v 888 interface Search
+v 889 interface Manage
+v 890 Librarian
+e 883 882 wrote
+e 883 882 1*-1*
+e 884 882 Generalization
+e 885 884 borrowed
+e 885 884 reserved
+e 886 884 records
+e 884 887 aggregation
+e 886 887 composition
+e 887 886 composition
+e 886 888 realization
+e 886 889 realization
+e 890 889 dependecy
+e 890 889 users
+e 890 888 dependency
+e 890 888 users
+v 891 Book
+v 892 Author
+v 893 entity BookItem
+v 894 entity Account
+v 895 Catalog
+v 896 Library
+v 897 interface Search
+v 898 interface Manage
+v 899 Librarian
+e 892 891 wrote
+e 892 891 1*-1*
+e 893 891 Generalization
+e 894 893 borrowed
+e 894 893 reserved
+e 895 893 records
+e 893 896 aggregation
+e 895 896 composition
+e 896 895 composition
+e 895 897 realization
+e 895 898 realization
+e 899 898 dependecy
+e 899 898 users
+e 899 897 dependency
+e 899 897 users
+v 900 Book
+v 901 Author
+v 902 entity BookItem
+v 903 entity Account
+v 904 Catalog
+v 905 Library
+v 906 interface Search
+v 907 interface Manage
+v 908 Librarian
+e 901 900 wrote
+e 901 900 1*-1*
+e 902 900 Generalization
+e 903 902 borrowed
+e 903 902 reserved
+e 904 902 records
+e 902 905 aggregation
+e 904 905 composition
+e 905 904 composition
+e 904 906 realization
+e 904 907 realization
+e 908 907 dependecy
+e 908 907 users
+e 908 906 dependency
+e 908 906 users
+v 909 Book
+v 910 Author
+v 911 entity BookItem
+v 912 entity Account
+v 913 Catalog
+v 914 Library
+v 915 interface Search
+v 916 interface Manage
+v 917 Librarian
+e 910 909 wrote
+e 910 909 1*-1*
+e 911 909 Generalization
+e 912 911 borrowed
+e 912 911 reserved
+e 913 911 records
+e 911 914 aggregation
+e 913 914 composition
+e 914 913 composition
+e 913 915 realization
+e 913 916 realization
+e 917 916 dependecy
+e 917 916 users
+e 917 915 dependency
+e 917 915 users
+v 918 Book
+v 919 Author
+v 920 entity BookItem
+v 921 entity Account
+v 922 Catalog
+v 923 Library
+v 924 interface Search
+v 925 interface Manage
+v 926 Librarian
+e 919 918 wrote
+e 919 918 1*-1*
+e 920 918 Generalization
+e 921 920 borrowed
+e 921 920 reserved
+e 922 920 records
+e 920 923 aggregation
+e 922 923 composition
+e 923 922 composition
+e 922 924 realization
+e 922 925 realization
+e 926 925 dependecy
+e 926 925 users
+e 926 924 dependency
+e 926 924 users
+v 927 Book
+v 928 Author
+v 929 entity BookItem
+v 930 entity Account
+v 931 Catalog
+v 932 Library
+v 933 interface Search
+v 934 interface Manage
+v 935 Librarian
+e 928 927 wrote
+e 928 927 1*-1*
+e 929 927 Generalization
+e 930 929 borrowed
+e 930 929 reserved
+e 931 929 records
+e 929 932 aggregation
+e 931 932 composition
+e 932 931 composition
+e 931 933 realization
+e 931 934 realization
+e 935 934 dependecy
+e 935 934 users
+e 935 933 dependency
+e 935 933 users
+v 936 Book
+v 937 Author
+v 938 entity BookItem
+v 939 entity Account
+v 940 Catalog
+v 941 Library
+v 942 interface Search
+v 943 interface Manage
+v 944 Librarian
+e 937 936 wrote
+e 937 936 1*-1*
+e 938 936 Generalization
+e 939 938 borrowed
+e 939 938 reserved
+e 940 938 records
+e 938 941 aggregation
+e 940 941 composition
+e 941 940 composition
+e 940 942 realization
+e 940 943 realization
+e 944 943 dependecy
+e 944 943 users
+e 944 942 dependency
+e 944 942 users
+v 945 Book
+v 946 Author
+v 947 entity BookItem
+v 948 entity Account
+v 949 Catalog
+v 950 Library
+v 951 interface Search
+v 952 interface Manage
+v 953 Librarian
+e 946 945 wrote
+e 946 945 1*-1*
+e 947 945 Generalization
+e 948 947 borrowed
+e 948 947 reserved
+e 949 947 records
+e 947 950 aggregation
+e 949 950 composition
+e 950 949 composition
+e 949 951 realization
+e 949 952 realization
+e 953 952 dependecy
+e 953 952 users
+e 953 951 dependency
+e 953 951 users
+v 954 Book
+v 955 Author
+v 956 entity BookItem
+v 957 entity Account
+v 958 Catalog
+v 959 Library
+v 960 interface Search
+v 961 interface Manage
+v 962 Librarian
+e 955 954 wrote
+e 955 954 1*-1*
+e 956 954 Generalization
+e 957 956 borrowed
+e 957 956 reserved
+e 958 956 records
+e 956 959 aggregation
+e 958 959 composition
+e 959 958 composition
+e 958 960 realization
+e 958 961 realization
+e 962 961 dependecy
+e 962 961 users
+e 962 960 dependency
+e 962 960 users
+v 963 Book
+v 964 Author
+v 965 entity BookItem
+v 966 entity Account
+v 967 Catalog
+v 968 Library
+v 969 interface Search
+v 970 interface Manage
+v 971 Librarian
+e 964 963 wrote
+e 964 963 1*-1*
+e 965 963 Generalization
+e 966 965 borrowed
+e 966 965 reserved
+e 967 965 records
+e 965 968 aggregation
+e 967 968 composition
+e 968 967 composition
+e 967 969 realization
+e 967 970 realization
+e 971 970 dependecy
+e 971 970 users
+e 971 969 dependency
+e 971 969 users
+v 972 Book
+v 973 Author
+v 974 entity BookItem
+v 975 entity Account
+v 976 Catalog
+v 977 Library
+v 978 interface Search
+v 979 interface Manage
+v 980 Librarian
+e 973 972 wrote
+e 973 972 1*-1*
+e 974 972 Generalization
+e 975 974 borrowed
+e 975 974 reserved
+e 976 974 records
+e 974 977 aggregation
+e 976 977 composition
+e 977 976 composition
+e 976 978 realization
+e 976 979 realization
+e 980 979 dependecy
+e 980 979 users
+e 980 978 dependency
+e 980 978 users
+v 981 Book
+v 982 Author
+v 983 entity BookItem
+v 984 entity Account
+v 985 Catalog
+v 986 Library
+v 987 interface Search
+v 988 interface Manage
+v 989 Librarian
+e 982 981 wrote
+e 982 981 1*-1*
+e 983 981 Generalization
+e 984 983 borrowed
+e 984 983 reserved
+e 985 983 records
+e 983 986 aggregation
+e 985 986 composition
+e 986 985 composition
+e 985 987 realization
+e 985 988 realization
+e 989 988 dependecy
+e 989 988 users
+e 989 987 dependency
+e 989 987 users
+v 990 Book
+v 991 Author
+v 992 entity BookItem
+v 993 entity Account
+v 994 Catalog
+v 995 Library
+v 996 interface Search
+v 997 interface Manage
+v 998 Librarian
+e 991 990 wrote
+e 991 990 1*-1*
+e 992 990 Generalization
+e 993 992 borrowed
+e 993 992 reserved
+e 994 992 records
+e 992 995 aggregation
+e 994 995 composition
+e 995 994 composition
+e 994 996 realization
+e 994 997 realization
+e 998 997 dependecy
+e 998 997 users
+e 998 996 dependency
+e 998 996 users
+v 999 Book
+v 1000 Author
+v 1001 entity BookItem
+v 1002 entity Account
+v 1003 Catalog
+v 1004 Library
+v 1005 interface Search
+v 1006 interface Manage
+v 1007 Librarian
+e 1000 999 wrote
+e 1000 999 1*-1*
+e 1001 999 Generalization
+e 1002 1001 borrowed
+e 1002 1001 reserved
+e 1003 1001 records
+e 1001 1004 aggregation
+e 1003 1004 composition
+e 1004 1003 composition
+e 1003 1005 realization
+e 1003 1006 realization
+e 1007 1006 dependecy
+e 1007 1006 users
+e 1007 1005 dependency
+e 1007 1005 users
+v 1008 Book
+v 1009 Author
+v 1010 entity BookItem
+v 1011 entity Account
+v 1012 Catalog
+v 1013 Library
+v 1014 interface Search
+v 1015 interface Manage
+v 1016 Librarian
+e 1009 1008 wrote
+e 1009 1008 1*-1*
+e 1010 1008 Generalization
+e 1011 1010 borrowed
+e 1011 1010 reserved
+e 1012 1010 records
+e 1010 1013 aggregation
+e 1012 1013 composition
+e 1013 1012 composition
+e 1012 1014 realization
+e 1012 1015 realization
+e 1016 1015 dependecy
+e 1016 1015 users
+e 1016 1014 dependency
+e 1016 1014 users
+v 1017 Book
+v 1018 Author
+v 1019 entity BookItem
+v 1020 entity Account
+v 1021 Catalog
+v 1022 Library
+v 1023 interface Search
+v 1024 interface Manage
+v 1025 Librarian
+e 1018 1017 wrote
+e 1018 1017 1*-1*
+e 1019 1017 Generalization
+e 1020 1019 borrowed
+e 1020 1019 reserved
+e 1021 1019 records
+e 1019 1022 aggregation
+e 1021 1022 composition
+e 1022 1021 composition
+e 1021 1023 realization
+e 1021 1024 realization
+e 1025 1024 dependecy
+e 1025 1024 users
+e 1025 1023 dependency
+e 1025 1023 users
+v 1026 Book
+v 1027 Author
+v 1028 entity BookItem
+v 1029 entity Account
+v 1030 Catalog
+v 1031 Library
+v 1032 interface Search
+v 1033 interface Manage
+v 1034 Librarian
+e 1027 1026 wrote
+e 1027 1026 1*-1*
+e 1028 1026 Generalization
+e 1029 1028 borrowed
+e 1029 1028 reserved
+e 1030 1028 records
+e 1028 1031 aggregation
+e 1030 1031 composition
+e 1031 1030 composition
+e 1030 1032 realization
+e 1030 1033 realization
+e 1034 1033 dependecy
+e 1034 1033 users
+e 1034 1032 dependency
+e 1034 1032 users
+v 1035 Book
+v 1036 Author
+v 1037 entity BookItem
+v 1038 entity Account
+v 1039 Catalog
+v 1040 Library
+v 1041 interface Search
+v 1042 interface Manage
+v 1043 Librarian
+e 1036 1035 wrote
+e 1036 1035 1*-1*
+e 1037 1035 Generalization
+e 1038 1037 borrowed
+e 1038 1037 reserved
+e 1039 1037 records
+e 1037 1040 aggregation
+e 1039 1040 composition
+e 1040 1039 composition
+e 1039 1041 realization
+e 1039 1042 realization
+e 1043 1042 dependecy
+e 1043 1042 users
+e 1043 1041 dependency
+e 1043 1041 users
+v 1044 Book
+v 1045 Author
+v 1046 entity BookItem
+v 1047 entity Account
+v 1048 Catalog
+v 1049 Library
+v 1050 interface Search
+v 1051 interface Manage
+v 1052 Librarian
+e 1045 1044 wrote
+e 1045 1044 1*-1*
+e 1046 1044 Generalization
+e 1047 1046 borrowed
+e 1047 1046 reserved
+e 1048 1046 records
+e 1046 1049 aggregation
+e 1048 1049 composition
+e 1049 1048 composition
+e 1048 1050 realization
+e 1048 1051 realization
+e 1052 1051 dependecy
+e 1052 1051 users
+e 1052 1050 dependency
+e 1052 1050 users
+v 1053 Book
+v 1054 Author
+v 1055 entity BookItem
+v 1056 entity Account
+v 1057 Catalog
+v 1058 Library
+v 1059 interface Search
+v 1060 interface Manage
+v 1061 Librarian
+e 1054 1053 wrote
+e 1054 1053 1*-1*
+e 1055 1053 Generalization
+e 1056 1055 borrowed
+e 1056 1055 reserved
+e 1057 1055 records
+e 1055 1058 aggregation
+e 1057 1058 composition
+e 1058 1057 composition
+e 1057 1059 realization
+e 1057 1060 realization
+e 1061 1060 dependecy
+e 1061 1060 users
+e 1061 1059 dependency
+e 1061 1059 users
+v 1062 Book
+v 1063 Author
+v 1064 entity BookItem
+v 1065 entity Account
+v 1066 Catalog
+v 1067 Library
+v 1068 interface Search
+v 1069 interface Manage
+v 1070 Librarian
+e 1063 1062 wrote
+e 1063 1062 1*-1*
+e 1064 1062 Generalization
+e 1065 1064 borrowed
+e 1065 1064 reserved
+e 1066 1064 records
+e 1064 1067 aggregation
+e 1066 1067 composition
+e 1067 1066 composition
+e 1066 1068 realization
+e 1066 1069 realization
+e 1070 1069 dependecy
+e 1070 1069 users
+e 1070 1068 dependency
+e 1070 1068 users
+v 1071 Book
+v 1072 Author
+v 1073 entity BookItem
+v 1074 entity Account
+v 1075 Catalog
+v 1076 Library
+v 1077 interface Search
+v 1078 interface Manage
+v 1079 Librarian
+e 1072 1071 wrote
+e 1072 1071 1*-1*
+e 1073 1071 Generalization
+e 1074 1073 borrowed
+e 1074 1073 reserved
+e 1075 1073 records
+e 1073 1076 aggregation
+e 1075 1076 composition
+e 1076 1075 composition
+e 1075 1077 realization
+e 1075 1078 realization
+e 1079 1078 dependecy
+e 1079 1078 users
+e 1079 1077 dependency
+e 1079 1077 users
+v 1080 Book
+v 1081 Author
+v 1082 entity BookItem
+v 1083 entity Account
+v 1084 Catalog
+v 1085 Library
+v 1086 interface Search
+v 1087 interface Manage
+v 1088 Librarian
+e 1081 1080 wrote
+e 1081 1080 1*-1*
+e 1082 1080 Generalization
+e 1083 1082 borrowed
+e 1083 1082 reserved
+e 1084 1082 records
+e 1082 1085 aggregation
+e 1084 1085 composition
+e 1085 1084 composition
+e 1084 1086 realization
+e 1084 1087 realization
+e 1088 1087 dependecy
+e 1088 1087 users
+e 1088 1086 dependency
+e 1088 1086 users
+v 1089 Book
+v 1090 Author
+v 1091 entity BookItem
+v 1092 entity Account
+v 1093 Catalog
+v 1094 Library
+v 1095 interface Search
+v 1096 interface Manage
+v 1097 Librarian
+e 1090 1089 wrote
+e 1090 1089 1*-1*
+e 1091 1089 Generalization
+e 1092 1091 borrowed
+e 1092 1091 reserved
+e 1093 1091 records
+e 1091 1094 aggregation
+e 1093 1094 composition
+e 1094 1093 composition
+e 1093 1095 realization
+e 1093 1096 realization
+e 1097 1096 dependecy
+e 1097 1096 users
+e 1097 1095 dependency
+e 1097 1095 users
+v 1098 Book
+v 1099 Author
+v 1100 entity BookItem
+v 1101 entity Account
+v 1102 Catalog
+v 1103 Library
+v 1104 interface Search
+v 1105 interface Manage
+v 1106 Librarian
+e 1099 1098 wrote
+e 1099 1098 1*-1*
+e 1100 1098 Generalization
+e 1101 1100 borrowed
+e 1101 1100 reserved
+e 1102 1100 records
+e 1100 1103 aggregation
+e 1102 1103 composition
+e 1103 1102 composition
+e 1102 1104 realization
+e 1102 1105 realization
+e 1106 1105 dependecy
+e 1106 1105 users
+e 1106 1104 dependency
+e 1106 1104 users
+v 1107 Book
+v 1108 Author
+v 1109 entity BookItem
+v 1110 entity Account
+v 1111 Catalog
+v 1112 Library
+v 1113 interface Search
+v 1114 interface Manage
+v 1115 Librarian
+e 1108 1107 wrote
+e 1108 1107 1*-1*
+e 1109 1107 Generalization
+e 1110 1109 borrowed
+e 1110 1109 reserved
+e 1111 1109 records
+e 1109 1112 aggregation
+e 1111 1112 composition
+e 1112 1111 composition
+e 1111 1113 realization
+e 1111 1114 realization
+e 1115 1114 dependecy
+e 1115 1114 users
+e 1115 1113 dependency
+e 1115 1113 users
+v 1116 Book
+v 1117 Author
+v 1118 entity BookItem
+v 1119 entity Account
+v 1120 Catalog
+v 1121 Library
+v 1122 interface Search
+v 1123 interface Manage
+v 1124 Librarian
+e 1117 1116 wrote
+e 1117 1116 1*-1*
+e 1118 1116 Generalization
+e 1119 1118 borrowed
+e 1119 1118 reserved
+e 1120 1118 records
+e 1118 1121 aggregation
+e 1120 1121 composition
+e 1121 1120 composition
+e 1120 1122 realization
+e 1120 1123 realization
+e 1124 1123 dependecy
+e 1124 1123 users
+e 1124 1122 dependency
+e 1124 1122 users
+v 1125 Book
+v 1126 Author
+v 1127 entity BookItem
+v 1128 entity Account
+v 1129 Catalog
+v 1130 Library
+v 1131 interface Search
+v 1132 interface Manage
+v 1133 Librarian
+e 1126 1125 wrote
+e 1126 1125 1*-1*
+e 1127 1125 Generalization
+e 1128 1127 borrowed
+e 1128 1127 reserved
+e 1129 1127 records
+e 1127 1130 aggregation
+e 1129 1130 composition
+e 1130 1129 composition
+e 1129 1131 realization
+e 1129 1132 realization
+e 1133 1132 dependecy
+e 1133 1132 users
+e 1133 1131 dependency
+e 1133 1131 users
+v 1134 Book
+v 1135 Author
+v 1136 entity BookItem
+v 1137 entity Account
+v 1138 Catalog
+v 1139 Library
+v 1140 interface Search
+v 1141 interface Manage
+v 1142 Librarian
+e 1135 1134 wrote
+e 1135 1134 1*-1*
+e 1136 1134 Generalization
+e 1137 1136 borrowed
+e 1137 1136 reserved
+e 1138 1136 records
+e 1136 1139 aggregation
+e 1138 1139 composition
+e 1139 1138 composition
+e 1138 1140 realization
+e 1138 1141 realization
+e 1142 1141 dependecy
+e 1142 1141 users
+e 1142 1140 dependency
+e 1142 1140 users
+v 1143 Book
+v 1144 Author
+v 1145 entity BookItem
+v 1146 entity Account
+v 1147 Catalog
+v 1148 Library
+v 1149 interface Search
+v 1150 interface Manage
+v 1151 Librarian
+e 1144 1143 wrote
+e 1144 1143 1*-1*
+e 1145 1143 Generalization
+e 1146 1145 borrowed
+e 1146 1145 reserved
+e 1147 1145 records
+e 1145 1148 aggregation
+e 1147 1148 composition
+e 1148 1147 composition
+e 1147 1149 realization
+e 1147 1150 realization
+e 1151 1150 dependecy
+e 1151 1150 users
+e 1151 1149 dependency
+e 1151 1149 users
+v 1152 Book
+v 1153 Author
+v 1154 entity BookItem
+v 1155 entity Account
+v 1156 Catalog
+v 1157 Library
+v 1158 interface Search
+v 1159 interface Manage
+v 1160 Librarian
+e 1153 1152 wrote
+e 1153 1152 1*-1*
+e 1154 1152 Generalization
+e 1155 1154 borrowed
+e 1155 1154 reserved
+e 1156 1154 records
+e 1154 1157 aggregation
+e 1156 1157 composition
+e 1157 1156 composition
+e 1156 1158 realization
+e 1156 1159 realization
+e 1160 1159 dependecy
+e 1160 1159 users
+e 1160 1158 dependency
+e 1160 1158 users
+v 1161 Book
+v 1162 Author
+v 1163 entity BookItem
+v 1164 entity Account
+v 1165 Catalog
+v 1166 Library
+v 1167 interface Search
+v 1168 interface Manage
+v 1169 Librarian
+e 1162 1161 wrote
+e 1162 1161 1*-1*
+e 1163 1161 Generalization
+e 1164 1163 borrowed
+e 1164 1163 reserved
+e 1165 1163 records
+e 1163 1166 aggregation
+e 1165 1166 composition
+e 1166 1165 composition
+e 1165 1167 realization
+e 1165 1168 realization
+e 1169 1168 dependecy
+e 1169 1168 users
+e 1169 1167 dependency
+e 1169 1167 users
+v 1170 Book
+v 1171 Author
+v 1172 entity BookItem
+v 1173 entity Account
+v 1174 Catalog
+v 1175 Library
+v 1176 interface Search
+v 1177 interface Manage
+v 1178 Librarian
+e 1171 1170 wrote
+e 1171 1170 1*-1*
+e 1172 1170 Generalization
+e 1173 1172 borrowed
+e 1173 1172 reserved
+e 1174 1172 records
+e 1172 1175 aggregation
+e 1174 1175 composition
+e 1175 1174 composition
+e 1174 1176 realization
+e 1174 1177 realization
+e 1178 1177 dependecy
+e 1178 1177 users
+e 1178 1176 dependency
+e 1178 1176 users
+v 1179 Book
+v 1180 Author
+v 1181 entity BookItem
+v 1182 entity Account
+v 1183 Catalog
+v 1184 Library
+v 1185 interface Search
+v 1186 interface Manage
+v 1187 Librarian
+e 1180 1179 wrote
+e 1180 1179 1*-1*
+e 1181 1179 Generalization
+e 1182 1181 borrowed
+e 1182 1181 reserved
+e 1183 1181 records
+e 1181 1184 aggregation
+e 1183 1184 composition
+e 1184 1183 composition
+e 1183 1185 realization
+e 1183 1186 realization
+e 1187 1186 dependecy
+e 1187 1186 users
+e 1187 1185 dependency
+e 1187 1185 users
+v 1188 Book
+v 1189 Author
+v 1190 entity BookItem
+v 1191 entity Account
+v 1192 Catalog
+v 1193 Library
+v 1194 interface Search
+v 1195 interface Manage
+v 1196 Librarian
+e 1189 1188 wrote
+e 1189 1188 1*-1*
+e 1190 1188 Generalization
+e 1191 1190 borrowed
+e 1191 1190 reserved
+e 1192 1190 records
+e 1190 1193 aggregation
+e 1192 1193 composition
+e 1193 1192 composition
+e 1192 1194 realization
+e 1192 1195 realization
+e 1196 1195 dependecy
+e 1196 1195 users
+e 1196 1194 dependency
+e 1196 1194 users
+v 1197 Book
+v 1198 Author
+v 1199 entity BookItem
+v 1200 entity Account
+v 1201 Catalog
+v 1202 Library
+v 1203 interface Search
+v 1204 interface Manage
+v 1205 Librarian
+e 1198 1197 wrote
+e 1198 1197 1*-1*
+e 1199 1197 Generalization
+e 1200 1199 borrowed
+e 1200 1199 reserved
+e 1201 1199 records
+e 1199 1202 aggregation
+e 1201 1202 composition
+e 1202 1201 composition
+e 1201 1203 realization
+e 1201 1204 realization
+e 1205 1204 dependecy
+e 1205 1204 users
+e 1205 1203 dependency
+e 1205 1203 users
+v 1206 Book
+v 1207 Author
+v 1208 entity BookItem
+v 1209 entity Account
+v 1210 Catalog
+v 1211 Library
+v 1212 interface Search
+v 1213 interface Manage
+v 1214 Librarian
+e 1207 1206 wrote
+e 1207 1206 1*-1*
+e 1208 1206 Generalization
+e 1209 1208 borrowed
+e 1209 1208 reserved
+e 1210 1208 records
+e 1208 1211 aggregation
+e 1210 1211 composition
+e 1211 1210 composition
+e 1210 1212 realization
+e 1210 1213 realization
+e 1214 1213 dependecy
+e 1214 1213 users
+e 1214 1212 dependency
+e 1214 1212 users
+v 1215 Book
+v 1216 Author
+v 1217 entity BookItem
+v 1218 entity Account
+v 1219 Catalog
+v 1220 Library
+v 1221 interface Search
+v 1222 interface Manage
+v 1223 Librarian
+e 1216 1215 wrote
+e 1216 1215 1*-1*
+e 1217 1215 Generalization
+e 1218 1217 borrowed
+e 1218 1217 reserved
+e 1219 1217 records
+e 1217 1220 aggregation
+e 1219 1220 composition
+e 1220 1219 composition
+e 1219 1221 realization
+e 1219 1222 realization
+e 1223 1222 dependecy
+e 1223 1222 users
+e 1223 1221 dependency
+e 1223 1221 users
+v 1224 Book
+v 1225 Author
+v 1226 entity BookItem
+v 1227 entity Account
+v 1228 Catalog
+v 1229 Library
+v 1230 interface Search
+v 1231 interface Manage
+v 1232 Librarian
+e 1225 1224 wrote
+e 1225 1224 1*-1*
+e 1226 1224 Generalization
+e 1227 1226 borrowed
+e 1227 1226 reserved
+e 1228 1226 records
+e 1226 1229 aggregation
+e 1228 1229 composition
+e 1229 1228 composition
+e 1228 1230 realization
+e 1228 1231 realization
+e 1232 1231 dependecy
+e 1232 1231 users
+e 1232 1230 dependency
+e 1232 1230 users
+v 1233 Book
+v 1234 Author
+v 1235 entity BookItem
+v 1236 entity Account
+v 1237 Catalog
+v 1238 Library
+v 1239 interface Search
+v 1240 interface Manage
+v 1241 Librarian
+e 1234 1233 wrote
+e 1234 1233 1*-1*
+e 1235 1233 Generalization
+e 1236 1235 borrowed
+e 1236 1235 reserved
+e 1237 1235 records
+e 1235 1238 aggregation
+e 1237 1238 composition
+e 1238 1237 composition
+e 1237 1239 realization
+e 1237 1240 realization
+e 1241 1240 dependecy
+e 1241 1240 users
+e 1241 1239 dependency
+e 1241 1239 users
+v 1242 Book
+v 1243 Author
+v 1244 entity BookItem
+v 1245 entity Account
+v 1246 Catalog
+v 1247 Library
+v 1248 interface Search
+v 1249 interface Manage
+v 1250 Librarian
+e 1243 1242 wrote
+e 1243 1242 1*-1*
+e 1244 1242 Generalization
+e 1245 1244 borrowed
+e 1245 1244 reserved
+e 1246 1244 records
+e 1244 1247 aggregation
+e 1246 1247 composition
+e 1247 1246 composition
+e 1246 1248 realization
+e 1246 1249 realization
+e 1250 1249 dependecy
+e 1250 1249 users
+e 1250 1248 dependency
+e 1250 1248 users
+v 1251 Book
+v 1252 Author
+v 1253 entity BookItem
+v 1254 entity Account
+v 1255 Catalog
+v 1256 Library
+v 1257 interface Search
+v 1258 interface Manage
+v 1259 Librarian
+e 1252 1251 wrote
+e 1252 1251 1*-1*
+e 1253 1251 Generalization
+e 1254 1253 borrowed
+e 1254 1253 reserved
+e 1255 1253 records
+e 1253 1256 aggregation
+e 1255 1256 composition
+e 1256 1255 composition
+e 1255 1257 realization
+e 1255 1258 realization
+e 1259 1258 dependecy
+e 1259 1258 users
+e 1259 1257 dependency
+e 1259 1257 users
+v 1260 Book
+v 1261 Author
+v 1262 entity BookItem
+v 1263 entity Account
+v 1264 Catalog
+v 1265 Library
+v 1266 interface Search
+v 1267 interface Manage
+v 1268 Librarian
+e 1261 1260 wrote
+e 1261 1260 1*-1*
+e 1262 1260 Generalization
+e 1263 1262 borrowed
+e 1263 1262 reserved
+e 1264 1262 records
+e 1262 1265 aggregation
+e 1264 1265 composition
+e 1265 1264 composition
+e 1264 1266 realization
+e 1264 1267 realization
+e 1268 1267 dependecy
+e 1268 1267 users
+e 1268 1266 dependency
+e 1268 1266 users
+v 1269 Book
+v 1270 Author
+v 1271 entity BookItem
+v 1272 entity Account
+v 1273 Catalog
+v 1274 Library
+v 1275 interface Search
+v 1276 interface Manage
+v 1277 Librarian
+e 1270 1269 wrote
+e 1270 1269 1*-1*
+e 1271 1269 Generalization
+e 1272 1271 borrowed
+e 1272 1271 reserved
+e 1273 1271 records
+e 1271 1274 aggregation
+e 1273 1274 composition
+e 1274 1273 composition
+e 1273 1275 realization
+e 1273 1276 realization
+e 1277 1276 dependecy
+e 1277 1276 users
+e 1277 1275 dependency
+e 1277 1275 users
+v 1278 Book
+v 1279 Author
+v 1280 entity BookItem
+v 1281 entity Account
+v 1282 Catalog
+v 1283 Library
+v 1284 interface Search
+v 1285 interface Manage
+v 1286 Librarian
+e 1279 1278 wrote
+e 1279 1278 1*-1*
+e 1280 1278 Generalization
+e 1281 1280 borrowed
+e 1281 1280 reserved
+e 1282 1280 records
+e 1280 1283 aggregation
+e 1282 1283 composition
+e 1283 1282 composition
+e 1282 1284 realization
+e 1282 1285 realization
+e 1286 1285 dependecy
+e 1286 1285 users
+e 1286 1284 dependency
+e 1286 1284 users
+v 1287 Book
+v 1288 Author
+v 1289 entity BookItem
+v 1290 entity Account
+v 1291 Catalog
+v 1292 Library
+v 1293 interface Search
+v 1294 interface Manage
+v 1295 Librarian
+e 1288 1287 wrote
+e 1288 1287 1*-1*
+e 1289 1287 Generalization
+e 1290 1289 borrowed
+e 1290 1289 reserved
+e 1291 1289 records
+e 1289 1292 aggregation
+e 1291 1292 composition
+e 1292 1291 composition
+e 1291 1293 realization
+e 1291 1294 realization
+e 1295 1294 dependecy
+e 1295 1294 users
+e 1295 1293 dependency
+e 1295 1293 users
+v 1296 Book
+v 1297 Author
+v 1298 entity BookItem
+v 1299 entity Account
+v 1300 Catalog
+v 1301 Library
+v 1302 interface Search
+v 1303 interface Manage
+v 1304 Librarian
+e 1297 1296 wrote
+e 1297 1296 1*-1*
+e 1298 1296 Generalization
+e 1299 1298 borrowed
+e 1299 1298 reserved
+e 1300 1298 records
+e 1298 1301 aggregation
+e 1300 1301 composition
+e 1301 1300 composition
+e 1300 1302 realization
+e 1300 1303 realization
+e 1304 1303 dependecy
+e 1304 1303 users
+e 1304 1302 dependency
+e 1304 1302 users
+v 1305 Book
+v 1306 Author
+v 1307 entity BookItem
+v 1308 entity Account
+v 1309 Catalog
+v 1310 Library
+v 1311 interface Search
+v 1312 interface Manage
+v 1313 Librarian
+e 1306 1305 wrote
+e 1306 1305 1*-1*
+e 1307 1305 Generalization
+e 1308 1307 borrowed
+e 1308 1307 reserved
+e 1309 1307 records
+e 1307 1310 aggregation
+e 1309 1310 composition
+e 1310 1309 composition
+e 1309 1311 realization
+e 1309 1312 realization
+e 1313 1312 dependecy
+e 1313 1312 users
+e 1313 1311 dependency
+e 1313 1311 users
+v 1314 Book
+v 1315 Author
+v 1316 entity BookItem
+v 1317 entity Account
+v 1318 Catalog
+v 1319 Library
+v 1320 interface Search
+v 1321 interface Manage
+v 1322 Librarian
+e 1315 1314 wrote
+e 1315 1314 1*-1*
+e 1316 1314 Generalization
+e 1317 1316 borrowed
+e 1317 1316 reserved
+e 1318 1316 records
+e 1316 1319 aggregation
+e 1318 1319 composition
+e 1319 1318 composition
+e 1318 1320 realization
+e 1318 1321 realization
+e 1322 1321 dependecy
+e 1322 1321 users
+e 1322 1320 dependency
+e 1322 1320 users
+v 1323 Book
+v 1324 Author
+v 1325 entity BookItem
+v 1326 entity Account
+v 1327 Catalog
+v 1328 Library
+v 1329 interface Search
+v 1330 interface Manage
+v 1331 Librarian
+e 1324 1323 wrote
+e 1324 1323 1*-1*
+e 1325 1323 Generalization
+e 1326 1325 borrowed
+e 1326 1325 reserved
+e 1327 1325 records
+e 1325 1328 aggregation
+e 1327 1328 composition
+e 1328 1327 composition
+e 1327 1329 realization
+e 1327 1330 realization
+e 1331 1330 dependecy
+e 1331 1330 users
+e 1331 1329 dependency
+e 1331 1329 users
+v 1332 Book
+v 1333 Author
+v 1334 entity BookItem
+v 1335 entity Account
+v 1336 Catalog
+v 1337 Library
+v 1338 interface Search
+v 1339 interface Manage
+v 1340 Librarian
+e 1333 1332 wrote
+e 1333 1332 1*-1*
+e 1334 1332 Generalization
+e 1335 1334 borrowed
+e 1335 1334 reserved
+e 1336 1334 records
+e 1334 1337 aggregation
+e 1336 1337 composition
+e 1337 1336 composition
+e 1336 1338 realization
+e 1336 1339 realization
+e 1340 1339 dependecy
+e 1340 1339 users
+e 1340 1338 dependency
+e 1340 1338 users
+v 1341 Book
+v 1342 Author
+v 1343 entity BookItem
+v 1344 entity Account
+v 1345 Catalog
+v 1346 Library
+v 1347 interface Search
+v 1348 interface Manage
+v 1349 Librarian
+e 1342 1341 wrote
+e 1342 1341 1*-1*
+e 1343 1341 Generalization
+e 1344 1343 borrowed
+e 1344 1343 reserved
+e 1345 1343 records
+e 1343 1346 aggregation
+e 1345 1346 composition
+e 1346 1345 composition
+e 1345 1347 realization
+e 1345 1348 realization
+e 1349 1348 dependecy
+e 1349 1348 users
+e 1349 1347 dependency
+e 1349 1347 users
+t # 1 G2
+v 0 Book
+v 1 Author
+v 2 entity BookItem
+v 3 entity Account
+v 4 Catalog
+v 5 Library
+v 6 interface Search
+v 7 interface Manage
+v 8 Librarian
+e 1 0 wrote
+e 1 0 1*-1*
+e 2 0 Generalization
+e 3 2 borrowed
+e 3 2 reserved
+e 4 2 records
+e 2 5 aggregation
+e 4 5 composition
+e 5 4 composition
+e 4 6 realization
+e 4 7 realization
+e 8 7 dependecy
+e 8 7 users
+e 8 6 dependency
+e 8 6 users
+v 9 Book
+v 10 Author
+v 11 entity BookItem
+v 12 entity Account
+v 13 Catalog
+v 14 Library
+v 15 interface Search
+v 16 interface Manage
+v 17 Librarian
+e 10 9 wrote
+e 10 9 1*-1*
+e 11 9 Generalization
+e 12 11 borrowed
+e 12 11 reserved
+e 13 11 records
+e 11 14 aggregation
+e 13 14 composition
+e 14 13 composition
+e 13 15 realization
+e 13 16 realization
+e 17 16 dependecy
+e 17 16 users
+e 17 15 dependency
+e 17 15 users
+v 18 Book
+v 19 Author
+v 20 entity BookItem
+v 21 entity Account
+v 22 Catalog
+v 23 Library
+v 24 interface Search
+v 25 interface Manage
+v 26 Librarian
+e 19 18 wrote
+e 19 18 1*-1*
+e 20 18 Generalization
+e 21 20 borrowed
+e 21 20 reserved
+e 22 20 records
+e 20 23 aggregation
+e 22 23 composition
+e 23 22 composition
+e 22 24 realization
+e 22 25 realization
+e 26 25 dependecy
+e 26 25 users
+e 26 24 dependency
+e 26 24 users
+v 27 Book
+v 28 Author
+v 29 entity BookItem
+v 30 entity Account
+v 31 Catalog
+v 32 Library
+v 33 interface Search
+v 34 interface Manage
+v 35 Librarian
+e 28 27 wrote
+e 28 27 1*-1*
+e 29 27 Generalization
+e 30 29 borrowed
+e 30 29 reserved
+e 31 29 records
+e 29 32 aggregation
+e 31 32 composition
+e 32 31 composition
+e 31 33 realization
+e 31 34 realization
+e 35 34 dependecy
+e 35 34 users
+e 35 33 dependency
+e 35 33 users
+v 36 Book
+v 37 Author
+v 38 entity BookItem
+v 39 entity Account
+v 40 Catalog
+v 41 Library
+v 42 interface Search
+v 43 interface Manage
+v 44 Librarian
+e 37 36 wrote
+e 37 36 1*-1*
+e 38 36 Generalization
+e 39 38 borrowed
+e 39 38 reserved
+e 40 38 records
+e 38 41 aggregation
+e 40 41 composition
+e 41 40 composition
+e 40 42 realization
+e 40 43 realization
+e 44 43 dependecy
+e 44 43 users
+e 44 42 dependency
+e 44 42 users
+v 45 Book
+v 46 Author
+v 47 entity BookItem
+v 48 entity Account
+v 49 Catalog
+v 50 Library
+v 51 interface Search
+v 52 interface Manage
+v 53 Librarian
+e 46 45 wrote
+e 46 45 1*-1*
+e 47 45 Generalization
+e 48 47 borrowed
+e 48 47 reserved
+e 49 47 records
+e 47 50 aggregation
+e 49 50 composition
+e 50 49 composition
+e 49 51 realization
+e 49 52 realization
+e 53 52 dependecy
+e 53 52 users
+e 53 51 dependency
+e 53 51 users
+v 54 Book
+v 55 Author
+v 56 entity BookItem
+v 57 entity Account
+v 58 Catalog
+v 59 Library
+v 60 interface Search
+v 61 interface Manage
+v 62 Librarian
+e 55 54 wrote
+e 55 54 1*-1*
+e 56 54 Generalization
+e 57 56 borrowed
+e 57 56 reserved
+e 58 56 records
+e 56 59 aggregation
+e 58 59 composition
+e 59 58 composition
+e 58 60 realization
+e 58 61 realization
+e 62 61 dependecy
+e 62 61 users
+e 62 60 dependency
+e 62 60 users
+v 63 Book
+v 64 Author
+v 65 entity BookItem
+v 66 entity Account
+v 67 Catalog
+v 68 Library
+v 69 interface Search
+v 70 interface Manage
+v 71 Librarian
+e 64 63 wrote
+e 64 63 1*-1*
+e 65 63 Generalization
+e 66 65 borrowed
+e 66 65 reserved
+e 67 65 records
+e 65 68 aggregation
+e 67 68 composition
+e 68 67 composition
+e 67 69 realization
+e 67 70 realization
+e 71 70 dependecy
+e 71 70 users
+e 71 69 dependency
+e 71 69 users
+v 72 Book
+v 73 Author
+v 74 entity BookItem
+v 75 entity Account
+v 76 Catalog
+v 77 Library
+v 78 interface Search
+v 79 interface Manage
+v 80 Librarian
+e 73 72 wrote
+e 73 72 1*-1*
+e 74 72 Generalization
+e 75 74 borrowed
+e 75 74 reserved
+e 76 74 records
+e 74 77 aggregation
+e 76 77 composition
+e 77 76 composition
+e 76 78 realization
+e 76 79 realization
+e 80 79 dependecy
+e 80 79 users
+e 80 78 dependency
+e 80 78 users
+v 81 Book
+v 82 Author
+v 83 entity BookItem
+v 84 entity Account
+v 85 Catalog
+v 86 Library
+v 87 interface Search
+v 88 interface Manage
+v 89 Librarian
+e 82 81 wrote
+e 82 81 1*-1*
+e 83 81 Generalization
+e 84 83 borrowed
+e 84 83 reserved
+e 85 83 records
+e 83 86 aggregation
+e 85 86 composition
+e 86 85 composition
+e 85 87 realization
+e 85 88 realization
+e 89 88 dependecy
+e 89 88 users
+e 89 87 dependency
+e 89 87 users
+t # 2 G3
+v 0 Book
+v 1 Author
+v 2 entity BookItem
+v 3 entity Account
+v 4 Catalog
+v 5 Library
+v 6 interface Search
+v 7 interface Manage
+v 8 Librarian
+e 1 0 wrote
+e 1 0 1*-1*
+e 2 0 Generalization
+e 3 2 borrowed
+e 3 2 reserved
+e 4 2 records
+e 2 5 aggregation
+e 4 5 composition
+e 5 4 composition
+e 4 6 realization
+e 4 7 realization
+e 8 7 dependecy
+e 8 7 users
+e 8 6 dependency
+e 8 6 users
+v 9 Book
+v 10 Author
+v 11 entity BookItem
+v 12 entity Account
+v 13 Catalog
+v 14 Library
+v 15 interface Search
+v 16 interface Manage
+v 17 Librarian
+e 10 9 wrote
+e 10 9 1*-1*
+e 11 9 Generalization
+e 12 11 borrowed
+e 12 11 reserved
+e 13 11 records
+e 11 14 aggregation
+e 13 14 composition
+e 14 13 composition
+e 13 15 realization
+e 13 16 realization
+e 17 16 dependecy
+e 17 16 users
+e 17 15 dependency
+e 17 15 users
+v 18 Book
+v 19 Author
+v 20 entity BookItem
+v 21 entity Account
+v 22 Catalog
+v 23 Library
+v 24 interface Search
+v 25 interface Manage
+v 26 Librarian
+e 19 18 wrote
+e 19 18 1*-1*
+e 20 18 Generalization
+e 21 20 borrowed
+e 21 20 reserved
+e 22 20 records
+e 20 23 aggregation
+e 22 23 composition
+e 23 22 composition
+e 22 24 realization
+e 22 25 realization
+e 26 25 dependecy
+e 26 25 users
+e 26 24 dependency
+e 26 24 users
+v 27 Book
+v 28 Author
+v 29 entity BookItem
+v 30 entity Account
+v 31 Catalog
+v 32 Library
+v 33 interface Search
+v 34 interface Manage
+v 35 Librarian
+e 28 27 wrote
+e 28 27 1*-1*
+e 29 27 Generalization
+e 30 29 borrowed
+e 30 29 reserved
+e 31 29 records
+e 29 32 aggregation
+e 31 32 composition
+e 32 31 composition
+e 31 33 realization
+e 31 34 realization
+e 35 34 dependecy
+e 35 34 users
+e 35 33 dependency
+e 35 33 users
+v 36 Book
+v 37 Author
+v 38 entity BookItem
+v 39 entity Account
+v 40 Catalog
+v 41 Library
+v 42 interface Search
+v 43 interface Manage
+v 44 Librarian
+e 37 36 wrote
+e 37 36 1*-1*
+e 38 36 Generalization
+e 39 38 borrowed
+e 39 38 reserved
+e 40 38 records
+e 38 41 aggregation
+e 40 41 composition
+e 41 40 composition
+e 40 42 realization
+e 40 43 realization
+e 44 43 dependecy
+e 44 43 users
+e 44 42 dependency
+e 44 42 users
+t # 3 G4
+v 0 Book
+v 1 Author
+v 2 entity BookItem
+v 3 entity Account
+v 4 Catalog
+v 5 Library
+v 6 interface Search
+v 7 interface Manage
+v 8 Librarian
+e 1 0 wrote
+e 1 0 1*-1*
+e 2 0 Generalization
+e 3 2 borrowed
+e 3 2 reserved
+e 4 2 records
+e 2 5 aggregation
+e 4 5 composition
+e 5 4 composition
+e 4 6 realization
+e 4 7 realization
+e 8 7 dependecy
+e 8 7 users
+e 8 6 dependency
+e 8 6 users
+v 9 Book
+v 10 Author
+v 11 entity BookItem
+v 12 entity Account
+v 13 Catalog
+v 14 Library
+v 15 interface Search
+v 16 interface Manage
+v 17 Librarian
+e 10 9 wrote
+e 10 9 1*-1*
+e 11 9 Generalization
+e 12 11 borrowed
+e 12 11 reserved
+e 13 11 records
+e 11 14 aggregation
+e 13 14 composition
+e 14 13 composition
+e 13 15 realization
+e 13 16 realization
+e 17 16 dependecy
+e 17 16 users
+e 17 15 dependency
+e 17 15 users
+v 18 Book
+v 19 Author
+v 20 entity BookItem
+v 21 entity Account
+v 22 Catalog
+v 23 Library
+v 24 interface Search
+v 25 interface Manage
+v 26 Librarian
+e 19 18 wrote
+e 19 18 1*-1*
+e 20 18 Generalization
+e 21 20 borrowed
+e 21 20 reserved
+e 22 20 records
+e 20 23 aggregation
+e 22 23 composition
+e 23 22 composition
+e 22 24 realization
+e 22 25 realization
+e 26 25 dependecy
+e 26 25 users
+e 26 24 dependency
+e 26 24 users
+v 27 Book
+v 28 Author
+v 29 entity BookItem
+v 30 entity Account
+v 31 Catalog
+v 32 Library
+v 33 interface Search
+v 34 interface Manage
+v 35 Librarian
+e 28 27 wrote
+e 28 27 1*-1*
+e 29 27 Generalization
+e 30 29 borrowed
+e 30 29 reserved
+e 31 29 records
+e 29 32 aggregation
+e 31 32 composition
+e 32 31 composition
+e 31 33 realization
+e 31 34 realization
+e 35 34 dependecy
+e 35 34 users
+e 35 33 dependency
+e 35 33 users
+v 36 Book
+v 37 Author
+v 38 entity BookItem
+v 39 entity Account
+v 40 Catalog
+v 41 Library
+v 42 interface Search
+v 43 interface Manage
+v 44 Librarian
+e 37 36 wrote
+e 37 36 1*-1*
+e 38 36 Generalization
+e 39 38 borrowed
+e 39 38 reserved
+e 40 38 records
+e 38 41 aggregation
+e 40 41 composition
+e 41 40 composition
+e 40 42 realization
+e 40 43 realization
+e 44 43 dependecy
+e 44 43 users
+e 44 42 dependency
+e 44 42 users
+v 45 Book
+v 46 Author
+v 47 entity BookItem
+v 48 entity Account
+v 49 Catalog
+v 50 Library
+v 51 interface Search
+v 52 interface Manage
+v 53 Librarian
+e 46 45 wrote
+e 46 45 1*-1*
+e 47 45 Generalization
+e 48 47 borrowed
+e 48 47 reserved
+e 49 47 records
+e 47 50 aggregation
+e 49 50 composition
+e 50 49 composition
+e 49 51 realization
+e 49 52 realization
+e 53 52 dependecy
+e 53 52 users
+e 53 51 dependency
+e 53 51 users
+v 54 Book
+v 55 Author
+v 56 entity BookItem
+v 57 entity Account
+v 58 Catalog
+v 59 Library
+v 60 interface Search
+v 61 interface Manage
+v 62 Librarian
+e 55 54 wrote
+e 55 54 1*-1*
+e 56 54 Generalization
+e 57 56 borrowed
+e 57 56 reserved
+e 58 56 records
+e 56 59 aggregation
+e 58 59 composition
+e 59 58 composition
+e 58 60 realization
+e 58 61 realization
+e 62 61 dependecy
+e 62 61 users
+e 62 60 dependency
+e 62 60 users
+v 63 Book
+v 64 Author
+v 65 entity BookItem
+v 66 entity Account
+v 67 Catalog
+v 68 Library
+v 69 interface Search
+v 70 interface Manage
+v 71 Librarian
+e 64 63 wrote
+e 64 63 1*-1*
+e 65 63 Generalization
+e 66 65 borrowed
+e 66 65 reserved
+e 67 65 records
+e 65 68 aggregation
+e 67 68 composition
+e 68 67 composition
+e 67 69 realization
+e 67 70 realization
+e 71 70 dependecy
+e 71 70 users
+e 71 69 dependency
+e 71 69 users
+v 72 Book
+v 73 Author
+v 74 entity BookItem
+v 75 entity Account
+v 76 Catalog
+v 77 Library
+v 78 interface Search
+v 79 interface Manage
+v 80 Librarian
+e 73 72 wrote
+e 73 72 1*-1*
+e 74 72 Generalization
+e 75 74 borrowed
+e 75 74 reserved
+e 76 74 records
+e 74 77 aggregation
+e 76 77 composition
+e 77 76 composition
+e 76 78 realization
+e 76 79 realization
+e 80 79 dependecy
+e 80 79 users
+e 80 78 dependency
+e 80 78 users
+v 81 Book
+v 82 Author
+v 83 entity BookItem
+v 84 entity Account
+v 85 Catalog
+v 86 Library
+v 87 interface Search
+v 88 interface Manage
+v 89 Librarian
+e 82 81 wrote
+e 82 81 1*-1*
+e 83 81 Generalization
+e 84 83 borrowed
+e 84 83 reserved
+e 85 83 records
+e 83 86 aggregation
+e 85 86 composition
+e 86 85 composition
+e 85 87 realization
+e 85 88 realization
+e 89 88 dependecy
+e 89 88 users
+e 89 87 dependency
+e 89 87 users
+t # 4 G5
+v 0 Book
+v 1 Author
+v 2 entity BookItem
+v 3 entity Account
+v 4 Catalog
+v 5 Library
+v 6 interface Search
+v 7 interface Manage
+v 8 Librarian
+e 1 0 wrote
+e 1 0 1*-1*
+e 2 0 Generalization
+e 3 2 borrowed
+e 3 2 reserved
+e 4 2 records
+e 2 5 aggregation
+e 4 5 composition
+e 5 4 composition
+e 4 6 realization
+e 4 7 realization
+e 8 7 dependecy
+e 8 7 users
+e 8 6 dependency
+e 8 6 users
+v 9 Book
+v 10 Author
+v 11 entity BookItem
+v 12 entity Account
+v 13 Catalog
+v 14 Library
+v 15 interface Search
+v 16 interface Manage
+v 17 Librarian
+e 10 9 wrote
+e 10 9 1*-1*
+e 11 9 Generalization
+e 12 11 borrowed
+e 12 11 reserved
+e 13 11 records
+e 11 14 aggregation
+e 13 14 composition
+e 14 13 composition
+e 13 15 realization
+e 13 16 realization
+e 17 16 dependecy
+e 17 16 users
+e 17 15 dependency
+e 17 15 users
+v 18 Book
+v 19 Author
+v 20 entity BookItem
+v 21 entity Account
+v 22 Catalog
+v 23 Library
+v 24 interface Search
+v 25 interface Manage
+v 26 Librarian
+e 19 18 wrote
+e 19 18 1*-1*
+e 20 18 Generalization
+e 21 20 borrowed
+e 21 20 reserved
+e 22 20 records
+e 20 23 aggregation
+e 22 23 composition
+e 23 22 composition
+e 22 24 realization
+e 22 25 realization
+e 26 25 dependecy
+e 26 25 users
+e 26 24 dependency
+e 26 24 users
+v 27 Book
+v 28 Author
+v 29 entity BookItem
+v 30 entity Account
+v 31 Catalog
+v 32 Library
+v 33 interface Search
+v 34 interface Manage
+v 35 Librarian
+e 28 27 wrote
+e 28 27 1*-1*
+e 29 27 Generalization
+e 30 29 borrowed
+e 30 29 reserved
+e 31 29 records
+e 29 32 aggregation
+e 31 32 composition
+e 32 31 composition
+e 31 33 realization
+e 31 34 realization
+e 35 34 dependecy
+e 35 34 users
+e 35 33 dependency
+e 35 33 users
+v 36 Book
+v 37 Author
+v 38 entity BookItem
+v 39 entity Account
+v 40 Catalog
+v 41 Library
+v 42 interface Search
+v 43 interface Manage
+v 44 Librarian
+e 37 36 wrote
+e 37 36 1*-1*
+e 38 36 Generalization
+e 39 38 borrowed
+e 39 38 reserved
+e 40 38 records
+e 38 41 aggregation
+e 40 41 composition
+e 41 40 composition
+e 40 42 realization
+e 40 43 realization
+e 44 43 dependecy
+e 44 43 users
+e 44 42 dependency
+e 44 42 users
+v 45 Book
+v 46 Author
+v 47 entity BookItem
+v 48 entity Account
+v 49 Catalog
+v 50 Library
+v 51 interface Search
+v 52 interface Manage
+v 53 Librarian
+e 46 45 wrote
+e 46 45 1*-1*
+e 47 45 Generalization
+e 48 47 borrowed
+e 48 47 reserved
+e 49 47 records
+e 47 50 aggregation
+e 49 50 composition
+e 50 49 composition
+e 49 51 realization
+e 49 52 realization
+e 53 52 dependecy
+e 53 52 users
+e 53 51 dependency
+e 53 51 users
+v 54 Book
+v 55 Author
+v 56 entity BookItem
+v 57 entity Account
+v 58 Catalog
+v 59 Library
+v 60 interface Search
+v 61 interface Manage
+v 62 Librarian
+e 55 54 wrote
+e 55 54 1*-1*
+e 56 54 Generalization
+e 57 56 borrowed
+e 57 56 reserved
+e 58 56 records
+e 56 59 aggregation
+e 58 59 composition
+e 59 58 composition
+e 58 60 realization
+e 58 61 realization
+e 62 61 dependecy
+e 62 61 users
+e 62 60 dependency
+e 62 60 users
+v 63 Book
+v 64 Author
+v 65 entity BookItem
+v 66 entity Account
+v 67 Catalog
+v 68 Library
+v 69 interface Search
+v 70 interface Manage
+v 71 Librarian
+e 64 63 wrote
+e 64 63 1*-1*
+e 65 63 Generalization
+e 66 65 borrowed
+e 66 65 reserved
+e 67 65 records
+e 65 68 aggregation
+e 67 68 composition
+e 68 67 composition
+e 67 69 realization
+e 67 70 realization
+e 71 70 dependecy
+e 71 70 users
+e 71 69 dependency
+e 71 69 users
+v 72 Book
+v 73 Author
+v 74 entity BookItem
+v 75 entity Account
+v 76 Catalog
+v 77 Library
+v 78 interface Search
+v 79 interface Manage
+v 80 Librarian
+e 73 72 wrote
+e 73 72 1*-1*
+e 74 72 Generalization
+e 75 74 borrowed
+e 75 74 reserved
+e 76 74 records
+e 74 77 aggregation
+e 76 77 composition
+e 77 76 composition
+e 76 78 realization
+e 76 79 realization
+e 80 79 dependecy
+e 80 79 users
+e 80 78 dependency
+e 80 78 users
+v 81 Book
+v 82 Author
+v 83 entity BookItem
+v 84 entity Account
+v 85 Catalog
+v 86 Library
+v 87 interface Search
+v 88 interface Manage
+v 89 Librarian
+e 82 81 wrote
+e 82 81 1*-1*
+e 83 81 Generalization
+e 84 83 borrowed
+e 84 83 reserved
+e 85 83 records
+e 83 86 aggregation
+e 85 86 composition
+e 86 85 composition
+e 85 87 realization
+e 85 88 realization
+e 89 88 dependecy
+e 89 88 users
+e 89 87 dependency
+e 89 87 users
+v 90 Book
+v 91 Author
+v 92 entity BookItem
+v 93 entity Account
+v 94 Catalog
+v 95 Library
+v 96 interface Search
+v 97 interface Manage
+v 98 Librarian
+e 91 90 wrote
+e 91 90 1*-1*
+e 92 90 Generalization
+e 93 92 borrowed
+e 93 92 reserved
+e 94 92 records
+e 92 95 aggregation
+e 94 95 composition
+e 95 94 composition
+e 94 96 realization
+e 94 97 realization
+e 98 97 dependecy
+e 98 97 users
+e 98 96 dependency
+e 98 96 users
+v 99 Book
+v 100 Author
+v 101 entity BookItem
+v 102 entity Account
+v 103 Catalog
+v 104 Library
+v 105 interface Search
+v 106 interface Manage
+v 107 Librarian
+e 100 99 wrote
+e 100 99 1*-1*
+e 101 99 Generalization
+e 102 101 borrowed
+e 102 101 reserved
+e 103 101 records
+e 101 104 aggregation
+e 103 104 composition
+e 104 103 composition
+e 103 105 realization
+e 103 106 realization
+e 107 106 dependecy
+e 107 106 users
+e 107 105 dependency
+e 107 105 users
+v 108 Book
+v 109 Author
+v 110 entity BookItem
+v 111 entity Account
+v 112 Catalog
+v 113 Library
+v 114 interface Search
+v 115 interface Manage
+v 116 Librarian
+e 109 108 wrote
+e 109 108 1*-1*
+e 110 108 Generalization
+e 111 110 borrowed
+e 111 110 reserved
+e 112 110 records
+e 110 113 aggregation
+e 112 113 composition
+e 113 112 composition
+e 112 114 realization
+e 112 115 realization
+e 116 115 dependecy
+e 116 115 users
+e 116 114 dependency
+e 116 114 users
+v 117 Book
+v 118 Author
+v 119 entity BookItem
+v 120 entity Account
+v 121 Catalog
+v 122 Library
+v 123 interface Search
+v 124 interface Manage
+v 125 Librarian
+e 118 117 wrote
+e 118 117 1*-1*
+e 119 117 Generalization
+e 120 119 borrowed
+e 120 119 reserved
+e 121 119 records
+e 119 122 aggregation
+e 121 122 composition
+e 122 121 composition
+e 121 123 realization
+e 121 124 realization
+e 125 124 dependecy
+e 125 124 users
+e 125 123 dependency
+e 125 123 users
+v 126 Book
+v 127 Author
+v 128 entity BookItem
+v 129 entity Account
+v 130 Catalog
+v 131 Library
+v 132 interface Search
+v 133 interface Manage
+v 134 Librarian
+e 127 126 wrote
+e 127 126 1*-1*
+e 128 126 Generalization
+e 129 128 borrowed
+e 129 128 reserved
+e 130 128 records
+e 128 131 aggregation
+e 130 131 composition
+e 131 130 composition
+e 130 132 realization
+e 130 133 realization
+e 134 133 dependecy
+e 134 133 users
+e 134 132 dependency
+e 134 132 users
+v 135 Book
+v 136 Author
+v 137 entity BookItem
+v 138 entity Account
+v 139 Catalog
+v 140 Library
+v 141 interface Search
+v 142 interface Manage
+v 143 Librarian
+e 136 135 wrote
+e 136 135 1*-1*
+e 137 135 Generalization
+e 138 137 borrowed
+e 138 137 reserved
+e 139 137 records
+e 137 140 aggregation
+e 139 140 composition
+e 140 139 composition
+e 139 141 realization
+e 139 142 realization
+e 143 142 dependecy
+e 143 142 users
+e 143 141 dependency
+e 143 141 users
+v 144 Book
+v 145 Author
+v 146 entity BookItem
+v 147 entity Account
+v 148 Catalog
+v 149 Library
+v 150 interface Search
+v 151 interface Manage
+v 152 Librarian
+e 145 144 wrote
+e 145 144 1*-1*
+e 146 144 Generalization
+e 147 146 borrowed
+e 147 146 reserved
+e 148 146 records
+e 146 149 aggregation
+e 148 149 composition
+e 149 148 composition
+e 148 150 realization
+e 148 151 realization
+e 152 151 dependecy
+e 152 151 users
+e 152 150 dependency
+e 152 150 users
+v 153 Book
+v 154 Author
+v 155 entity BookItem
+v 156 entity Account
+v 157 Catalog
+v 158 Library
+v 159 interface Search
+v 160 interface Manage
+v 161 Librarian
+e 154 153 wrote
+e 154 153 1*-1*
+e 155 153 Generalization
+e 156 155 borrowed
+e 156 155 reserved
+e 157 155 records
+e 155 158 aggregation
+e 157 158 composition
+e 158 157 composition
+e 157 159 realization
+e 157 160 realization
+e 161 160 dependecy
+e 161 160 users
+e 161 159 dependency
+e 161 159 users
+v 162 Book
+v 163 Author
+v 164 entity BookItem
+v 165 entity Account
+v 166 Catalog
+v 167 Library
+v 168 interface Search
+v 169 interface Manage
+v 170 Librarian
+e 163 162 wrote
+e 163 162 1*-1*
+e 164 162 Generalization
+e 165 164 borrowed
+e 165 164 reserved
+e 166 164 records
+e 164 167 aggregation
+e 166 167 composition
+e 167 166 composition
+e 166 168 realization
+e 166 169 realization
+e 170 169 dependecy
+e 170 169 users
+e 170 168 dependency
+e 170 168 users
+v 171 Book
+v 172 Author
+v 173 entity BookItem
+v 174 entity Account
+v 175 Catalog
+v 176 Library
+v 177 interface Search
+v 178 interface Manage
+v 179 Librarian
+e 172 171 wrote
+e 172 171 1*-1*
+e 173 171 Generalization
+e 174 173 borrowed
+e 174 173 reserved
+e 175 173 records
+e 173 176 aggregation
+e 175 176 composition
+e 176 175 composition
+e 175 177 realization
+e 175 178 realization
+e 179 178 dependecy
+e 179 178 users
+e 179 177 dependency
+e 179 177 users
+v 180 Book
+v 181 Author
+v 182 entity BookItem
+v 183 entity Account
+v 184 Catalog
+v 185 Library
+v 186 interface Search
+v 187 interface Manage
+v 188 Librarian
+e 181 180 wrote
+e 181 180 1*-1*
+e 182 180 Generalization
+e 183 182 borrowed
+e 183 182 reserved
+e 184 182 records
+e 182 185 aggregation
+e 184 185 composition
+e 185 184 composition
+e 184 186 realization
+e 184 187 realization
+e 188 187 dependecy
+e 188 187 users
+e 188 186 dependency
+e 188 186 users
+v 189 Book
+v 190 Author
+v 191 entity BookItem
+v 192 entity Account
+v 193 Catalog
+v 194 Library
+v 195 interface Search
+v 196 interface Manage
+v 197 Librarian
+e 190 189 wrote
+e 190 189 1*-1*
+e 191 189 Generalization
+e 192 191 borrowed
+e 192 191 reserved
+e 193 191 records
+e 191 194 aggregation
+e 193 194 composition
+e 194 193 composition
+e 193 195 realization
+e 193 196 realization
+e 197 196 dependecy
+e 197 196 users
+e 197 195 dependency
+e 197 195 users
+v 198 Book
+v 199 Author
+v 200 entity BookItem
+v 201 entity Account
+v 202 Catalog
+v 203 Library
+v 204 interface Search
+v 205 interface Manage
+v 206 Librarian
+e 199 198 wrote
+e 199 198 1*-1*
+e 200 198 Generalization
+e 201 200 borrowed
+e 201 200 reserved
+e 202 200 records
+e 200 203 aggregation
+e 202 203 composition
+e 203 202 composition
+e 202 204 realization
+e 202 205 realization
+e 206 205 dependecy
+e 206 205 users
+e 206 204 dependency
+e 206 204 users
+v 207 Book
+v 208 Author
+v 209 entity BookItem
+v 210 entity Account
+v 211 Catalog
+v 212 Library
+v 213 interface Search
+v 214 interface Manage
+v 215 Librarian
+e 208 207 wrote
+e 208 207 1*-1*
+e 209 207 Generalization
+e 210 209 borrowed
+e 210 209 reserved
+e 211 209 records
+e 209 212 aggregation
+e 211 212 composition
+e 212 211 composition
+e 211 213 realization
+e 211 214 realization
+e 215 214 dependecy
+e 215 214 users
+e 215 213 dependency
+e 215 213 users
+v 216 Book
+v 217 Author
+v 218 entity BookItem
+v 219 entity Account
+v 220 Catalog
+v 221 Library
+v 222 interface Search
+v 223 interface Manage
+v 224 Librarian
+e 217 216 wrote
+e 217 216 1*-1*
+e 218 216 Generalization
+e 219 218 borrowed
+e 219 218 reserved
+e 220 218 records
+e 218 221 aggregation
+e 220 221 composition
+e 221 220 composition
+e 220 222 realization
+e 220 223 realization
+e 224 223 dependecy
+e 224 223 users
+e 224 222 dependency
+e 224 222 users
+v 225 Book
+v 226 Author
+v 227 entity BookItem
+v 228 entity Account
+v 229 Catalog
+v 230 Library
+v 231 interface Search
+v 232 interface Manage
+v 233 Librarian
+e 226 225 wrote
+e 226 225 1*-1*
+e 227 225 Generalization
+e 228 227 borrowed
+e 228 227 reserved
+e 229 227 records
+e 227 230 aggregation
+e 229 230 composition
+e 230 229 composition
+e 229 231 realization
+e 229 232 realization
+e 233 232 dependecy
+e 233 232 users
+e 233 231 dependency
+e 233 231 users
+v 234 Book
+v 235 Author
+v 236 entity BookItem
+v 237 entity Account
+v 238 Catalog
+v 239 Library
+v 240 interface Search
+v 241 interface Manage
+v 242 Librarian
+e 235 234 wrote
+e 235 234 1*-1*
+e 236 234 Generalization
+e 237 236 borrowed
+e 237 236 reserved
+e 238 236 records
+e 236 239 aggregation
+e 238 239 composition
+e 239 238 composition
+e 238 240 realization
+e 238 241 realization
+e 242 241 dependecy
+e 242 241 users
+e 242 240 dependency
+e 242 240 users
+v 243 Book
+v 244 Author
+v 245 entity BookItem
+v 246 entity Account
+v 247 Catalog
+v 248 Library
+v 249 interface Search
+v 250 interface Manage
+v 251 Librarian
+e 244 243 wrote
+e 244 243 1*-1*
+e 245 243 Generalization
+e 246 245 borrowed
+e 246 245 reserved
+e 247 245 records
+e 245 248 aggregation
+e 247 248 composition
+e 248 247 composition
+e 247 249 realization
+e 247 250 realization
+e 251 250 dependecy
+e 251 250 users
+e 251 249 dependency
+e 251 249 users
+v 252 Book
+v 253 Author
+v 254 entity BookItem
+v 255 entity Account
+v 256 Catalog
+v 257 Library
+v 258 interface Search
+v 259 interface Manage
+v 260 Librarian
+e 253 252 wrote
+e 253 252 1*-1*
+e 254 252 Generalization
+e 255 254 borrowed
+e 255 254 reserved
+e 256 254 records
+e 254 257 aggregation
+e 256 257 composition
+e 257 256 composition
+e 256 258 realization
+e 256 259 realization
+e 260 259 dependecy
+e 260 259 users
+e 260 258 dependency
+e 260 258 users
+v 261 Book
+v 262 Author
+v 263 entity BookItem
+v 264 entity Account
+v 265 Catalog
+v 266 Library
+v 267 interface Search
+v 268 interface Manage
+v 269 Librarian
+e 262 261 wrote
+e 262 261 1*-1*
+e 263 261 Generalization
+e 264 263 borrowed
+e 264 263 reserved
+e 265 263 records
+e 263 266 aggregation
+e 265 266 composition
+e 266 265 composition
+e 265 267 realization
+e 265 268 realization
+e 269 268 dependecy
+e 269 268 users
+e 269 267 dependency
+e 269 267 users
+v 270 Book
+v 271 Author
+v 272 entity BookItem
+v 273 entity Account
+v 274 Catalog
+v 275 Library
+v 276 interface Search
+v 277 interface Manage
+v 278 Librarian
+e 271 270 wrote
+e 271 270 1*-1*
+e 272 270 Generalization
+e 273 272 borrowed
+e 273 272 reserved
+e 274 272 records
+e 272 275 aggregation
+e 274 275 composition
+e 275 274 composition
+e 274 276 realization
+e 274 277 realization
+e 278 277 dependecy
+e 278 277 users
+e 278 276 dependency
+e 278 276 users
+v 279 Book
+v 280 Author
+v 281 entity BookItem
+v 282 entity Account
+v 283 Catalog
+v 284 Library
+v 285 interface Search
+v 286 interface Manage
+v 287 Librarian
+e 280 279 wrote
+e 280 279 1*-1*
+e 281 279 Generalization
+e 282 281 borrowed
+e 282 281 reserved
+e 283 281 records
+e 281 284 aggregation
+e 283 284 composition
+e 284 283 composition
+e 283 285 realization
+e 283 286 realization
+e 287 286 dependecy
+e 287 286 users
+e 287 285 dependency
+e 287 285 users
+v 288 Book
+v 289 Author
+v 290 entity BookItem
+v 291 entity Account
+v 292 Catalog
+v 293 Library
+v 294 interface Search
+v 295 interface Manage
+v 296 Librarian
+e 289 288 wrote
+e 289 288 1*-1*
+e 290 288 Generalization
+e 291 290 borrowed
+e 291 290 reserved
+e 292 290 records
+e 290 293 aggregation
+e 292 293 composition
+e 293 292 composition
+e 292 294 realization
+e 292 295 realization
+e 296 295 dependecy
+e 296 295 users
+e 296 294 dependency
+e 296 294 users
+v 297 Book
+v 298 Author
+v 299 entity BookItem
+v 300 entity Account
+v 301 Catalog
+v 302 Library
+v 303 interface Search
+v 304 interface Manage
+v 305 Librarian
+e 298 297 wrote
+e 298 297 1*-1*
+e 299 297 Generalization
+e 300 299 borrowed
+e 300 299 reserved
+e 301 299 records
+e 299 302 aggregation
+e 301 302 composition
+e 302 301 composition
+e 301 303 realization
+e 301 304 realization
+e 305 304 dependecy
+e 305 304 users
+e 305 303 dependency
+e 305 303 users
+v 306 Book
+v 307 Author
+v 308 entity BookItem
+v 309 entity Account
+v 310 Catalog
+v 311 Library
+v 312 interface Search
+v 313 interface Manage
+v 314 Librarian
+e 307 306 wrote
+e 307 306 1*-1*
+e 308 306 Generalization
+e 309 308 borrowed
+e 309 308 reserved
+e 310 308 records
+e 308 311 aggregation
+e 310 311 composition
+e 311 310 composition
+e 310 312 realization
+e 310 313 realization
+e 314 313 dependecy
+e 314 313 users
+e 314 312 dependency
+e 314 312 users
+v 315 Book
+v 316 Author
+v 317 entity BookItem
+v 318 entity Account
+v 319 Catalog
+v 320 Library
+v 321 interface Search
+v 322 interface Manage
+v 323 Librarian
+e 316 315 wrote
+e 316 315 1*-1*
+e 317 315 Generalization
+e 318 317 borrowed
+e 318 317 reserved
+e 319 317 records
+e 317 320 aggregation
+e 319 320 composition
+e 320 319 composition
+e 319 321 realization
+e 319 322 realization
+e 323 322 dependecy
+e 323 322 users
+e 323 321 dependency
+e 323 321 users
+v 324 Book
+v 325 Author
+v 326 entity BookItem
+v 327 entity Account
+v 328 Catalog
+v 329 Library
+v 330 interface Search
+v 331 interface Manage
+v 332 Librarian
+e 325 324 wrote
+e 325 324 1*-1*
+e 326 324 Generalization
+e 327 326 borrowed
+e 327 326 reserved
+e 328 326 records
+e 326 329 aggregation
+e 328 329 composition
+e 329 328 composition
+e 328 330 realization
+e 328 331 realization
+e 332 331 dependecy
+e 332 331 users
+e 332 330 dependency
+e 332 330 users
+v 333 Book
+v 334 Author
+v 335 entity BookItem
+v 336 entity Account
+v 337 Catalog
+v 338 Library
+v 339 interface Search
+v 340 interface Manage
+v 341 Librarian
+e 334 333 wrote
+e 334 333 1*-1*
+e 335 333 Generalization
+e 336 335 borrowed
+e 336 335 reserved
+e 337 335 records
+e 335 338 aggregation
+e 337 338 composition
+e 338 337 composition
+e 337 339 realization
+e 337 340 realization
+e 341 340 dependecy
+e 341 340 users
+e 341 339 dependency
+e 341 339 users
+v 342 Book
+v 343 Author
+v 344 entity BookItem
+v 345 entity Account
+v 346 Catalog
+v 347 Library
+v 348 interface Search
+v 349 interface Manage
+v 350 Librarian
+e 343 342 wrote
+e 343 342 1*-1*
+e 344 342 Generalization
+e 345 344 borrowed
+e 345 344 reserved
+e 346 344 records
+e 344 347 aggregation
+e 346 347 composition
+e 347 346 composition
+e 346 348 realization
+e 346 349 realization
+e 350 349 dependecy
+e 350 349 users
+e 350 348 dependency
+e 350 348 users
+v 351 Book
+v 352 Author
+v 353 entity BookItem
+v 354 entity Account
+v 355 Catalog
+v 356 Library
+v 357 interface Search
+v 358 interface Manage
+v 359 Librarian
+e 352 351 wrote
+e 352 351 1*-1*
+e 353 351 Generalization
+e 354 353 borrowed
+e 354 353 reserved
+e 355 353 records
+e 353 356 aggregation
+e 355 356 composition
+e 356 355 composition
+e 355 357 realization
+e 355 358 realization
+e 359 358 dependecy
+e 359 358 users
+e 359 357 dependency
+e 359 357 users
+v 360 Book
+v 361 Author
+v 362 entity BookItem
+v 363 entity Account
+v 364 Catalog
+v 365 Library
+v 366 interface Search
+v 367 interface Manage
+v 368 Librarian
+e 361 360 wrote
+e 361 360 1*-1*
+e 362 360 Generalization
+e 363 362 borrowed
+e 363 362 reserved
+e 364 362 records
+e 362 365 aggregation
+e 364 365 composition
+e 365 364 composition
+e 364 366 realization
+e 364 367 realization
+e 368 367 dependecy
+e 368 367 users
+e 368 366 dependency
+e 368 366 users
+v 369 Book
+v 370 Author
+v 371 entity BookItem
+v 372 entity Account
+v 373 Catalog
+v 374 Library
+v 375 interface Search
+v 376 interface Manage
+v 377 Librarian
+e 370 369 wrote
+e 370 369 1*-1*
+e 371 369 Generalization
+e 372 371 borrowed
+e 372 371 reserved
+e 373 371 records
+e 371 374 aggregation
+e 373 374 composition
+e 374 373 composition
+e 373 375 realization
+e 373 376 realization
+e 377 376 dependecy
+e 377 376 users
+e 377 375 dependency
+e 377 375 users
+v 378 Book
+v 379 Author
+v 380 entity BookItem
+v 381 entity Account
+v 382 Catalog
+v 383 Library
+v 384 interface Search
+v 385 interface Manage
+v 386 Librarian
+e 379 378 wrote
+e 379 378 1*-1*
+e 380 378 Generalization
+e 381 380 borrowed
+e 381 380 reserved
+e 382 380 records
+e 380 383 aggregation
+e 382 383 composition
+e 383 382 composition
+e 382 384 realization
+e 382 385 realization
+e 386 385 dependecy
+e 386 385 users
+e 386 384 dependency
+e 386 384 users
+v 387 Book
+v 388 Author
+v 389 entity BookItem
+v 390 entity Account
+v 391 Catalog
+v 392 Library
+v 393 interface Search
+v 394 interface Manage
+v 395 Librarian
+e 388 387 wrote
+e 388 387 1*-1*
+e 389 387 Generalization
+e 390 389 borrowed
+e 390 389 reserved
+e 391 389 records
+e 389 392 aggregation
+e 391 392 composition
+e 392 391 composition
+e 391 393 realization
+e 391 394 realization
+e 395 394 dependecy
+e 395 394 users
+e 395 393 dependency
+e 395 393 users
+v 396 Book
+v 397 Author
+v 398 entity BookItem
+v 399 entity Account
+v 400 Catalog
+v 401 Library
+v 402 interface Search
+v 403 interface Manage
+v 404 Librarian
+e 397 396 wrote
+e 397 396 1*-1*
+e 398 396 Generalization
+e 399 398 borrowed
+e 399 398 reserved
+e 400 398 records
+e 398 401 aggregation
+e 400 401 composition
+e 401 400 composition
+e 400 402 realization
+e 400 403 realization
+e 404 403 dependecy
+e 404 403 users
+e 404 402 dependency
+e 404 402 users
+v 405 Book
+v 406 Author
+v 407 entity BookItem
+v 408 entity Account
+v 409 Catalog
+v 410 Library
+v 411 interface Search
+v 412 interface Manage
+v 413 Librarian
+e 406 405 wrote
+e 406 405 1*-1*
+e 407 405 Generalization
+e 408 407 borrowed
+e 408 407 reserved
+e 409 407 records
+e 407 410 aggregation
+e 409 410 composition
+e 410 409 composition
+e 409 411 realization
+e 409 412 realization
+e 413 412 dependecy
+e 413 412 users
+e 413 411 dependency
+e 413 411 users
+v 414 Book
+v 415 Author
+v 416 entity BookItem
+v 417 entity Account
+v 418 Catalog
+v 419 Library
+v 420 interface Search
+v 421 interface Manage
+v 422 Librarian
+e 415 414 wrote
+e 415 414 1*-1*
+e 416 414 Generalization
+e 417 416 borrowed
+e 417 416 reserved
+e 418 416 records
+e 416 419 aggregation
+e 418 419 composition
+e 419 418 composition
+e 418 420 realization
+e 418 421 realization
+e 422 421 dependecy
+e 422 421 users
+e 422 420 dependency
+e 422 420 users
+v 423 Book
+v 424 Author
+v 425 entity BookItem
+v 426 entity Account
+v 427 Catalog
+v 428 Library
+v 429 interface Search
+v 430 interface Manage
+v 431 Librarian
+e 424 423 wrote
+e 424 423 1*-1*
+e 425 423 Generalization
+e 426 425 borrowed
+e 426 425 reserved
+e 427 425 records
+e 425 428 aggregation
+e 427 428 composition
+e 428 427 composition
+e 427 429 realization
+e 427 430 realization
+e 431 430 dependecy
+e 431 430 users
+e 431 429 dependency
+e 431 429 users
+v 432 Book
+v 433 Author
+v 434 entity BookItem
+v 435 entity Account
+v 436 Catalog
+v 437 Library
+v 438 interface Search
+v 439 interface Manage
+v 440 Librarian
+e 433 432 wrote
+e 433 432 1*-1*
+e 434 432 Generalization
+e 435 434 borrowed
+e 435 434 reserved
+e 436 434 records
+e 434 437 aggregation
+e 436 437 composition
+e 437 436 composition
+e 436 438 realization
+e 436 439 realization
+e 440 439 dependecy
+e 440 439 users
+e 440 438 dependency
+e 440 438 users
+v 441 Book
+v 442 Author
+v 443 entity BookItem
+v 444 entity Account
+v 445 Catalog
+v 446 Library
+v 447 interface Search
+v 448 interface Manage
+v 449 Librarian
+e 442 441 wrote
+e 442 441 1*-1*
+e 443 441 Generalization
+e 444 443 borrowed
+e 444 443 reserved
+e 445 443 records
+e 443 446 aggregation
+e 445 446 composition
+e 446 445 composition
+e 445 447 realization
+e 445 448 realization
+e 449 448 dependecy
+e 449 448 users
+e 449 447 dependency
+e 449 447 users
+t # 5 G6
+v 0 Book
+v 1 Author
+v 2 entity BookItem
+v 3 entity Account
+v 4 Catalog
+v 5 Library
+v 6 interface Search
+v 7 interface Manage
+v 8 Librarian
+e 1 0 wrote
+e 1 0 1*-1*
+e 2 0 Generalization
+e 3 2 borrowed
+e 3 2 reserved
+e 4 2 records
+e 2 5 aggregation
+e 4 5 composition
+e 5 4 composition
+e 4 6 realization
+e 4 7 realization
+e 8 7 dependecy
+e 8 7 users
+e 8 6 dependency
+e 8 6 users
+v 9 Book
+v 10 Author
+v 11 entity BookItem
+v 12 entity Account
+v 13 Catalog
+v 14 Library
+v 15 interface Search
+v 16 interface Manage
+v 17 Librarian
+e 10 9 wrote
+e 10 9 1*-1*
+e 11 9 Generalization
+e 12 11 borrowed
+e 12 11 reserved
+e 13 11 records
+e 11 14 aggregation
+e 13 14 composition
+e 14 13 composition
+e 13 15 realization
+e 13 16 realization
+e 17 16 dependecy
+e 17 16 users
+e 17 15 dependency
+e 17 15 users
+v 18 Book
+v 19 Author
+v 20 entity BookItem
+v 21 entity Account
+v 22 Catalog
+v 23 Library
+v 24 interface Search
+v 25 interface Manage
+v 26 Librarian
+e 19 18 wrote
+e 19 18 1*-1*
+e 20 18 Generalization
+e 21 20 borrowed
+e 21 20 reserved
+e 22 20 records
+e 20 23 aggregation
+e 22 23 composition
+e 23 22 composition
+e 22 24 realization
+e 22 25 realization
+e 26 25 dependecy
+e 26 25 users
+e 26 24 dependency
+e 26 24 users
+v 27 Book
+v 28 Author
+v 29 entity BookItem
+v 30 entity Account
+v 31 Catalog
+v 32 Library
+v 33 interface Search
+v 34 interface Manage
+v 35 Librarian
+e 28 27 wrote
+e 28 27 1*-1*
+e 29 27 Generalization
+e 30 29 borrowed
+e 30 29 reserved
+e 31 29 records
+e 29 32 aggregation
+e 31 32 composition
+e 32 31 composition
+e 31 33 realization
+e 31 34 realization
+e 35 34 dependecy
+e 35 34 users
+e 35 33 dependency
+e 35 33 users
+v 36 Book
+v 37 Author
+v 38 entity BookItem
+v 39 entity Account
+v 40 Catalog
+v 41 Library
+v 42 interface Search
+v 43 interface Manage
+v 44 Librarian
+e 37 36 wrote
+e 37 36 1*-1*
+e 38 36 Generalization
+e 39 38 borrowed
+e 39 38 reserved
+e 40 38 records
+e 38 41 aggregation
+e 40 41 composition
+e 41 40 composition
+e 40 42 realization
+e 40 43 realization
+e 44 43 dependecy
+e 44 43 users
+e 44 42 dependency
+e 44 42 users
+v 45 Book
+v 46 Author
+v 47 entity BookItem
+v 48 entity Account
+v 49 Catalog
+v 50 Library
+v 51 interface Search
+v 52 interface Manage
+v 53 Librarian
+e 46 45 wrote
+e 46 45 1*-1*
+e 47 45 Generalization
+e 48 47 borrowed
+e 48 47 reserved
+e 49 47 records
+e 47 50 aggregation
+e 49 50 composition
+e 50 49 composition
+e 49 51 realization
+e 49 52 realization
+e 53 52 dependecy
+e 53 52 users
+e 53 51 dependency
+e 53 51 users
+v 54 Book
+v 55 Author
+v 56 entity BookItem
+v 57 entity Account
+v 58 Catalog
+v 59 Library
+v 60 interface Search
+v 61 interface Manage
+v 62 Librarian
+e 55 54 wrote
+e 55 54 1*-1*
+e 56 54 Generalization
+e 57 56 borrowed
+e 57 56 reserved
+e 58 56 records
+e 56 59 aggregation
+e 58 59 composition
+e 59 58 composition
+e 58 60 realization
+e 58 61 realization
+e 62 61 dependecy
+e 62 61 users
+e 62 60 dependency
+e 62 60 users
+v 63 Book
+v 64 Author
+v 65 entity BookItem
+v 66 entity Account
+v 67 Catalog
+v 68 Library
+v 69 interface Search
+v 70 interface Manage
+v 71 Librarian
+e 64 63 wrote
+e 64 63 1*-1*
+e 65 63 Generalization
+e 66 65 borrowed
+e 66 65 reserved
+e 67 65 records
+e 65 68 aggregation
+e 67 68 composition
+e 68 67 composition
+e 67 69 realization
+e 67 70 realization
+e 71 70 dependecy
+e 71 70 users
+e 71 69 dependency
+e 71 69 users
+v 72 Book
+v 73 Author
+v 74 entity BookItem
+v 75 entity Account
+v 76 Catalog
+v 77 Library
+v 78 interface Search
+v 79 interface Manage
+v 80 Librarian
+e 73 72 wrote
+e 73 72 1*-1*
+e 74 72 Generalization
+e 75 74 borrowed
+e 75 74 reserved
+e 76 74 records
+e 74 77 aggregation
+e 76 77 composition
+e 77 76 composition
+e 76 78 realization
+e 76 79 realization
+e 80 79 dependecy
+e 80 79 users
+e 80 78 dependency
+e 80 78 users
+v 81 Book
+v 82 Author
+v 83 entity BookItem
+v 84 entity Account
+v 85 Catalog
+v 86 Library
+v 87 interface Search
+v 88 interface Manage
+v 89 Librarian
+e 82 81 wrote
+e 82 81 1*-1*
+e 83 81 Generalization
+e 84 83 borrowed
+e 84 83 reserved
+e 85 83 records
+e 83 86 aggregation
+e 85 86 composition
+e 86 85 composition
+e 85 87 realization
+e 85 88 realization
+e 89 88 dependecy
+e 89 88 users
+e 89 87 dependency
+e 89 87 users
+t # 6 G7
+v 0 Book
+v 1 Author
+v 2 entity BookItem
+v 3 entity Account
+v 4 Catalog
+v 5 Library
+v 6 interface Search
+v 7 interface Manage
+v 8 Librarian
+e 1 0 wrote
+e 1 0 1*-1*
+e 2 0 Generalization
+e 3 2 borrowed
+e 3 2 reserved
+e 4 2 records
+e 2 5 aggregation
+e 4 5 composition
+e 5 4 composition
+e 4 6 realization
+e 4 7 realization
+e 8 7 dependecy
+e 8 7 users
+e 8 6 dependency
+e 8 6 users
+v 9 Book
+v 10 Author
+v 11 entity BookItem
+v 12 entity Account
+v 13 Catalog
+v 14 Library
+v 15 interface Search
+v 16 interface Manage
+v 17 Librarian
+e 10 9 wrote
+e 10 9 1*-1*
+e 11 9 Generalization
+e 12 11 borrowed
+e 12 11 reserved
+e 13 11 records
+e 11 14 aggregation
+e 13 14 composition
+e 14 13 composition
+e 13 15 realization
+e 13 16 realization
+e 17 16 dependecy
+e 17 16 users
+e 17 15 dependency
+e 17 15 users
+v 18 Book
+v 19 Author
+v 20 entity BookItem
+v 21 entity Account
+v 22 Catalog
+v 23 Library
+v 24 interface Search
+v 25 interface Manage
+v 26 Librarian
+e 19 18 wrote
+e 19 18 1*-1*
+e 20 18 Generalization
+e 21 20 borrowed
+e 21 20 reserved
+e 22 20 records
+e 20 23 aggregation
+e 22 23 composition
+e 23 22 composition
+e 22 24 realization
+e 22 25 realization
+e 26 25 dependecy
+e 26 25 users
+e 26 24 dependency
+e 26 24 users
+v 27 Book
+v 28 Author
+v 29 entity BookItem
+v 30 entity Account
+v 31 Catalog
+v 32 Library
+v 33 interface Search
+v 34 interface Manage
+v 35 Librarian
+e 28 27 wrote
+e 28 27 1*-1*
+e 29 27 Generalization
+e 30 29 borrowed
+e 30 29 reserved
+e 31 29 records
+e 29 32 aggregation
+e 31 32 composition
+e 32 31 composition
+e 31 33 realization
+e 31 34 realization
+e 35 34 dependecy
+e 35 34 users
+e 35 33 dependency
+e 35 33 users
+v 36 Book
+v 37 Author
+v 38 entity BookItem
+v 39 entity Account
+v 40 Catalog
+v 41 Library
+v 42 interface Search
+v 43 interface Manage
+v 44 Librarian
+e 37 36 wrote
+e 37 36 1*-1*
+e 38 36 Generalization
+e 39 38 borrowed
+e 39 38 reserved
+e 40 38 records
+e 38 41 aggregation
+e 40 41 composition
+e 41 40 composition
+e 40 42 realization
+e 40 43 realization
+e 44 43 dependecy
+e 44 43 users
+e 44 42 dependency
+e 44 42 users
+v 45 Book
+v 46 Author
+v 47 entity BookItem
+v 48 entity Account
+v 49 Catalog
+v 50 Library
+v 51 interface Search
+v 52 interface Manage
+v 53 Librarian
+e 46 45 wrote
+e 46 45 1*-1*
+e 47 45 Generalization
+e 48 47 borrowed
+e 48 47 reserved
+e 49 47 records
+e 47 50 aggregation
+e 49 50 composition
+e 50 49 composition
+e 49 51 realization
+e 49 52 realization
+e 53 52 dependecy
+e 53 52 users
+e 53 51 dependency
+e 53 51 users
+v 54 Book
+v 55 Author
+v 56 entity BookItem
+v 57 entity Account
+v 58 Catalog
+v 59 Library
+v 60 interface Search
+v 61 interface Manage
+v 62 Librarian
+e 55 54 wrote
+e 55 54 1*-1*
+e 56 54 Generalization
+e 57 56 borrowed
+e 57 56 reserved
+e 58 56 records
+e 56 59 aggregation
+e 58 59 composition
+e 59 58 composition
+e 58 60 realization
+e 58 61 realization
+e 62 61 dependecy
+e 62 61 users
+e 62 60 dependency
+e 62 60 users
+v 63 Book
+v 64 Author
+v 65 entity BookItem
+v 66 entity Account
+v 67 Catalog
+v 68 Library
+v 69 interface Search
+v 70 interface Manage
+v 71 Librarian
+e 64 63 wrote
+e 64 63 1*-1*
+e 65 63 Generalization
+e 66 65 borrowed
+e 66 65 reserved
+e 67 65 records
+e 65 68 aggregation
+e 67 68 composition
+e 68 67 composition
+e 67 69 realization
+e 67 70 realization
+e 71 70 dependecy
+e 71 70 users
+e 71 69 dependency
+e 71 69 users
+v 72 Book
+v 73 Author
+v 74 entity BookItem
+v 75 entity Account
+v 76 Catalog
+v 77 Library
+v 78 interface Search
+v 79 interface Manage
+v 80 Librarian
+e 73 72 wrote
+e 73 72 1*-1*
+e 74 72 Generalization
+e 75 74 borrowed
+e 75 74 reserved
+e 76 74 records
+e 74 77 aggregation
+e 76 77 composition
+e 77 76 composition
+e 76 78 realization
+e 76 79 realization
+e 80 79 dependecy
+e 80 79 users
+e 80 78 dependency
+e 80 78 users
+v 81 Book
+v 82 Author
+v 83 entity BookItem
+v 84 entity Account
+v 85 Catalog
+v 86 Library
+v 87 interface Search
+v 88 interface Manage
+v 89 Librarian
+e 82 81 wrote
+e 82 81 1*-1*
+e 83 81 Generalization
+e 84 83 borrowed
+e 84 83 reserved
+e 85 83 records
+e 83 86 aggregation
+e 85 86 composition
+e 86 85 composition
+e 85 87 realization
+e 85 88 realization
+e 89 88 dependecy
+e 89 88 users
+e 89 87 dependency
+e 89 87 users
+v 90 Book
+v 91 Author
+v 92 entity BookItem
+v 93 entity Account
+v 94 Catalog
+v 95 Library
+v 96 interface Search
+v 97 interface Manage
+v 98 Librarian
+e 91 90 wrote
+e 91 90 1*-1*
+e 92 90 Generalization
+e 93 92 borrowed
+e 93 92 reserved
+e 94 92 records
+e 92 95 aggregation
+e 94 95 composition
+e 95 94 composition
+e 94 96 realization
+e 94 97 realization
+e 98 97 dependecy
+e 98 97 users
+e 98 96 dependency
+e 98 96 users
+v 99 Book
+v 100 Author
+v 101 entity BookItem
+v 102 entity Account
+v 103 Catalog
+v 104 Library
+v 105 interface Search
+v 106 interface Manage
+v 107 Librarian
+e 100 99 wrote
+e 100 99 1*-1*
+e 101 99 Generalization
+e 102 101 borrowed
+e 102 101 reserved
+e 103 101 records
+e 101 104 aggregation
+e 103 104 composition
+e 104 103 composition
+e 103 105 realization
+e 103 106 realization
+e 107 106 dependecy
+e 107 106 users
+e 107 105 dependency
+e 107 105 users
+v 108 Book
+v 109 Author
+v 110 entity BookItem
+v 111 entity Account
+v 112 Catalog
+v 113 Library
+v 114 interface Search
+v 115 interface Manage
+v 116 Librarian
+e 109 108 wrote
+e 109 108 1*-1*
+e 110 108 Generalization
+e 111 110 borrowed
+e 111 110 reserved
+e 112 110 records
+e 110 113 aggregation
+e 112 113 composition
+e 113 112 composition
+e 112 114 realization
+e 112 115 realization
+e 116 115 dependecy
+e 116 115 users
+e 116 114 dependency
+e 116 114 users
+v 117 Book
+v 118 Author
+v 119 entity BookItem
+v 120 entity Account
+v 121 Catalog
+v 122 Library
+v 123 interface Search
+v 124 interface Manage
+v 125 Librarian
+e 118 117 wrote
+e 118 117 1*-1*
+e 119 117 Generalization
+e 120 119 borrowed
+e 120 119 reserved
+e 121 119 records
+e 119 122 aggregation
+e 121 122 composition
+e 122 121 composition
+e 121 123 realization
+e 121 124 realization
+e 125 124 dependecy
+e 125 124 users
+e 125 123 dependency
+e 125 123 users
+v 126 Book
+v 127 Author
+v 128 entity BookItem
+v 129 entity Account
+v 130 Catalog
+v 131 Library
+v 132 interface Search
+v 133 interface Manage
+v 134 Librarian
+e 127 126 wrote
+e 127 126 1*-1*
+e 128 126 Generalization
+e 129 128 borrowed
+e 129 128 reserved
+e 130 128 records
+e 128 131 aggregation
+e 130 131 composition
+e 131 130 composition
+e 130 132 realization
+e 130 133 realization
+e 134 133 dependecy
+e 134 133 users
+e 134 132 dependency
+e 134 132 users
+v 135 Book
+v 136 Author
+v 137 entity BookItem
+v 138 entity Account
+v 139 Catalog
+v 140 Library
+v 141 interface Search
+v 142 interface Manage
+v 143 Librarian
+e 136 135 wrote
+e 136 135 1*-1*
+e 137 135 Generalization
+e 138 137 borrowed
+e 138 137 reserved
+e 139 137 records
+e 137 140 aggregation
+e 139 140 composition
+e 140 139 composition
+e 139 141 realization
+e 139 142 realization
+e 143 142 dependecy
+e 143 142 users
+e 143 141 dependency
+e 143 141 users
+v 144 Book
+v 145 Author
+v 146 entity BookItem
+v 147 entity Account
+v 148 Catalog
+v 149 Library
+v 150 interface Search
+v 151 interface Manage
+v 152 Librarian
+e 145 144 wrote
+e 145 144 1*-1*
+e 146 144 Generalization
+e 147 146 borrowed
+e 147 146 reserved
+e 148 146 records
+e 146 149 aggregation
+e 148 149 composition
+e 149 148 composition
+e 148 150 realization
+e 148 151 realization
+e 152 151 dependecy
+e 152 151 users
+e 152 150 dependency
+e 152 150 users
+v 153 Book
+v 154 Author
+v 155 entity BookItem
+v 156 entity Account
+v 157 Catalog
+v 158 Library
+v 159 interface Search
+v 160 interface Manage
+v 161 Librarian
+e 154 153 wrote
+e 154 153 1*-1*
+e 155 153 Generalization
+e 156 155 borrowed
+e 156 155 reserved
+e 157 155 records
+e 155 158 aggregation
+e 157 158 composition
+e 158 157 composition
+e 157 159 realization
+e 157 160 realization
+e 161 160 dependecy
+e 161 160 users
+e 161 159 dependency
+e 161 159 users
+v 162 Book
+v 163 Author
+v 164 entity BookItem
+v 165 entity Account
+v 166 Catalog
+v 167 Library
+v 168 interface Search
+v 169 interface Manage
+v 170 Librarian
+e 163 162 wrote
+e 163 162 1*-1*
+e 164 162 Generalization
+e 165 164 borrowed
+e 165 164 reserved
+e 166 164 records
+e 164 167 aggregation
+e 166 167 composition
+e 167 166 composition
+e 166 168 realization
+e 166 169 realization
+e 170 169 dependecy
+e 170 169 users
+e 170 168 dependency
+e 170 168 users
+v 171 Book
+v 172 Author
+v 173 entity BookItem
+v 174 entity Account
+v 175 Catalog
+v 176 Library
+v 177 interface Search
+v 178 interface Manage
+v 179 Librarian
+e 172 171 wrote
+e 172 171 1*-1*
+e 173 171 Generalization
+e 174 173 borrowed
+e 174 173 reserved
+e 175 173 records
+e 173 176 aggregation
+e 175 176 composition
+e 176 175 composition
+e 175 177 realization
+e 175 178 realization
+e 179 178 dependecy
+e 179 178 users
+e 179 177 dependency
+e 179 177 users
+t # 7 G8
+v 0 Book
+v 1 Author
+v 2 entity BookItem
+v 3 entity Account
+v 4 Catalog
+v 5 Library
+v 6 interface Search
+v 7 interface Manage
+v 8 Librarian
+e 1 0 wrote
+e 1 0 1*-1*
+e 2 0 Generalization
+e 3 2 borrowed
+e 3 2 reserved
+e 4 2 records
+e 2 5 aggregation
+e 4 5 composition
+e 5 4 composition
+e 4 6 realization
+e 4 7 realization
+e 8 7 dependecy
+e 8 7 users
+e 8 6 dependency
+e 8 6 users
+v 9 Book
+v 10 Author
+v 11 entity BookItem
+v 12 entity Account
+v 13 Catalog
+v 14 Library
+v 15 interface Search
+v 16 interface Manage
+v 17 Librarian
+e 10 9 wrote
+e 10 9 1*-1*
+e 11 9 Generalization
+e 12 11 borrowed
+e 12 11 reserved
+e 13 11 records
+e 11 14 aggregation
+e 13 14 composition
+e 14 13 composition
+e 13 15 realization
+e 13 16 realization
+e 17 16 dependecy
+e 17 16 users
+e 17 15 dependency
+e 17 15 users
+v 18 Book
+v 19 Author
+v 20 entity BookItem
+v 21 entity Account
+v 22 Catalog
+v 23 Library
+v 24 interface Search
+v 25 interface Manage
+v 26 Librarian
+e 19 18 wrote
+e 19 18 1*-1*
+e 20 18 Generalization
+e 21 20 borrowed
+e 21 20 reserved
+e 22 20 records
+e 20 23 aggregation
+e 22 23 composition
+e 23 22 composition
+e 22 24 realization
+e 22 25 realization
+e 26 25 dependecy
+e 26 25 users
+e 26 24 dependency
+e 26 24 users
+v 27 Book
+v 28 Author
+v 29 entity BookItem
+v 30 entity Account
+v 31 Catalog
+v 32 Library
+v 33 interface Search
+v 34 interface Manage
+v 35 Librarian
+e 28 27 wrote
+e 28 27 1*-1*
+e 29 27 Generalization
+e 30 29 borrowed
+e 30 29 reserved
+e 31 29 records
+e 29 32 aggregation
+e 31 32 composition
+e 32 31 composition
+e 31 33 realization
+e 31 34 realization
+e 35 34 dependecy
+e 35 34 users
+e 35 33 dependency
+e 35 33 users
+v 36 Book
+v 37 Author
+v 38 entity BookItem
+v 39 entity Account
+v 40 Catalog
+v 41 Library
+v 42 interface Search
+v 43 interface Manage
+v 44 Librarian
+e 37 36 wrote
+e 37 36 1*-1*
+e 38 36 Generalization
+e 39 38 borrowed
+e 39 38 reserved
+e 40 38 records
+e 38 41 aggregation
+e 40 41 composition
+e 41 40 composition
+e 40 42 realization
+e 40 43 realization
+e 44 43 dependecy
+e 44 43 users
+e 44 42 dependency
+e 44 42 users
+v 45 Book
+v 46 Author
+v 47 entity BookItem
+v 48 entity Account
+v 49 Catalog
+v 50 Library
+v 51 interface Search
+v 52 interface Manage
+v 53 Librarian
+e 46 45 wrote
+e 46 45 1*-1*
+e 47 45 Generalization
+e 48 47 borrowed
+e 48 47 reserved
+e 49 47 records
+e 47 50 aggregation
+e 49 50 composition
+e 50 49 composition
+e 49 51 realization
+e 49 52 realization
+e 53 52 dependecy
+e 53 52 users
+e 53 51 dependency
+e 53 51 users
+v 54 Book
+v 55 Author
+v 56 entity BookItem
+v 57 entity Account
+v 58 Catalog
+v 59 Library
+v 60 interface Search
+v 61 interface Manage
+v 62 Librarian
+e 55 54 wrote
+e 55 54 1*-1*
+e 56 54 Generalization
+e 57 56 borrowed
+e 57 56 reserved
+e 58 56 records
+e 56 59 aggregation
+e 58 59 composition
+e 59 58 composition
+e 58 60 realization
+e 58 61 realization
+e 62 61 dependecy
+e 62 61 users
+e 62 60 dependency
+e 62 60 users
+v 63 Book
+v 64 Author
+v 65 entity BookItem
+v 66 entity Account
+v 67 Catalog
+v 68 Library
+v 69 interface Search
+v 70 interface Manage
+v 71 Librarian
+e 64 63 wrote
+e 64 63 1*-1*
+e 65 63 Generalization
+e 66 65 borrowed
+e 66 65 reserved
+e 67 65 records
+e 65 68 aggregation
+e 67 68 composition
+e 68 67 composition
+e 67 69 realization
+e 67 70 realization
+e 71 70 dependecy
+e 71 70 users
+e 71 69 dependency
+e 71 69 users
+v 72 Book
+v 73 Author
+v 74 entity BookItem
+v 75 entity Account
+v 76 Catalog
+v 77 Library
+v 78 interface Search
+v 79 interface Manage
+v 80 Librarian
+e 73 72 wrote
+e 73 72 1*-1*
+e 74 72 Generalization
+e 75 74 borrowed
+e 75 74 reserved
+e 76 74 records
+e 74 77 aggregation
+e 76 77 composition
+e 77 76 composition
+e 76 78 realization
+e 76 79 realization
+e 80 79 dependecy
+e 80 79 users
+e 80 78 dependency
+e 80 78 users
+v 81 Book
+v 82 Author
+v 83 entity BookItem
+v 84 entity Account
+v 85 Catalog
+v 86 Library
+v 87 interface Search
+v 88 interface Manage
+v 89 Librarian
+e 82 81 wrote
+e 82 81 1*-1*
+e 83 81 Generalization
+e 84 83 borrowed
+e 84 83 reserved
+e 85 83 records
+e 83 86 aggregation
+e 85 86 composition
+e 86 85 composition
+e 85 87 realization
+e 85 88 realization
+e 89 88 dependecy
+e 89 88 users
+e 89 87 dependency
+e 89 87 users
+t # 8 G9
+v 0 Book
+v 1 Author
+v 2 entity BookItem
+v 3 entity Account
+v 4 Catalog
+v 5 Library
+v 6 interface Search
+v 7 interface Manage
+v 8 Librarian
+e 1 0 wrote
+e 1 0 1*-1*
+e 2 0 Generalization
+e 3 2 borrowed
+e 3 2 reserved
+e 4 2 records
+e 2 5 aggregation
+e 4 5 composition
+e 5 4 composition
+e 4 6 realization
+e 4 7 realization
+e 8 7 dependecy
+e 8 7 users
+e 8 6 dependency
+e 8 6 users
+v 9 Book
+v 10 Author
+v 11 entity BookItem
+v 12 entity Account
+v 13 Catalog
+v 14 Library
+v 15 interface Search
+v 16 interface Manage
+v 17 Librarian
+e 10 9 wrote
+e 10 9 1*-1*
+e 11 9 Generalization
+e 12 11 borrowed
+e 12 11 reserved
+e 13 11 records
+e 11 14 aggregation
+e 13 14 composition
+e 14 13 composition
+e 13 15 realization
+e 13 16 realization
+e 17 16 dependecy
+e 17 16 users
+e 17 15 dependency
+e 17 15 users
+v 18 Book
+v 19 Author
+v 20 entity BookItem
+v 21 entity Account
+v 22 Catalog
+v 23 Library
+v 24 interface Search
+v 25 interface Manage
+v 26 Librarian
+e 19 18 wrote
+e 19 18 1*-1*
+e 20 18 Generalization
+e 21 20 borrowed
+e 21 20 reserved
+e 22 20 records
+e 20 23 aggregation
+e 22 23 composition
+e 23 22 composition
+e 22 24 realization
+e 22 25 realization
+e 26 25 dependecy
+e 26 25 users
+e 26 24 dependency
+e 26 24 users
+v 27 Book
+v 28 Author
+v 29 entity BookItem
+v 30 entity Account
+v 31 Catalog
+v 32 Library
+v 33 interface Search
+v 34 interface Manage
+v 35 Librarian
+e 28 27 wrote
+e 28 27 1*-1*
+e 29 27 Generalization
+e 30 29 borrowed
+e 30 29 reserved
+e 31 29 records
+e 29 32 aggregation
+e 31 32 composition
+e 32 31 composition
+e 31 33 realization
+e 31 34 realization
+e 35 34 dependecy
+e 35 34 users
+e 35 33 dependency
+e 35 33 users
+v 36 Book
+v 37 Author
+v 38 entity BookItem
+v 39 entity Account
+v 40 Catalog
+v 41 Library
+v 42 interface Search
+v 43 interface Manage
+v 44 Librarian
+e 37 36 wrote
+e 37 36 1*-1*
+e 38 36 Generalization
+e 39 38 borrowed
+e 39 38 reserved
+e 40 38 records
+e 38 41 aggregation
+e 40 41 composition
+e 41 40 composition
+e 40 42 realization
+e 40 43 realization
+e 44 43 dependecy
+e 44 43 users
+e 44 42 dependency
+e 44 42 users
+v 45 Book
+v 46 Author
+v 47 entity BookItem
+v 48 entity Account
+v 49 Catalog
+v 50 Library
+v 51 interface Search
+v 52 interface Manage
+v 53 Librarian
+e 46 45 wrote
+e 46 45 1*-1*
+e 47 45 Generalization
+e 48 47 borrowed
+e 48 47 reserved
+e 49 47 records
+e 47 50 aggregation
+e 49 50 composition
+e 50 49 composition
+e 49 51 realization
+e 49 52 realization
+e 53 52 dependecy
+e 53 52 users
+e 53 51 dependency
+e 53 51 users
+v 54 Book
+v 55 Author
+v 56 entity BookItem
+v 57 entity Account
+v 58 Catalog
+v 59 Library
+v 60 interface Search
+v 61 interface Manage
+v 62 Librarian
+e 55 54 wrote
+e 55 54 1*-1*
+e 56 54 Generalization
+e 57 56 borrowed
+e 57 56 reserved
+e 58 56 records
+e 56 59 aggregation
+e 58 59 composition
+e 59 58 composition
+e 58 60 realization
+e 58 61 realization
+e 62 61 dependecy
+e 62 61 users
+e 62 60 dependency
+e 62 60 users
+v 63 Book
+v 64 Author
+v 65 entity BookItem
+v 66 entity Account
+v 67 Catalog
+v 68 Library
+v 69 interface Search
+v 70 interface Manage
+v 71 Librarian
+e 64 63 wrote
+e 64 63 1*-1*
+e 65 63 Generalization
+e 66 65 borrowed
+e 66 65 reserved
+e 67 65 records
+e 65 68 aggregation
+e 67 68 composition
+e 68 67 composition
+e 67 69 realization
+e 67 70 realization
+e 71 70 dependecy
+e 71 70 users
+e 71 69 dependency
+e 71 69 users
+v 72 Book
+v 73 Author
+v 74 entity BookItem
+v 75 entity Account
+v 76 Catalog
+v 77 Library
+v 78 interface Search
+v 79 interface Manage
+v 80 Librarian
+e 73 72 wrote
+e 73 72 1*-1*
+e 74 72 Generalization
+e 75 74 borrowed
+e 75 74 reserved
+e 76 74 records
+e 74 77 aggregation
+e 76 77 composition
+e 77 76 composition
+e 76 78 realization
+e 76 79 realization
+e 80 79 dependecy
+e 80 79 users
+e 80 78 dependency
+e 80 78 users
+v 81 Book
+v 82 Author
+v 83 entity BookItem
+v 84 entity Account
+v 85 Catalog
+v 86 Library
+v 87 interface Search
+v 88 interface Manage
+v 89 Librarian
+e 82 81 wrote
+e 82 81 1*-1*
+e 83 81 Generalization
+e 84 83 borrowed
+e 84 83 reserved
+e 85 83 records
+e 83 86 aggregation
+e 85 86 composition
+e 86 85 composition
+e 85 87 realization
+e 85 88 realization
+e 89 88 dependecy
+e 89 88 users
+e 89 87 dependency
+e 89 87 users
+t # 9 G10
+v 0 Book
+v 1 Author
+v 2 entity BookItem
+v 3 entity Account
+v 4 Catalog
+v 5 Library
+v 6 interface Search
+v 7 interface Manage
+v 8 Librarian
+e 1 0 wrote
+e 1 0 1*-1*
+e 2 0 Generalization
+e 3 2 borrowed
+e 3 2 reserved
+e 4 2 records
+e 2 5 aggregation
+e 4 5 composition
+e 5 4 composition
+e 4 6 realization
+e 4 7 realization
+e 8 7 dependecy
+e 8 7 users
+e 8 6 dependency
+e 8 6 users
+v 9 Book
+v 10 Author
+v 11 entity BookItem
+v 12 entity Account
+v 13 Catalog
+v 14 Library
+v 15 interface Search
+v 16 interface Manage
+v 17 Librarian
+e 10 9 wrote
+e 10 9 1*-1*
+e 11 9 Generalization
+e 12 11 borrowed
+e 12 11 reserved
+e 13 11 records
+e 11 14 aggregation
+e 13 14 composition
+e 14 13 composition
+e 13 15 realization
+e 13 16 realization
+e 17 16 dependecy
+e 17 16 users
+e 17 15 dependency
+e 17 15 users
+v 18 Book
+v 19 Author
+v 20 entity BookItem
+v 21 entity Account
+v 22 Catalog
+v 23 Library
+v 24 interface Search
+v 25 interface Manage
+v 26 Librarian
+e 19 18 wrote
+e 19 18 1*-1*
+e 20 18 Generalization
+e 21 20 borrowed
+e 21 20 reserved
+e 22 20 records
+e 20 23 aggregation
+e 22 23 composition
+e 23 22 composition
+e 22 24 realization
+e 22 25 realization
+e 26 25 dependecy
+e 26 25 users
+e 26 24 dependency
+e 26 24 users
+v 27 Book
+v 28 Author
+v 29 entity BookItem
+v 30 entity Account
+v 31 Catalog
+v 32 Library
+v 33 interface Search
+v 34 interface Manage
+v 35 Librarian
+e 28 27 wrote
+e 28 27 1*-1*
+e 29 27 Generalization
+e 30 29 borrowed
+e 30 29 reserved
+e 31 29 records
+e 29 32 aggregation
+e 31 32 composition
+e 32 31 composition
+e 31 33 realization
+e 31 34 realization
+e 35 34 dependecy
+e 35 34 users
+e 35 33 dependency
+e 35 33 users
+v 36 Book
+v 37 Author
+v 38 entity BookItem
+v 39 entity Account
+v 40 Catalog
+v 41 Library
+v 42 interface Search
+v 43 interface Manage
+v 44 Librarian
+e 37 36 wrote
+e 37 36 1*-1*
+e 38 36 Generalization
+e 39 38 borrowed
+e 39 38 reserved
+e 40 38 records
+e 38 41 aggregation
+e 40 41 composition
+e 41 40 composition
+e 40 42 realization
+e 40 43 realization
+e 44 43 dependecy
+e 44 43 users
+e 44 42 dependency
+e 44 42 users
+v 45 Book
+v 46 Author
+v 47 entity BookItem
+v 48 entity Account
+v 49 Catalog
+v 50 Library
+v 51 interface Search
+v 52 interface Manage
+v 53 Librarian
+e 46 45 wrote
+e 46 45 1*-1*
+e 47 45 Generalization
+e 48 47 borrowed
+e 48 47 reserved
+e 49 47 records
+e 47 50 aggregation
+e 49 50 composition
+e 50 49 composition
+e 49 51 realization
+e 49 52 realization
+e 53 52 dependecy
+e 53 52 users
+e 53 51 dependency
+e 53 51 users
+v 54 Book
+v 55 Author
+v 56 entity BookItem
+v 57 entity Account
+v 58 Catalog
+v 59 Library
+v 60 interface Search
+v 61 interface Manage
+v 62 Librarian
+e 55 54 wrote
+e 55 54 1*-1*
+e 56 54 Generalization
+e 57 56 borrowed
+e 57 56 reserved
+e 58 56 records
+e 56 59 aggregation
+e 58 59 composition
+e 59 58 composition
+e 58 60 realization
+e 58 61 realization
+e 62 61 dependecy
+e 62 61 users
+e 62 60 dependency
+e 62 60 users
+v 63 Book
+v 64 Author
+v 65 entity BookItem
+v 66 entity Account
+v 67 Catalog
+v 68 Library
+v 69 interface Search
+v 70 interface Manage
+v 71 Librarian
+e 64 63 wrote
+e 64 63 1*-1*
+e 65 63 Generalization
+e 66 65 borrowed
+e 66 65 reserved
+e 67 65 records
+e 65 68 aggregation
+e 67 68 composition
+e 68 67 composition
+e 67 69 realization
+e 67 70 realization
+e 71 70 dependecy
+e 71 70 users
+e 71 69 dependency
+e 71 69 users
+v 72 Book
+v 73 Author
+v 74 entity BookItem
+v 75 entity Account
+v 76 Catalog
+v 77 Library
+v 78 interface Search
+v 79 interface Manage
+v 80 Librarian
+e 73 72 wrote
+e 73 72 1*-1*
+e 74 72 Generalization
+e 75 74 borrowed
+e 75 74 reserved
+e 76 74 records
+e 74 77 aggregation
+e 76 77 composition
+e 77 76 composition
+e 76 78 realization
+e 76 79 realization
+e 80 79 dependecy
+e 80 79 users
+e 80 78 dependency
+e 80 78 users
+v 81 Book
+v 82 Author
+v 83 entity BookItem
+v 84 entity Account
+v 85 Catalog
+v 86 Library
+v 87 interface Search
+v 88 interface Manage
+v 89 Librarian
+e 82 81 wrote
+e 82 81 1*-1*
+e 83 81 Generalization
+e 84 83 borrowed
+e 84 83 reserved
+e 85 83 records
+e 83 86 aggregation
+e 85 86 composition
+e 86 85 composition
+e 85 87 realization
+e 85 88 realization
+e 89 88 dependecy
+e 89 88 users
+e 89 87 dependency
+e 89 87 users
+t # 10 G11
+v 0 Book
+v 1 Author
+v 2 entity BookItem
+v 3 entity Account
+v 4 Catalog
+v 5 Library
+v 6 interface Search
+v 7 interface Manage
+v 8 Librarian
+e 1 0 wrote
+e 1 0 1*-1*
+e 2 0 Generalization
+e 3 2 borrowed
+e 3 2 reserved
+e 4 2 records
+e 2 5 aggregation
+e 4 5 composition
+e 5 4 composition
+e 4 6 realization
+e 4 7 realization
+e 8 7 dependecy
+e 8 7 users
+e 8 6 dependency
+e 8 6 users
+v 9 Book
+v 10 Author
+v 11 entity BookItem
+v 12 entity Account
+v 13 Catalog
+v 14 Library
+v 15 interface Search
+v 16 interface Manage
+v 17 Librarian
+e 10 9 wrote
+e 10 9 1*-1*
+e 11 9 Generalization
+e 12 11 borrowed
+e 12 11 reserved
+e 13 11 records
+e 11 14 aggregation
+e 13 14 composition
+e 14 13 composition
+e 13 15 realization
+e 13 16 realization
+e 17 16 dependecy
+e 17 16 users
+e 17 15 dependency
+e 17 15 users
+v 18 Book
+v 19 Author
+v 20 entity BookItem
+v 21 entity Account
+v 22 Catalog
+v 23 Library
+v 24 interface Search
+v 25 interface Manage
+v 26 Librarian
+e 19 18 wrote
+e 19 18 1*-1*
+e 20 18 Generalization
+e 21 20 borrowed
+e 21 20 reserved
+e 22 20 records
+e 20 23 aggregation
+e 22 23 composition
+e 23 22 composition
+e 22 24 realization
+e 22 25 realization
+e 26 25 dependecy
+e 26 25 users
+e 26 24 dependency
+e 26 24 users
+v 27 Book
+v 28 Author
+v 29 entity BookItem
+v 30 entity Account
+v 31 Catalog
+v 32 Library
+v 33 interface Search
+v 34 interface Manage
+v 35 Librarian
+e 28 27 wrote
+e 28 27 1*-1*
+e 29 27 Generalization
+e 30 29 borrowed
+e 30 29 reserved
+e 31 29 records
+e 29 32 aggregation
+e 31 32 composition
+e 32 31 composition
+e 31 33 realization
+e 31 34 realization
+e 35 34 dependecy
+e 35 34 users
+e 35 33 dependency
+e 35 33 users
+v 36 Book
+v 37 Author
+v 38 entity BookItem
+v 39 entity Account
+v 40 Catalog
+v 41 Library
+v 42 interface Search
+v 43 interface Manage
+v 44 Librarian
+e 37 36 wrote
+e 37 36 1*-1*
+e 38 36 Generalization
+e 39 38 borrowed
+e 39 38 reserved
+e 40 38 records
+e 38 41 aggregation
+e 40 41 composition
+e 41 40 composition
+e 40 42 realization
+e 40 43 realization
+e 44 43 dependecy
+e 44 43 users
+e 44 42 dependency
+e 44 42 users
+v 45 Book
+v 46 Author
+v 47 entity BookItem
+v 48 entity Account
+v 49 Catalog
+v 50 Library
+v 51 interface Search
+v 52 interface Manage
+v 53 Librarian
+e 46 45 wrote
+e 46 45 1*-1*
+e 47 45 Generalization
+e 48 47 borrowed
+e 48 47 reserved
+e 49 47 records
+e 47 50 aggregation
+e 49 50 composition
+e 50 49 composition
+e 49 51 realization
+e 49 52 realization
+e 53 52 dependecy
+e 53 52 users
+e 53 51 dependency
+e 53 51 users
+v 54 Book
+v 55 Author
+v 56 entity BookItem
+v 57 entity Account
+v 58 Catalog
+v 59 Library
+v 60 interface Search
+v 61 interface Manage
+v 62 Librarian
+e 55 54 wrote
+e 55 54 1*-1*
+e 56 54 Generalization
+e 57 56 borrowed
+e 57 56 reserved
+e 58 56 records
+e 56 59 aggregation
+e 58 59 composition
+e 59 58 composition
+e 58 60 realization
+e 58 61 realization
+e 62 61 dependecy
+e 62 61 users
+e 62 60 dependency
+e 62 60 users
+v 63 Book
+v 64 Author
+v 65 entity BookItem
+v 66 entity Account
+v 67 Catalog
+v 68 Library
+v 69 interface Search
+v 70 interface Manage
+v 71 Librarian
+e 64 63 wrote
+e 64 63 1*-1*
+e 65 63 Generalization
+e 66 65 borrowed
+e 66 65 reserved
+e 67 65 records
+e 65 68 aggregation
+e 67 68 composition
+e 68 67 composition
+e 67 69 realization
+e 67 70 realization
+e 71 70 dependecy
+e 71 70 users
+e 71 69 dependency
+e 71 69 users
+v 72 Book
+v 73 Author
+v 74 entity BookItem
+v 75 entity Account
+v 76 Catalog
+v 77 Library
+v 78 interface Search
+v 79 interface Manage
+v 80 Librarian
+e 73 72 wrote
+e 73 72 1*-1*
+e 74 72 Generalization
+e 75 74 borrowed
+e 75 74 reserved
+e 76 74 records
+e 74 77 aggregation
+e 76 77 composition
+e 77 76 composition
+e 76 78 realization
+e 76 79 realization
+e 80 79 dependecy
+e 80 79 users
+e 80 78 dependency
+e 80 78 users
+v 81 Book
+v 82 Author
+v 83 entity BookItem
+v 84 entity Account
+v 85 Catalog
+v 86 Library
+v 87 interface Search
+v 88 interface Manage
+v 89 Librarian
+e 82 81 wrote
+e 82 81 1*-1*
+e 83 81 Generalization
+e 84 83 borrowed
+e 84 83 reserved
+e 85 83 records
+e 83 86 aggregation
+e 85 86 composition
+e 86 85 composition
+e 85 87 realization
+e 85 88 realization
+e 89 88 dependecy
+e 89 88 users
+e 89 87 dependency
+e 89 87 users
+t # 11 G12
+v 0 Book
+v 1 Author
+v 2 entity BookItem
+v 3 entity Account
+v 4 Catalog
+v 5 Library
+v 6 interface Search
+v 7 interface Manage
+v 8 Librarian
+e 1 0 wrote
+e 1 0 1*-1*
+e 2 0 Generalization
+e 3 2 borrowed
+e 3 2 reserved
+e 4 2 records
+e 2 5 aggregation
+e 4 5 composition
+e 5 4 composition
+e 4 6 realization
+e 4 7 realization
+e 8 7 dependecy
+e 8 7 users
+e 8 6 dependency
+e 8 6 users
+v 9 Book
+v 10 Author
+v 11 entity BookItem
+v 12 entity Account
+v 13 Catalog
+v 14 Library
+v 15 interface Search
+v 16 interface Manage
+v 17 Librarian
+e 10 9 wrote
+e 10 9 1*-1*
+e 11 9 Generalization
+e 12 11 borrowed
+e 12 11 reserved
+e 13 11 records
+e 11 14 aggregation
+e 13 14 composition
+e 14 13 composition
+e 13 15 realization
+e 13 16 realization
+e 17 16 dependecy
+e 17 16 users
+e 17 15 dependency
+e 17 15 users
+v 18 Book
+v 19 Author
+v 20 entity BookItem
+v 21 entity Account
+v 22 Catalog
+v 23 Library
+v 24 interface Search
+v 25 interface Manage
+v 26 Librarian
+e 19 18 wrote
+e 19 18 1*-1*
+e 20 18 Generalization
+e 21 20 borrowed
+e 21 20 reserved
+e 22 20 records
+e 20 23 aggregation
+e 22 23 composition
+e 23 22 composition
+e 22 24 realization
+e 22 25 realization
+e 26 25 dependecy
+e 26 25 users
+e 26 24 dependency
+e 26 24 users
+v 27 Book
+v 28 Author
+v 29 entity BookItem
+v 30 entity Account
+v 31 Catalog
+v 32 Library
+v 33 interface Search
+v 34 interface Manage
+v 35 Librarian
+e 28 27 wrote
+e 28 27 1*-1*
+e 29 27 Generalization
+e 30 29 borrowed
+e 30 29 reserved
+e 31 29 records
+e 29 32 aggregation
+e 31 32 composition
+e 32 31 composition
+e 31 33 realization
+e 31 34 realization
+e 35 34 dependecy
+e 35 34 users
+e 35 33 dependency
+e 35 33 users
+v 36 Book
+v 37 Author
+v 38 entity BookItem
+v 39 entity Account
+v 40 Catalog
+v 41 Library
+v 42 interface Search
+v 43 interface Manage
+v 44 Librarian
+e 37 36 wrote
+e 37 36 1*-1*
+e 38 36 Generalization
+e 39 38 borrowed
+e 39 38 reserved
+e 40 38 records
+e 38 41 aggregation
+e 40 41 composition
+e 41 40 composition
+e 40 42 realization
+e 40 43 realization
+e 44 43 dependecy
+e 44 43 users
+e 44 42 dependency
+e 44 42 users
+v 45 Book
+v 46 Author
+v 47 entity BookItem
+v 48 entity Account
+v 49 Catalog
+v 50 Library
+v 51 interface Search
+v 52 interface Manage
+v 53 Librarian
+e 46 45 wrote
+e 46 45 1*-1*
+e 47 45 Generalization
+e 48 47 borrowed
+e 48 47 reserved
+e 49 47 records
+e 47 50 aggregation
+e 49 50 composition
+e 50 49 composition
+e 49 51 realization
+e 49 52 realization
+e 53 52 dependecy
+e 53 52 users
+e 53 51 dependency
+e 53 51 users
+v 54 Book
+v 55 Author
+v 56 entity BookItem
+v 57 entity Account
+v 58 Catalog
+v 59 Library
+v 60 interface Search
+v 61 interface Manage
+v 62 Librarian
+e 55 54 wrote
+e 55 54 1*-1*
+e 56 54 Generalization
+e 57 56 borrowed
+e 57 56 reserved
+e 58 56 records
+e 56 59 aggregation
+e 58 59 composition
+e 59 58 composition
+e 58 60 realization
+e 58 61 realization
+e 62 61 dependecy
+e 62 61 users
+e 62 60 dependency
+e 62 60 users
+v 63 Book
+v 64 Author
+v 65 entity BookItem
+v 66 entity Account
+v 67 Catalog
+v 68 Library
+v 69 interface Search
+v 70 interface Manage
+v 71 Librarian
+e 64 63 wrote
+e 64 63 1*-1*
+e 65 63 Generalization
+e 66 65 borrowed
+e 66 65 reserved
+e 67 65 records
+e 65 68 aggregation
+e 67 68 composition
+e 68 67 composition
+e 67 69 realization
+e 67 70 realization
+e 71 70 dependecy
+e 71 70 users
+e 71 69 dependency
+e 71 69 users
+v 72 Book
+v 73 Author
+v 74 entity BookItem
+v 75 entity Account
+v 76 Catalog
+v 77 Library
+v 78 interface Search
+v 79 interface Manage
+v 80 Librarian
+e 73 72 wrote
+e 73 72 1*-1*
+e 74 72 Generalization
+e 75 74 borrowed
+e 75 74 reserved
+e 76 74 records
+e 74 77 aggregation
+e 76 77 composition
+e 77 76 composition
+e 76 78 realization
+e 76 79 realization
+e 80 79 dependecy
+e 80 79 users
+e 80 78 dependency
+e 80 78 users
+v 81 Book
+v 82 Author
+v 83 entity BookItem
+v 84 entity Account
+v 85 Catalog
+v 86 Library
+v 87 interface Search
+v 88 interface Manage
+v 89 Librarian
+e 82 81 wrote
+e 82 81 1*-1*
+e 83 81 Generalization
+e 84 83 borrowed
+e 84 83 reserved
+e 85 83 records
+e 83 86 aggregation
+e 85 86 composition
+e 86 85 composition
+e 85 87 realization
+e 85 88 realization
+e 89 88 dependecy
+e 89 88 users
+e 89 87 dependency
+e 89 87 users
+t # 12 G13
+v 0 Book
+v 1 Author
+v 2 entity BookItem
+v 3 entity Account
+v 4 Catalog
+v 5 Library
+v 6 interface Search
+v 7 interface Manage
+v 8 Librarian
+e 1 0 wrote
+e 1 0 1*-1*
+e 2 0 Generalization
+e 3 2 borrowed
+e 3 2 reserved
+e 4 2 records
+e 2 5 aggregation
+e 4 5 composition
+e 5 4 composition
+e 4 6 realization
+e 4 7 realization
+e 8 7 dependecy
+e 8 7 users
+e 8 6 dependency
+e 8 6 users
+v 9 Book
+v 10 Author
+v 11 entity BookItem
+v 12 entity Account
+v 13 Catalog
+v 14 Library
+v 15 interface Search
+v 16 interface Manage
+v 17 Librarian
+e 10 9 wrote
+e 10 9 1*-1*
+e 11 9 Generalization
+e 12 11 borrowed
+e 12 11 reserved
+e 13 11 records
+e 11 14 aggregation
+e 13 14 composition
+e 14 13 composition
+e 13 15 realization
+e 13 16 realization
+e 17 16 dependecy
+e 17 16 users
+e 17 15 dependency
+e 17 15 users
+v 18 Book
+v 19 Author
+v 20 entity BookItem
+v 21 entity Account
+v 22 Catalog
+v 23 Library
+v 24 interface Search
+v 25 interface Manage
+v 26 Librarian
+e 19 18 wrote
+e 19 18 1*-1*
+e 20 18 Generalization
+e 21 20 borrowed
+e 21 20 reserved
+e 22 20 records
+e 20 23 aggregation
+e 22 23 composition
+e 23 22 composition
+e 22 24 realization
+e 22 25 realization
+e 26 25 dependecy
+e 26 25 users
+e 26 24 dependency
+e 26 24 users
+v 27 Book
+v 28 Author
+v 29 entity BookItem
+v 30 entity Account
+v 31 Catalog
+v 32 Library
+v 33 interface Search
+v 34 interface Manage
+v 35 Librarian
+e 28 27 wrote
+e 28 27 1*-1*
+e 29 27 Generalization
+e 30 29 borrowed
+e 30 29 reserved
+e 31 29 records
+e 29 32 aggregation
+e 31 32 composition
+e 32 31 composition
+e 31 33 realization
+e 31 34 realization
+e 35 34 dependecy
+e 35 34 users
+e 35 33 dependency
+e 35 33 users
+v 36 Book
+v 37 Author
+v 38 entity BookItem
+v 39 entity Account
+v 40 Catalog
+v 41 Library
+v 42 interface Search
+v 43 interface Manage
+v 44 Librarian
+e 37 36 wrote
+e 37 36 1*-1*
+e 38 36 Generalization
+e 39 38 borrowed
+e 39 38 reserved
+e 40 38 records
+e 38 41 aggregation
+e 40 41 composition
+e 41 40 composition
+e 40 42 realization
+e 40 43 realization
+e 44 43 dependecy
+e 44 43 users
+e 44 42 dependency
+e 44 42 users
+t # 13 G14
+v 0 Book
+v 1 Author
+v 2 entity BookItem
+v 3 entity Account
+v 4 Catalog
+v 5 Library
+v 6 interface Search
+v 7 interface Manage
+v 8 Librarian
+e 1 0 wrote
+e 1 0 1*-1*
+e 2 0 Generalization
+e 3 2 borrowed
+e 3 2 reserved
+e 4 2 records
+e 2 5 aggregation
+e 4 5 composition
+e 5 4 composition
+e 4 6 realization
+e 4 7 realization
+e 8 7 dependecy
+e 8 7 users
+e 8 6 dependency
+e 8 6 users
+v 9 Book
+v 10 Author
+v 11 entity BookItem
+v 12 entity Account
+v 13 Catalog
+v 14 Library
+v 15 interface Search
+v 16 interface Manage
+v 17 Librarian
+e 10 9 wrote
+e 10 9 1*-1*
+e 11 9 Generalization
+e 12 11 borrowed
+e 12 11 reserved
+e 13 11 records
+e 11 14 aggregation
+e 13 14 composition
+e 14 13 composition
+e 13 15 realization
+e 13 16 realization
+e 17 16 dependecy
+e 17 16 users
+e 17 15 dependency
+e 17 15 users
+v 18 Book
+v 19 Author
+v 20 entity BookItem
+v 21 entity Account
+v 22 Catalog
+v 23 Library
+v 24 interface Search
+v 25 interface Manage
+v 26 Librarian
+e 19 18 wrote
+e 19 18 1*-1*
+e 20 18 Generalization
+e 21 20 borrowed
+e 21 20 reserved
+e 22 20 records
+e 20 23 aggregation
+e 22 23 composition
+e 23 22 composition
+e 22 24 realization
+e 22 25 realization
+e 26 25 dependecy
+e 26 25 users
+e 26 24 dependency
+e 26 24 users
+t # 14 G15
+v 0 Book
+v 1 Author
+v 2 entity BookItem
+v 3 entity Account
+v 4 Catalog
+v 5 Library
+v 6 interface Search
+v 7 interface Manage
+v 8 Librarian
+e 1 0 wrote
+e 1 0 1*-1*
+e 2 0 Generalization
+e 3 2 borrowed
+e 3 2 reserved
+e 4 2 records
+e 2 5 aggregation
+e 4 5 composition
+e 5 4 composition
+e 4 6 realization
+e 4 7 realization
+e 8 7 dependecy
+e 8 7 users
+e 8 6 dependency
+e 8 6 users
+v 9 Book
+v 10 Author
+v 11 entity BookItem
+v 12 entity Account
+v 13 Catalog
+v 14 Library
+v 15 interface Search
+v 16 interface Manage
+v 17 Librarian
+e 10 9 wrote
+e 10 9 1*-1*
+e 11 9 Generalization
+e 12 11 borrowed
+e 12 11 reserved
+e 13 11 records
+e 11 14 aggregation
+e 13 14 composition
+e 14 13 composition
+e 13 15 realization
+e 13 16 realization
+e 17 16 dependecy
+e 17 16 users
+e 17 15 dependency
+e 17 15 users
+t # 15 G16
+v 0 Book
+v 1 Author
+v 2 entity BookItem
+v 3 entity Account
+v 4 Catalog
+v 5 Library
+v 6 interface Search
+v 7 interface Manage
+v 8 Librarian
+e 1 0 wrote
+e 1 0 1*-1*
+e 2 0 Generalization
+e 3 2 borrowed
+e 3 2 reserved
+e 4 2 records
+e 2 5 aggregation
+e 4 5 composition
+e 5 4 composition
+e 4 6 realization
+e 4 7 realization
+e 8 7 dependecy
+e 8 7 users
+e 8 6 dependency
+e 8 6 users
+v 9 Book
+v 10 Author
+v 11 entity BookItem
+v 12 entity Account
+v 13 Catalog
+v 14 Library
+v 15 interface Search
+v 16 interface Manage
+v 17 Librarian
+e 10 9 wrote
+e 10 9 1*-1*
+e 11 9 Generalization
+e 12 11 borrowed
+e 12 11 reserved
+e 13 11 records
+e 11 14 aggregation
+e 13 14 composition
+e 14 13 composition
+e 13 15 realization
+e 13 16 realization
+e 17 16 dependecy
+e 17 16 users
+e 17 15 dependency
+e 17 15 users
+v 18 Book
+v 19 Author
+v 20 entity BookItem
+v 21 entity Account
+v 22 Catalog
+v 23 Library
+v 24 interface Search
+v 25 interface Manage
+v 26 Librarian
+e 19 18 wrote
+e 19 18 1*-1*
+e 20 18 Generalization
+e 21 20 borrowed
+e 21 20 reserved
+e 22 20 records
+e 20 23 aggregation
+e 22 23 composition
+e 23 22 composition
+e 22 24 realization
+e 22 25 realization
+e 26 25 dependecy
+e 26 25 users
+e 26 24 dependency
+e 26 24 users
+v 27 Book
+v 28 Author
+v 29 entity BookItem
+v 30 entity Account
+v 31 Catalog
+v 32 Library
+v 33 interface Search
+v 34 interface Manage
+v 35 Librarian
+e 28 27 wrote
+e 28 27 1*-1*
+e 29 27 Generalization
+e 30 29 borrowed
+e 30 29 reserved
+e 31 29 records
+e 29 32 aggregation
+e 31 32 composition
+e 32 31 composition
+e 31 33 realization
+e 31 34 realization
+e 35 34 dependecy
+e 35 34 users
+e 35 33 dependency
+e 35 33 users
+v 36 Book
+v 37 Author
+v 38 entity BookItem
+v 39 entity Account
+v 40 Catalog
+v 41 Library
+v 42 interface Search
+v 43 interface Manage
+v 44 Librarian
+e 37 36 wrote
+e 37 36 1*-1*
+e 38 36 Generalization
+e 39 38 borrowed
+e 39 38 reserved
+e 40 38 records
+e 38 41 aggregation
+e 40 41 composition
+e 41 40 composition
+e 40 42 realization
+e 40 43 realization
+e 44 43 dependecy
+e 44 43 users
+e 44 42 dependency
+e 44 42 users
+v 45 Book
+v 46 Author
+v 47 entity BookItem
+v 48 entity Account
+v 49 Catalog
+v 50 Library
+v 51 interface Search
+v 52 interface Manage
+v 53 Librarian
+e 46 45 wrote
+e 46 45 1*-1*
+e 47 45 Generalization
+e 48 47 borrowed
+e 48 47 reserved
+e 49 47 records
+e 47 50 aggregation
+e 49 50 composition
+e 50 49 composition
+e 49 51 realization
+e 49 52 realization
+e 53 52 dependecy
+e 53 52 users
+e 53 51 dependency
+e 53 51 users
+v 54 Book
+v 55 Author
+v 56 entity BookItem
+v 57 entity Account
+v 58 Catalog
+v 59 Library
+v 60 interface Search
+v 61 interface Manage
+v 62 Librarian
+e 55 54 wrote
+e 55 54 1*-1*
+e 56 54 Generalization
+e 57 56 borrowed
+e 57 56 reserved
+e 58 56 records
+e 56 59 aggregation
+e 58 59 composition
+e 59 58 composition
+e 58 60 realization
+e 58 61 realization
+e 62 61 dependecy
+e 62 61 users
+e 62 60 dependency
+e 62 60 users
+v 63 Book
+v 64 Author
+v 65 entity BookItem
+v 66 entity Account
+v 67 Catalog
+v 68 Library
+v 69 interface Search
+v 70 interface Manage
+v 71 Librarian
+e 64 63 wrote
+e 64 63 1*-1*
+e 65 63 Generalization
+e 66 65 borrowed
+e 66 65 reserved
+e 67 65 records
+e 65 68 aggregation
+e 67 68 composition
+e 68 67 composition
+e 67 69 realization
+e 67 70 realization
+e 71 70 dependecy
+e 71 70 users
+e 71 69 dependency
+e 71 69 users
+v 72 Book
+v 73 Author
+v 74 entity BookItem
+v 75 entity Account
+v 76 Catalog
+v 77 Library
+v 78 interface Search
+v 79 interface Manage
+v 80 Librarian
+e 73 72 wrote
+e 73 72 1*-1*
+e 74 72 Generalization
+e 75 74 borrowed
+e 75 74 reserved
+e 76 74 records
+e 74 77 aggregation
+e 76 77 composition
+e 77 76 composition
+e 76 78 realization
+e 76 79 realization
+e 80 79 dependecy
+e 80 79 users
+e 80 78 dependency
+e 80 78 users
+v 81 Book
+v 82 Author
+v 83 entity BookItem
+v 84 entity Account
+v 85 Catalog
+v 86 Library
+v 87 interface Search
+v 88 interface Manage
+v 89 Librarian
+e 82 81 wrote
+e 82 81 1*-1*
+e 83 81 Generalization
+e 84 83 borrowed
+e 84 83 reserved
+e 85 83 records
+e 83 86 aggregation
+e 85 86 composition
+e 86 85 composition
+e 85 87 realization
+e 85 88 realization
+e 89 88 dependecy
+e 89 88 users
+e 89 87 dependency
+e 89 87 users
+t # 16 G17
+v 0 Book
+v 1 Author
+v 2 entity BookItem
+v 3 entity Account
+v 4 Catalog
+v 5 Library
+v 6 interface Search
+v 7 interface Manage
+v 8 Librarian
+e 1 0 wrote
+e 1 0 1*-1*
+e 2 0 Generalization
+e 3 2 borrowed
+e 3 2 reserved
+e 4 2 records
+e 2 5 aggregation
+e 4 5 composition
+e 5 4 composition
+e 4 6 realization
+e 4 7 realization
+e 8 7 dependecy
+e 8 7 users
+e 8 6 dependency
+e 8 6 users
+v 9 Book
+v 10 Author
+v 11 entity BookItem
+v 12 entity Account
+v 13 Catalog
+v 14 Library
+v 15 interface Search
+v 16 interface Manage
+v 17 Librarian
+e 10 9 wrote
+e 10 9 1*-1*
+e 11 9 Generalization
+e 12 11 borrowed
+e 12 11 reserved
+e 13 11 records
+e 11 14 aggregation
+e 13 14 composition
+e 14 13 composition
+e 13 15 realization
+e 13 16 realization
+e 17 16 dependecy
+e 17 16 users
+e 17 15 dependency
+e 17 15 users
+v 18 Book
+v 19 Author
+v 20 entity BookItem
+v 21 entity Account
+v 22 Catalog
+v 23 Library
+v 24 interface Search
+v 25 interface Manage
+v 26 Librarian
+e 19 18 wrote
+e 19 18 1*-1*
+e 20 18 Generalization
+e 21 20 borrowed
+e 21 20 reserved
+e 22 20 records
+e 20 23 aggregation
+e 22 23 composition
+e 23 22 composition
+e 22 24 realization
+e 22 25 realization
+e 26 25 dependecy
+e 26 25 users
+e 26 24 dependency
+e 26 24 users
+v 27 Book
+v 28 Author
+v 29 entity BookItem
+v 30 entity Account
+v 31 Catalog
+v 32 Library
+v 33 interface Search
+v 34 interface Manage
+v 35 Librarian
+e 28 27 wrote
+e 28 27 1*-1*
+e 29 27 Generalization
+e 30 29 borrowed
+e 30 29 reserved
+e 31 29 records
+e 29 32 aggregation
+e 31 32 composition
+e 32 31 composition
+e 31 33 realization
+e 31 34 realization
+e 35 34 dependecy
+e 35 34 users
+e 35 33 dependency
+e 35 33 users
+v 36 Book
+v 37 Author
+v 38 entity BookItem
+v 39 entity Account
+v 40 Catalog
+v 41 Library
+v 42 interface Search
+v 43 interface Manage
+v 44 Librarian
+e 37 36 wrote
+e 37 36 1*-1*
+e 38 36 Generalization
+e 39 38 borrowed
+e 39 38 reserved
+e 40 38 records
+e 38 41 aggregation
+e 40 41 composition
+e 41 40 composition
+e 40 42 realization
+e 40 43 realization
+e 44 43 dependecy
+e 44 43 users
+e 44 42 dependency
+e 44 42 users
+v 45 Book
+v 46 Author
+v 47 entity BookItem
+v 48 entity Account
+v 49 Catalog
+v 50 Library
+v 51 interface Search
+v 52 interface Manage
+v 53 Librarian
+e 46 45 wrote
+e 46 45 1*-1*
+e 47 45 Generalization
+e 48 47 borrowed
+e 48 47 reserved
+e 49 47 records
+e 47 50 aggregation
+e 49 50 composition
+e 50 49 composition
+e 49 51 realization
+e 49 52 realization
+e 53 52 dependecy
+e 53 52 users
+e 53 51 dependency
+e 53 51 users
+v 54 Book
+v 55 Author
+v 56 entity BookItem
+v 57 entity Account
+v 58 Catalog
+v 59 Library
+v 60 interface Search
+v 61 interface Manage
+v 62 Librarian
+e 55 54 wrote
+e 55 54 1*-1*
+e 56 54 Generalization
+e 57 56 borrowed
+e 57 56 reserved
+e 58 56 records
+e 56 59 aggregation
+e 58 59 composition
+e 59 58 composition
+e 58 60 realization
+e 58 61 realization
+e 62 61 dependecy
+e 62 61 users
+e 62 60 dependency
+e 62 60 users
+v 63 Book
+v 64 Author
+v 65 entity BookItem
+v 66 entity Account
+v 67 Catalog
+v 68 Library
+v 69 interface Search
+v 70 interface Manage
+v 71 Librarian
+e 64 63 wrote
+e 64 63 1*-1*
+e 65 63 Generalization
+e 66 65 borrowed
+e 66 65 reserved
+e 67 65 records
+e 65 68 aggregation
+e 67 68 composition
+e 68 67 composition
+e 67 69 realization
+e 67 70 realization
+e 71 70 dependecy
+e 71 70 users
+e 71 69 dependency
+e 71 69 users
+v 72 Book
+v 73 Author
+v 74 entity BookItem
+v 75 entity Account
+v 76 Catalog
+v 77 Library
+v 78 interface Search
+v 79 interface Manage
+v 80 Librarian
+e 73 72 wrote
+e 73 72 1*-1*
+e 74 72 Generalization
+e 75 74 borrowed
+e 75 74 reserved
+e 76 74 records
+e 74 77 aggregation
+e 76 77 composition
+e 77 76 composition
+e 76 78 realization
+e 76 79 realization
+e 80 79 dependecy
+e 80 79 users
+e 80 78 dependency
+e 80 78 users
+v 81 Book
+v 82 Author
+v 83 entity BookItem
+v 84 entity Account
+v 85 Catalog
+v 86 Library
+v 87 interface Search
+v 88 interface Manage
+v 89 Librarian
+e 82 81 wrote
+e 82 81 1*-1*
+e 83 81 Generalization
+e 84 83 borrowed
+e 84 83 reserved
+e 85 83 records
+e 83 86 aggregation
+e 85 86 composition
+e 86 85 composition
+e 85 87 realization
+e 85 88 realization
+e 89 88 dependecy
+e 89 88 users
+e 89 87 dependency
+e 89 87 users
+t # 17 G18
+v 0 Book
+v 1 Author
+v 2 entity BookItem
+v 3 entity Account
+v 4 Catalog
+v 5 Library
+v 6 interface Search
+v 7 interface Manage
+v 8 Librarian
+e 1 0 wrote
+e 1 0 1*-1*
+e 2 0 Generalization
+e 3 2 borrowed
+e 3 2 reserved
+e 4 2 records
+e 2 5 aggregation
+e 4 5 composition
+e 5 4 composition
+e 4 6 realization
+e 4 7 realization
+e 8 7 dependecy
+e 8 7 users
+e 8 6 dependency
+e 8 6 users
+v 9 Book
+v 10 Author
+v 11 entity BookItem
+v 12 entity Account
+v 13 Catalog
+v 14 Library
+v 15 interface Search
+v 16 interface Manage
+v 17 Librarian
+e 10 9 wrote
+e 10 9 1*-1*
+e 11 9 Generalization
+e 12 11 borrowed
+e 12 11 reserved
+e 13 11 records
+e 11 14 aggregation
+e 13 14 composition
+e 14 13 composition
+e 13 15 realization
+e 13 16 realization
+e 17 16 dependecy
+e 17 16 users
+e 17 15 dependency
+e 17 15 users
+v 18 Book
+v 19 Author
+v 20 entity BookItem
+v 21 entity Account
+v 22 Catalog
+v 23 Library
+v 24 interface Search
+v 25 interface Manage
+v 26 Librarian
+e 19 18 wrote
+e 19 18 1*-1*
+e 20 18 Generalization
+e 21 20 borrowed
+e 21 20 reserved
+e 22 20 records
+e 20 23 aggregation
+e 22 23 composition
+e 23 22 composition
+e 22 24 realization
+e 22 25 realization
+e 26 25 dependecy
+e 26 25 users
+e 26 24 dependency
+e 26 24 users
+v 27 Book
+v 28 Author
+v 29 entity BookItem
+v 30 entity Account
+v 31 Catalog
+v 32 Library
+v 33 interface Search
+v 34 interface Manage
+v 35 Librarian
+e 28 27 wrote
+e 28 27 1*-1*
+e 29 27 Generalization
+e 30 29 borrowed
+e 30 29 reserved
+e 31 29 records
+e 29 32 aggregation
+e 31 32 composition
+e 32 31 composition
+e 31 33 realization
+e 31 34 realization
+e 35 34 dependecy
+e 35 34 users
+e 35 33 dependency
+e 35 33 users
+v 36 Book
+v 37 Author
+v 38 entity BookItem
+v 39 entity Account
+v 40 Catalog
+v 41 Library
+v 42 interface Search
+v 43 interface Manage
+v 44 Librarian
+e 37 36 wrote
+e 37 36 1*-1*
+e 38 36 Generalization
+e 39 38 borrowed
+e 39 38 reserved
+e 40 38 records
+e 38 41 aggregation
+e 40 41 composition
+e 41 40 composition
+e 40 42 realization
+e 40 43 realization
+e 44 43 dependecy
+e 44 43 users
+e 44 42 dependency
+e 44 42 users
+v 45 Book
+v 46 Author
+v 47 entity BookItem
+v 48 entity Account
+v 49 Catalog
+v 50 Library
+v 51 interface Search
+v 52 interface Manage
+v 53 Librarian
+e 46 45 wrote
+e 46 45 1*-1*
+e 47 45 Generalization
+e 48 47 borrowed
+e 48 47 reserved
+e 49 47 records
+e 47 50 aggregation
+e 49 50 composition
+e 50 49 composition
+e 49 51 realization
+e 49 52 realization
+e 53 52 dependecy
+e 53 52 users
+e 53 51 dependency
+e 53 51 users
+v 54 Book
+v 55 Author
+v 56 entity BookItem
+v 57 entity Account
+v 58 Catalog
+v 59 Library
+v 60 interface Search
+v 61 interface Manage
+v 62 Librarian
+e 55 54 wrote
+e 55 54 1*-1*
+e 56 54 Generalization
+e 57 56 borrowed
+e 57 56 reserved
+e 58 56 records
+e 56 59 aggregation
+e 58 59 composition
+e 59 58 composition
+e 58 60 realization
+e 58 61 realization
+e 62 61 dependecy
+e 62 61 users
+e 62 60 dependency
+e 62 60 users
+v 63 Book
+v 64 Author
+v 65 entity BookItem
+v 66 entity Account
+v 67 Catalog
+v 68 Library
+v 69 interface Search
+v 70 interface Manage
+v 71 Librarian
+e 64 63 wrote
+e 64 63 1*-1*
+e 65 63 Generalization
+e 66 65 borrowed
+e 66 65 reserved
+e 67 65 records
+e 65 68 aggregation
+e 67 68 composition
+e 68 67 composition
+e 67 69 realization
+e 67 70 realization
+e 71 70 dependecy
+e 71 70 users
+e 71 69 dependency
+e 71 69 users
+v 72 Book
+v 73 Author
+v 74 entity BookItem
+v 75 entity Account
+v 76 Catalog
+v 77 Library
+v 78 interface Search
+v 79 interface Manage
+v 80 Librarian
+e 73 72 wrote
+e 73 72 1*-1*
+e 74 72 Generalization
+e 75 74 borrowed
+e 75 74 reserved
+e 76 74 records
+e 74 77 aggregation
+e 76 77 composition
+e 77 76 composition
+e 76 78 realization
+e 76 79 realization
+e 80 79 dependecy
+e 80 79 users
+e 80 78 dependency
+e 80 78 users
+v 81 Book
+v 82 Author
+v 83 entity BookItem
+v 84 entity Account
+v 85 Catalog
+v 86 Library
+v 87 interface Search
+v 88 interface Manage
+v 89 Librarian
+e 82 81 wrote
+e 82 81 1*-1*
+e 83 81 Generalization
+e 84 83 borrowed
+e 84 83 reserved
+e 85 83 records
+e 83 86 aggregation
+e 85 86 composition
+e 86 85 composition
+e 85 87 realization
+e 85 88 realization
+e 89 88 dependecy
+e 89 88 users
+e 89 87 dependency
+e 89 87 users
+v 90 Book
+v 91 Author
+v 92 entity BookItem
+v 93 entity Account
+v 94 Catalog
+v 95 Library
+v 96 interface Search
+v 97 interface Manage
+v 98 Librarian
+e 91 90 wrote
+e 91 90 1*-1*
+e 92 90 Generalization
+e 93 92 borrowed
+e 93 92 reserved
+e 94 92 records
+e 92 95 aggregation
+e 94 95 composition
+e 95 94 composition
+e 94 96 realization
+e 94 97 realization
+e 98 97 dependecy
+e 98 97 users
+e 98 96 dependency
+e 98 96 users
+v 99 Book
+v 100 Author
+v 101 entity BookItem
+v 102 entity Account
+v 103 Catalog
+v 104 Library
+v 105 interface Search
+v 106 interface Manage
+v 107 Librarian
+e 100 99 wrote
+e 100 99 1*-1*
+e 101 99 Generalization
+e 102 101 borrowed
+e 102 101 reserved
+e 103 101 records
+e 101 104 aggregation
+e 103 104 composition
+e 104 103 composition
+e 103 105 realization
+e 103 106 realization
+e 107 106 dependecy
+e 107 106 users
+e 107 105 dependency
+e 107 105 users
+v 108 Book
+v 109 Author
+v 110 entity BookItem
+v 111 entity Account
+v 112 Catalog
+v 113 Library
+v 114 interface Search
+v 115 interface Manage
+v 116 Librarian
+e 109 108 wrote
+e 109 108 1*-1*
+e 110 108 Generalization
+e 111 110 borrowed
+e 111 110 reserved
+e 112 110 records
+e 110 113 aggregation
+e 112 113 composition
+e 113 112 composition
+e 112 114 realization
+e 112 115 realization
+e 116 115 dependecy
+e 116 115 users
+e 116 114 dependency
+e 116 114 users
+v 117 Book
+v 118 Author
+v 119 entity BookItem
+v 120 entity Account
+v 121 Catalog
+v 122 Library
+v 123 interface Search
+v 124 interface Manage
+v 125 Librarian
+e 118 117 wrote
+e 118 117 1*-1*
+e 119 117 Generalization
+e 120 119 borrowed
+e 120 119 reserved
+e 121 119 records
+e 119 122 aggregation
+e 121 122 composition
+e 122 121 composition
+e 121 123 realization
+e 121 124 realization
+e 125 124 dependecy
+e 125 124 users
+e 125 123 dependency
+e 125 123 users
+v 126 Book
+v 127 Author
+v 128 entity BookItem
+v 129 entity Account
+v 130 Catalog
+v 131 Library
+v 132 interface Search
+v 133 interface Manage
+v 134 Librarian
+e 127 126 wrote
+e 127 126 1*-1*
+e 128 126 Generalization
+e 129 128 borrowed
+e 129 128 reserved
+e 130 128 records
+e 128 131 aggregation
+e 130 131 composition
+e 131 130 composition
+e 130 132 realization
+e 130 133 realization
+e 134 133 dependecy
+e 134 133 users
+e 134 132 dependency
+e 134 132 users
+t # 18 G19
+v 0 Book
+v 1 Author
+v 2 entity BookItem
+v 3 entity Account
+v 4 Catalog
+v 5 Library
+v 6 interface Search
+v 7 interface Manage
+v 8 Librarian
+e 1 0 wrote
+e 1 0 1*-1*
+e 2 0 Generalization
+e 3 2 borrowed
+e 3 2 reserved
+e 4 2 records
+e 2 5 aggregation
+e 4 5 composition
+e 5 4 composition
+e 4 6 realization
+e 4 7 realization
+e 8 7 dependecy
+e 8 7 users
+e 8 6 dependency
+e 8 6 users
+v 9 Book
+v 10 Author
+v 11 entity BookItem
+v 12 entity Account
+v 13 Catalog
+v 14 Library
+v 15 interface Search
+v 16 interface Manage
+v 17 Librarian
+e 10 9 wrote
+e 10 9 1*-1*
+e 11 9 Generalization
+e 12 11 borrowed
+e 12 11 reserved
+e 13 11 records
+e 11 14 aggregation
+e 13 14 composition
+e 14 13 composition
+e 13 15 realization
+e 13 16 realization
+e 17 16 dependecy
+e 17 16 users
+e 17 15 dependency
+e 17 15 users
+v 18 Book
+v 19 Author
+v 20 entity BookItem
+v 21 entity Account
+v 22 Catalog
+v 23 Library
+v 24 interface Search
+v 25 interface Manage
+v 26 Librarian
+e 19 18 wrote
+e 19 18 1*-1*
+e 20 18 Generalization
+e 21 20 borrowed
+e 21 20 reserved
+e 22 20 records
+e 20 23 aggregation
+e 22 23 composition
+e 23 22 composition
+e 22 24 realization
+e 22 25 realization
+e 26 25 dependecy
+e 26 25 users
+e 26 24 dependency
+e 26 24 users
+v 27 Book
+v 28 Author
+v 29 entity BookItem
+v 30 entity Account
+v 31 Catalog
+v 32 Library
+v 33 interface Search
+v 34 interface Manage
+v 35 Librarian
+e 28 27 wrote
+e 28 27 1*-1*
+e 29 27 Generalization
+e 30 29 borrowed
+e 30 29 reserved
+e 31 29 records
+e 29 32 aggregation
+e 31 32 composition
+e 32 31 composition
+e 31 33 realization
+e 31 34 realization
+e 35 34 dependecy
+e 35 34 users
+e 35 33 dependency
+e 35 33 users
+v 36 Book
+v 37 Author
+v 38 entity BookItem
+v 39 entity Account
+v 40 Catalog
+v 41 Library
+v 42 interface Search
+v 43 interface Manage
+v 44 Librarian
+e 37 36 wrote
+e 37 36 1*-1*
+e 38 36 Generalization
+e 39 38 borrowed
+e 39 38 reserved
+e 40 38 records
+e 38 41 aggregation
+e 40 41 composition
+e 41 40 composition
+e 40 42 realization
+e 40 43 realization
+e 44 43 dependecy
+e 44 43 users
+e 44 42 dependency
+e 44 42 users
+v 45 Book
+v 46 Author
+v 47 entity BookItem
+v 48 entity Account
+v 49 Catalog
+v 50 Library
+v 51 interface Search
+v 52 interface Manage
+v 53 Librarian
+e 46 45 wrote
+e 46 45 1*-1*
+e 47 45 Generalization
+e 48 47 borrowed
+e 48 47 reserved
+e 49 47 records
+e 47 50 aggregation
+e 49 50 composition
+e 50 49 composition
+e 49 51 realization
+e 49 52 realization
+e 53 52 dependecy
+e 53 52 users
+e 53 51 dependency
+e 53 51 users
+v 54 Book
+v 55 Author
+v 56 entity BookItem
+v 57 entity Account
+v 58 Catalog
+v 59 Library
+v 60 interface Search
+v 61 interface Manage
+v 62 Librarian
+e 55 54 wrote
+e 55 54 1*-1*
+e 56 54 Generalization
+e 57 56 borrowed
+e 57 56 reserved
+e 58 56 records
+e 56 59 aggregation
+e 58 59 composition
+e 59 58 composition
+e 58 60 realization
+e 58 61 realization
+e 62 61 dependecy
+e 62 61 users
+e 62 60 dependency
+e 62 60 users
+v 63 Book
+v 64 Author
+v 65 entity BookItem
+v 66 entity Account
+v 67 Catalog
+v 68 Library
+v 69 interface Search
+v 70 interface Manage
+v 71 Librarian
+e 64 63 wrote
+e 64 63 1*-1*
+e 65 63 Generalization
+e 66 65 borrowed
+e 66 65 reserved
+e 67 65 records
+e 65 68 aggregation
+e 67 68 composition
+e 68 67 composition
+e 67 69 realization
+e 67 70 realization
+e 71 70 dependecy
+e 71 70 users
+e 71 69 dependency
+e 71 69 users
+v 72 Book
+v 73 Author
+v 74 entity BookItem
+v 75 entity Account
+v 76 Catalog
+v 77 Library
+v 78 interface Search
+v 79 interface Manage
+v 80 Librarian
+e 73 72 wrote
+e 73 72 1*-1*
+e 74 72 Generalization
+e 75 74 borrowed
+e 75 74 reserved
+e 76 74 records
+e 74 77 aggregation
+e 76 77 composition
+e 77 76 composition
+e 76 78 realization
+e 76 79 realization
+e 80 79 dependecy
+e 80 79 users
+e 80 78 dependency
+e 80 78 users
+v 81 Book
+v 82 Author
+v 83 entity BookItem
+v 84 entity Account
+v 85 Catalog
+v 86 Library
+v 87 interface Search
+v 88 interface Manage
+v 89 Librarian
+e 82 81 wrote
+e 82 81 1*-1*
+e 83 81 Generalization
+e 84 83 borrowed
+e 84 83 reserved
+e 85 83 records
+e 83 86 aggregation
+e 85 86 composition
+e 86 85 composition
+e 85 87 realization
+e 85 88 realization
+e 89 88 dependecy
+e 89 88 users
+e 89 87 dependency
+e 89 87 users
+t # 19 G20
+v 0 Book
+v 1 Author
+v 2 entity BookItem
+v 3 entity Account
+v 4 Catalog
+v 5 Library
+v 6 interface Search
+v 7 interface Manage
+v 8 Librarian
+e 1 0 wrote
+e 1 0 1*-1*
+e 2 0 Generalization
+e 3 2 borrowed
+e 3 2 reserved
+e 4 2 records
+e 2 5 aggregation
+e 4 5 composition
+e 5 4 composition
+e 4 6 realization
+e 4 7 realization
+e 8 7 dependecy
+e 8 7 users
+e 8 6 dependency
+e 8 6 users
+v 9 Book
+v 10 Author
+v 11 entity BookItem
+v 12 entity Account
+v 13 Catalog
+v 14 Library
+v 15 interface Search
+v 16 interface Manage
+v 17 Librarian
+e 10 9 wrote
+e 10 9 1*-1*
+e 11 9 Generalization
+e 12 11 borrowed
+e 12 11 reserved
+e 13 11 records
+e 11 14 aggregation
+e 13 14 composition
+e 14 13 composition
+e 13 15 realization
+e 13 16 realization
+e 17 16 dependecy
+e 17 16 users
+e 17 15 dependency
+e 17 15 users
+v 18 Book
+v 19 Author
+v 20 entity BookItem
+v 21 entity Account
+v 22 Catalog
+v 23 Library
+v 24 interface Search
+v 25 interface Manage
+v 26 Librarian
+e 19 18 wrote
+e 19 18 1*-1*
+e 20 18 Generalization
+e 21 20 borrowed
+e 21 20 reserved
+e 22 20 records
+e 20 23 aggregation
+e 22 23 composition
+e 23 22 composition
+e 22 24 realization
+e 22 25 realization
+e 26 25 dependecy
+e 26 25 users
+e 26 24 dependency
+e 26 24 users
+v 27 Book
+v 28 Author
+v 29 entity BookItem
+v 30 entity Account
+v 31 Catalog
+v 32 Library
+v 33 interface Search
+v 34 interface Manage
+v 35 Librarian
+e 28 27 wrote
+e 28 27 1*-1*
+e 29 27 Generalization
+e 30 29 borrowed
+e 30 29 reserved
+e 31 29 records
+e 29 32 aggregation
+e 31 32 composition
+e 32 31 composition
+e 31 33 realization
+e 31 34 realization
+e 35 34 dependecy
+e 35 34 users
+e 35 33 dependency
+e 35 33 users
+v 36 Book
+v 37 Author
+v 38 entity BookItem
+v 39 entity Account
+v 40 Catalog
+v 41 Library
+v 42 interface Search
+v 43 interface Manage
+v 44 Librarian
+e 37 36 wrote
+e 37 36 1*-1*
+e 38 36 Generalization
+e 39 38 borrowed
+e 39 38 reserved
+e 40 38 records
+e 38 41 aggregation
+e 40 41 composition
+e 41 40 composition
+e 40 42 realization
+e 40 43 realization
+e 44 43 dependecy
+e 44 43 users
+e 44 42 dependency
+e 44 42 users
+v 45 Book
+v 46 Author
+v 47 entity BookItem
+v 48 entity Account
+v 49 Catalog
+v 50 Library
+v 51 interface Search
+v 52 interface Manage
+v 53 Librarian
+e 46 45 wrote
+e 46 45 1*-1*
+e 47 45 Generalization
+e 48 47 borrowed
+e 48 47 reserved
+e 49 47 records
+e 47 50 aggregation
+e 49 50 composition
+e 50 49 composition
+e 49 51 realization
+e 49 52 realization
+e 53 52 dependecy
+e 53 52 users
+e 53 51 dependency
+e 53 51 users
+v 54 Book
+v 55 Author
+v 56 entity BookItem
+v 57 entity Account
+v 58 Catalog
+v 59 Library
+v 60 interface Search
+v 61 interface Manage
+v 62 Librarian
+e 55 54 wrote
+e 55 54 1*-1*
+e 56 54 Generalization
+e 57 56 borrowed
+e 57 56 reserved
+e 58 56 records
+e 56 59 aggregation
+e 58 59 composition
+e 59 58 composition
+e 58 60 realization
+e 58 61 realization
+e 62 61 dependecy
+e 62 61 users
+e 62 60 dependency
+e 62 60 users
+v 63 Book
+v 64 Author
+v 65 entity BookItem
+v 66 entity Account
+v 67 Catalog
+v 68 Library
+v 69 interface Search
+v 70 interface Manage
+v 71 Librarian
+e 64 63 wrote
+e 64 63 1*-1*
+e 65 63 Generalization
+e 66 65 borrowed
+e 66 65 reserved
+e 67 65 records
+e 65 68 aggregation
+e 67 68 composition
+e 68 67 composition
+e 67 69 realization
+e 67 70 realization
+e 71 70 dependecy
+e 71 70 users
+e 71 69 dependency
+e 71 69 users
+v 72 Book
+v 73 Author
+v 74 entity BookItem
+v 75 entity Account
+v 76 Catalog
+v 77 Library
+v 78 interface Search
+v 79 interface Manage
+v 80 Librarian
+e 73 72 wrote
+e 73 72 1*-1*
+e 74 72 Generalization
+e 75 74 borrowed
+e 75 74 reserved
+e 76 74 records
+e 74 77 aggregation
+e 76 77 composition
+e 77 76 composition
+e 76 78 realization
+e 76 79 realization
+e 80 79 dependecy
+e 80 79 users
+e 80 78 dependency
+e 80 78 users
+v 81 Book
+v 82 Author
+v 83 entity BookItem
+v 84 entity Account
+v 85 Catalog
+v 86 Library
+v 87 interface Search
+v 88 interface Manage
+v 89 Librarian
+e 82 81 wrote
+e 82 81 1*-1*
+e 83 81 Generalization
+e 84 83 borrowed
+e 84 83 reserved
+e 85 83 records
+e 83 86 aggregation
+e 85 86 composition
+e 86 85 composition
+e 85 87 realization
+e 85 88 realization
+e 89 88 dependecy
+e 89 88 users
+e 89 87 dependency
+e 89 87 users
+e 33 43 from_graph_19_0
+e 43 80 from_graph_19_1
+e 80 24 from_graph_19_2
+e 24 5 from_graph_19_3
+e 5 21 from_graph_19_4
+e 21 35 from_graph_19_5
+e 35 55 from_graph_19_6
+e 54 34 from_graph_19_8
+e 34 88 from_graph_19_9
+e 88 38 from_graph_19_10
+e 38 12 from_graph_19_11
+e 12 50 from_graph_19_12
+e 50 68 from_graph_19_13
+e 68 15 from_graph_19_14
+e 15 56 from_graph_19_15
+e 56 49 from_graph_19_16
+e 49 59 from_graph_19_17
+e 59 29 from_graph_19_18
+e 29 30 from_graph_19_19
+e 30 36 from_graph_19_20
+e 36 0 from_graph_19_21
+e 0 70 from_graph_19_22
+e 70 57 from_graph_19_23
+e 57 78 from_graph_19_24
+e 78 61 from_graph_19_25
+e 61 4 from_graph_19_26
+e 4 14 from_graph_19_27
+e 14 44 from_graph_19_28
+e 44 60 from_graph_19_29
+e 60 83 from_graph_19_30
+e 83 20 from_graph_19_31
+e 20 89 from_graph_19_32
+e 89 66 from_graph_19_33
+e 66 22 from_graph_19_34
+e 22 69 from_graph_19_35
+e 69 2 from_graph_19_36
+e 2 73 from_graph_19_37
+e 73 28 from_graph_19_38
+e 28 39 from_graph_19_39
+e 39 17 from_graph_19_40
+e 17 27 from_graph_19_41
+e 27 79 from_graph_19_42
+e 79 6 from_graph_19_43
+e 6 8 from_graph_19_44
+e 8 58 from_graph_19_45
+e 58 18 from_graph_19_46
+e 18 75 from_graph_19_47
+e 75 82 from_graph_19_48
+e 82 9 from_graph_19_49
+e 9 13 from_graph_19_50
+e 13 53 from_graph_19_51
+e 53 46 from_graph_19_52
+e 46 62 from_graph_19_53
+e 62 41 from_graph_19_54
+e 41 87 from_graph_19_55
+e 87 71 from_graph_19_56
+e 71 11 from_graph_19_57
+e 11 65 from_graph_19_58
+e 65 1 from_graph_19_59
+e 1 40 from_graph_19_60
+e 40 3 from_graph_19_61
+e 3 48 from_graph_19_62
+e 48 86 from_graph_19_63
+e 86 16 from_graph_19_64
+e 16 10 from_graph_19_65
+e 10 51 from_graph_19_66
+e 51 32 from_graph_19_67
+e 32 37 from_graph_19_68
+e 37 47 from_graph_19_69
+e 47 26 from_graph_19_70
+e 26 19 from_graph_19_71
+e 19 23 from_graph_19_72
+e 23 45 from_graph_19_73
+e 45 63 from_graph_19_74
+e 63 67 from_graph_19_75
+e 67 81 from_graph_19_76
+e 81 64 from_graph_19_77
+e 64 77 from_graph_19_78
+e 77 7 from_graph_19_79
+e 7 72 from_graph_19_80
+e 72 74 from_graph_19_81
+e 74 52 from_graph_19_82
+e 52 42 from_graph_19_83
+e 42 84 from_graph_19_84
+e 84 76 from_graph_19_85
+e 76 85 from_graph_19_86
+e 85 31 from_graph_19_87
+e 31 25 from_graph_19_88

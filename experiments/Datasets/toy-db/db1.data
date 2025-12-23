@@ -1,0 +1,26 @@
+t # 0 G1
+v 1 blue
+v 2 yellow
+v 3 red
+v 4 purple
+e 1 2 white
+e 1 3 white
+e 3 2 white
+e 2 4 white
+e 3 4 white
+t # 1 G2
+v 1 yellow
+v 2 yellow
+v 3 red
+v 4 purple
+e 1 2 white
+e 3 2 white
+e 2 4 white
+e 3 4 white
+t # 2 G3
+v 1 red
+v 2 yellow
+v 3 red
+v 4 purple
+e 3 2 white
+e 2 4 white
