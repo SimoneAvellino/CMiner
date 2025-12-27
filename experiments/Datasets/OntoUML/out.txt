@@ -1,0 +1,38 @@
+t # 1
+v 0 yellow
+s 3
+f 3
+----------
+t # 2
+v 0 red
+s 3
+f 4
+----------
+t # 3
+v 0 purple
+s 3
+f 3
+----------
+t # 4
+v 0 purple
+v 1 yellow
+e 1 0 white
+s 3
+f 3
+----------
+t # 5
+v 0 purple
+v 1 yellow
+v 2 red
+e 1 0 white
+e 2 1 white
+s 3
+f 3
+----------
+t # 6
+v 0 red
+v 1 yellow
+e 0 1 white
+s 3
+f 3
+----------

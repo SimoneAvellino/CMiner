@@ -5,18 +5,18 @@ from bitstring import BitArray
 
 # TO-DO: Find an optimal way to discard edges already
 #        computed in the compute method [O(log n)?]
-# TO-DO: Find candidates in a different way. 
+# TO-DO: Find candidates in a different way.
 #        Represent BitMatrix as a BTree?
 # TO-DO: Keep lazy computing?
 # DONE:  Write better the code for showing the matrix
 # DONE:  Optimization on the QueryBitMatrix computation.
 #        After computing bitmap for edge (a, b), bitmap
-#        For edge (b, a) can the computed with two 
+#        For edge (b, a) can the computed with two
 #        permutaion on the bitmap for (a, b)
 
 
 class BitMatrix(ABC):
-    """ Abstract class for describing a BitMatrix
+    """Abstract class for describing a BitMatrix
 
     :param graph               Graph in which the BitMatrix is computed
     :type  graph               Multigraph
@@ -37,7 +37,7 @@ class BitMatrix(ABC):
 
     @abstractmethod
     def compute(self):
-        """ Compute the BitMatrix
+        """Compute the BitMatrix
 
         Method that is defined in the Concrete instance depending on the
         type of the BitMatrix (QueryBitMatrix, TargetBitMatrix)
@@ -49,7 +49,7 @@ class BitMatrix(ABC):
         pass
 
     def _lazy_computing(self):
-        """ Method to compute the BitMatrix if it has not been calculated
+        """Method to compute the BitMatrix if it has not been calculated
 
         :rtype void
         """
@@ -57,7 +57,7 @@ class BitMatrix(ABC):
         self.computed = True
 
     def get_matrix(self):
-        """ Retrieve the BitMatrix
+        """Retrieve the BitMatrix
 
         It returns only the list of bitmaps, not the edges
         associeted to all edges
@@ -74,7 +74,7 @@ class BitMatrix(ABC):
         return self.graph
 
     def get_matrix_indices(self):
-        """ Retrieve the BitMatrix
+        """Retrieve the BitMatrix
 
         :rtype list of edges
         """
@@ -90,7 +90,7 @@ class BitMatrix(ABC):
         return self.split_bitmap(row)
 
     def split_bitmap(self, bitmap):
-        """ Return each part of the bitmap associated to an edge as a string
+        """Return each part of the bitmap associated to an edge as a string
 
         each bitmap is made up from four parts:
             L_first, T_in, T_out, L_second
@@ -103,9 +103,13 @@ class BitMatrix(ABC):
         num_edge_labels = len(self.graph.get_all_edge_labels())
         row_parts = [
             bitmap[:num_node_labels],
-            bitmap[num_node_labels:num_node_labels + num_edge_labels],
-            bitmap[num_node_labels + num_edge_labels: num_node_labels + 2 * num_edge_labels],
-            bitmap[num_node_labels + 2 * num_edge_labels:]
+            bitmap[num_node_labels : num_node_labels + num_edge_labels],
+            bitmap[
+                num_node_labels
+                + num_edge_labels : num_node_labels
+                + 2 * num_edge_labels
+            ],
+            bitmap[num_node_labels + 2 * num_edge_labels :],
         ]
         return row_parts
 
@@ -127,7 +131,7 @@ class BitMatrix(ABC):
 
 
 class TargetBitMatrix(BitMatrix):
-    """ Concrete class for describing a BitMatrix for a Target Graph
+    """Concrete class for describing a BitMatrix for a Target Graph
 
     A Target Graph BitMatrix is a matrix in which the i-th row if a
     bitmap associeted to the edge (a, b) so that the id(a) < id(b).
@@ -143,7 +147,7 @@ class TargetBitMatrix(BitMatrix):
         super().__init__(graph, bit_matrix_strategy)
 
     def compute(self):
-        """ Compute the TargetBitMatrix
+        """Compute the TargetBitMatrix
         :rtype void
 
         See also:
@@ -169,7 +173,9 @@ class TargetBitMatrix(BitMatrix):
             # so we check if the edges is already been computed
             if edge_to_compute not in self.matrix_indices:  # FIND BETTER METHOD
                 # add the bitmap associeted to the edge to the matrix
-                self.matrix.append(self.bit_matrix_strategy.compute_row(edge_to_compute))
+                self.matrix.append(
+                    self.bit_matrix_strategy.compute_row(edge_to_compute)
+                )
                 # saving the edge associeted to the bitmap
                 self.matrix_indices.append(edge_to_compute)
 
@@ -181,7 +187,7 @@ class TargetBitMatrixOptimized(TargetBitMatrix):
         self.matrix = [{} for _ in range(4)]
 
     def split_bitmap_row(self, row_num):
-        """ Split the bitmap of the i-th row of the matrix
+        """Split the bitmap of the i-th row of the matrix
 
         :param row_num:
         :return:
@@ -203,7 +209,7 @@ class TargetBitMatrixOptimized(TargetBitMatrix):
         return self.split_bitmap(self.bit_matrix_strategy.str_to_bitmap(bitmap))
 
     def compute(self):
-        """ Compute the TargetBitMatrix
+        """Compute the TargetBitMatrix
         :rtype void
 
         See also:
@@ -235,9 +241,11 @@ class TargetBitMatrixOptimized(TargetBitMatrix):
                 edge_index = len(self.matrix_indices)  # take the index of the edge
                 for i, part in enumerate(bitmap_parts):
                     # take the key for the i-th dictionary
-                    str_part = ''.join('1' if bit else '0' for bit in part)
+                    str_part = "".join("1" if bit else "0" for bit in part)
                     # save the index of the edge in the i-th dictionary associated to the i-th part of the bitmap
-                    self.matrix[i][str_part] = self.matrix[i].get(str_part, []) + [edge_index]
+                    self.matrix[i][str_part] = self.matrix[i].get(str_part, []) + [
+                        edge_index
+                    ]
                 # saving the edge associated to the bitmap
                 self.matrix_indices.append(edge_to_compute)
 
@@ -255,7 +263,7 @@ class TargetBitMatrixOptimized(TargetBitMatrix):
 
 
 class QueryBitMatrix(BitMatrix):
-    """ Concrete class for describing a BitMatrix for a Query Graph
+    """Concrete class for describing a BitMatrix for a Query Graph
 
     A Query Graph BitMatrix is a matrix in which each row associeted to
     the edge (a, b) with id(a) < id(b) also has the row associeted to
@@ -273,7 +281,7 @@ class QueryBitMatrix(BitMatrix):
         super().__init__(graph, bit_matrix_strategy)
 
     def compute(self):
-        """ Compute the QueryBitMatrix
+        """Compute the QueryBitMatrix
 
         :rtype void
 
@@ -297,17 +305,21 @@ class QueryBitMatrix(BitMatrix):
                 continue
             if edge_to_compute not in self.matrix_indices:
                 # edge (a, b) bitmap
-                self.matrix.append(self.bit_matrix_strategy.compute_row(edge_to_compute))
+                self.matrix.append(
+                    self.bit_matrix_strategy.compute_row(edge_to_compute)
+                )
                 self.matrix_indices.append(edge_to_compute)
                 # edge (b, a) bitmap
                 # do not compute again, we just swap L_first with L_second and T_in with T_out
                 i = len(self.matrix) - 1  # index of the bitmap computed before
                 row_parts = self.split_bitmap_row(i)  # taking the parts of the bitmap
-                self.matrix.append(row_parts[3] + row_parts[2] + row_parts[1] + row_parts[0])
+                self.matrix.append(
+                    row_parts[3] + row_parts[2] + row_parts[1] + row_parts[0]
+                )
                 self.matrix_indices.append((edge_to_compute[1], edge_to_compute[0]))
 
     def _adapt_query_to_target(self, target_graph):
-        """ Adding the correct labels to perform the query
+        """Adding the correct labels to perform the query
 
         The query is constructed on the query graph but it couldn't
         not have all labels of the target. To handle this situation
@@ -323,17 +335,16 @@ class QueryBitMatrix(BitMatrix):
 
         :rtype void
         """
-        self.graph.add_node('dummy', labels=target_graph.get_all_node_labels())
+        self.graph.add_node("dummy", labels=target_graph.get_all_node_labels())
         for label in target_graph.get_all_edge_labels():
-            self.graph.add_edge('dummy', 'dummy', type=label)
-
+            self.graph.add_edge("dummy", "dummy", type=label)
 
     def _undo_adapt_query_to_target(self):
-        self.graph.remove_nodes(['dummy'])
-        self.graph.remove_edges(self.graph.edges('dummy'))
+        self.graph.remove_nodes(["dummy"])
+        self.graph.remove_edges(self.graph.edges("dummy"))
 
     def find_candidates(self, target_bitmatrix):
-        """ Find the candidate target edges
+        """Find the candidate target edges
 
         This method cycle all query bitmaps (bq) associeted to the edge (a, b)
         and execute an AND operation for each target bitmap (bt) of the edge (x, y).
@@ -394,7 +405,10 @@ class QueryBitMatrixOptimized(QueryBitMatrix):
         # to prune the search I sort the indices by the length of
         # the keys of the dictionary. The less keys the dictionary
         # has the more candidates are associated to the same bitmap.
-        indices = sorted(range(len(indexed_bitmatrix)), key=lambda i: len(indexed_bitmatrix[i].keys()))
+        indices = sorted(
+            range(len(indexed_bitmatrix)),
+            key=lambda i: len(indexed_bitmatrix[i].keys()),
+        )
 
         for bmq_i in range(len(self.matrix)):
             # take the i-th row of the query bitmap and split it in 4 parts
@@ -413,7 +427,11 @@ class QueryBitMatrixOptimized(QueryBitMatrix):
                 candidates = set()
                 for target_bitmap_str in target_bitmaps_str:
                     # check if the subpart of the target bitmatrix matches the query
-                    if bitmap_query & self.bit_matrix_strategy.str_to_bitmap(target_bitmap_str) == bitmap_query:
+                    if (
+                        bitmap_query
+                        & self.bit_matrix_strategy.str_to_bitmap(target_bitmap_str)
+                        == bitmap_query
+                    ):
                         # adding the index of the edges associated to the part of the bitmatrix that matches the query
                         candidates = candidates.union(sub_indexing[target_bitmap_str])
                 # if there are no candidates I don't need to check the others bitmaps
@@ -461,7 +479,7 @@ class BitMatrixStrategy(ABC):
 
     @abstractmethod
     def compute_row(self, edge):
-        """ Compute the BitMatrix row
+        """Compute the BitMatrix row
 
         Method that is defined in the Concrete instance depending on the
         type of the bitmap used
@@ -471,7 +489,7 @@ class BitMatrixStrategy(ABC):
         pass
 
     def _get_row_string(self, edge):
-        """ Compute the bitmap with a string format
+        """Compute the bitmap with a string format
 
         :rtype str
         """
@@ -503,8 +521,10 @@ class BitMatrixStrategy(ABC):
         # because during the AND operation with the target
         # every node will match
         if len(node_labels) == 0:
-            return '0' * len(all_node_labels)
-        return ''.join('1' if label in node_labels else '0' for label in all_node_labels)
+            return "0" * len(all_node_labels)
+        return "".join(
+            "1" if label in node_labels else "0" for label in all_node_labels
+        )
 
     def _compute_edge_string_bitmap(self, edge):
         """
@@ -528,8 +548,10 @@ class BitMatrixStrategy(ABC):
         # because during the AND operation with the target
         # every edge will match
         if len(edge_labels) == 0:
-            return '0' * len(all_edge_labels)
-        return ''.join('1' if label in edge_labels else '0' for label in all_edge_labels)
+            return "0" * len(all_edge_labels)
+        return "".join(
+            "1" if label in edge_labels else "0" for label in all_edge_labels
+        )
 
 
 class BitMatrixStrategy1(BitMatrixStrategy):
@@ -538,7 +560,7 @@ class BitMatrixStrategy1(BitMatrixStrategy):
         super().__init__()
 
     def compute_row(self, edge):
-        """ Convert the string bitmap in a bitmap
+        """Convert the string bitmap in a bitmap
 
         It uses bitarray library
 
@@ -556,7 +578,7 @@ class BitMatrixStrategy2(BitMatrixStrategy):
         super().__init__()
 
     def compute_row(self, edge):
-        """ Convert the string bitmap in a bitmap
+        """Convert the string bitmap in a bitmap
 
         It uses bitarray library
 

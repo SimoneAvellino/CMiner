@@ -5,12 +5,11 @@ import queue
 
 class SolutionSaver(ABC):
     
-    def __init__(self, is_directed: bool = False, show_mappings: bool = False, show_frequencies: bool = False):
+    def __init__(self, show_mappings: bool = False, show_frequencies: bool = False):
         """
         Initialize the SolutionSaver.
         """
         self.pattern_count = 0
-        self.is_directed = is_directed
         self.show_mappings = show_mappings
         self.show_frequencies = show_frequencies
     
@@ -33,8 +32,8 @@ class FileSolutionSaver(SolutionSaver):
     This class is responsible for saving solutions to a file in a separate thread.
     """
 
-    def __init__(self, filename: str, is_directed: bool = False, show_mappings: bool = False, show_frequencies: bool = False):
-        super().__init__(is_directed, show_mappings, show_frequencies)
+    def __init__(self, filename: str, show_mappings: bool = False, show_frequencies: bool = False):
+        super().__init__(show_mappings, show_frequencies)        
         self.filename = filename
         self.queue = queue.Queue()
         self.thread = None
@@ -50,7 +49,7 @@ class FileSolutionSaver(SolutionSaver):
         file_str = ""
         self.pattern_count += 1
         console_str = f"t # {self.pattern_count}\n"
-        console_str += pattern.directed_pattern_str() if self.is_directed else pattern.undirected_pattern_str()
+        console_str += pattern.__str__()
         console_str += f"s {pattern.support()}\n"
         console_str += f"f {pattern.frequency()}\n"
 
@@ -62,7 +61,7 @@ class FileSolutionSaver(SolutionSaver):
 
             file_str += f"\ninfo:\n"
             file_str += f"{pattern.granular_frequencies_str()}\n" if self.show_frequencies and not self.show_mappings else ""
-            file_str += f"{pattern.mappings_str(mapping_info = True)}\n" if self.show_mappings else ""
+            file_str += f"{pattern.pattern_mappings.__str__()}\n" if self.show_mappings else ""
         
         console_str += "----------\n"
         file_str += "----------\n"
@@ -103,8 +102,8 @@ class ConsoleSolutionSaver(SolutionSaver):
     """
     This class is responsible for saving solutions to the console.
     """
-    def __init__(self, is_directed: bool = False, show_mappings: bool = False, show_frequencies: bool = False):
-        super().__init__(is_directed, show_mappings, show_frequencies)
+    def __init__(self, show_mappings: bool = False, show_frequencies: bool = False):
+        super().__init__(show_mappings, show_frequencies)
         
     def patter_to_str(self, pattern: 'Pattern') -> str:
         """
@@ -112,11 +111,22 @@ class ConsoleSolutionSaver(SolutionSaver):
         """
         self.pattern_count += 1
         output = f"t # {self.pattern_count}\n"
-        output += pattern.directed_pattern_str() if self.is_directed else pattern.undirected_pattern_str()
+        output += pattern.__str__()
         output += f"s {pattern.support()}\n"
         output += f"f {pattern.frequency()}\n"
+        
+        # print()
+        # for g, maps in pattern.pattern_mappings.patterns_mappings.items():
+        #     output += f"g {g}\n"
+        #     for m in maps:
+        #         output += f"    "
+        #         for k, v in m._retrieve_edge_mapping().items():
+        #             output += f"{k} -> {v}, "
+        #         output += "\n"
+        
         if self.show_frequencies or self.show_mappings:
             output += f"\ninfo:\n"
+            output += f"code: {pattern.canonical_code()}\n"
             output += f"{pattern.granular_frequencies_str()}\n" if self.show_frequencies and not self.show_mappings else ""
             output += f"{pattern.mappings_str()}\n" if self.show_mappings else ""
         output += "----------\n"
