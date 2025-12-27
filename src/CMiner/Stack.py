@@ -37,6 +37,10 @@ class DFSStack(list):
         # Lock to guarantee exclusive stack access in concurrent scenarios
         self._lock = threading.RLock()
 
+    def is_empty(self):
+        with self._lock:
+            return len(self) == 0
+
     def pop(self, index=-1, backtracking=False) -> Pattern:
         """
         Pop the last element from the stack.
@@ -51,6 +55,7 @@ class DFSStack(list):
 
             pattern = super().pop(index)
             self.last_popped_pattern = pattern
+
             return pattern
 
     def try_pop(self, backtracking=False) -> Pattern | None:

@@ -1,10 +1,13 @@
 from abc import ABC, abstractmethod
 import threading
 import queue
+
 # from CMiner.CMiner import Pattern
+import hashlib
+
 
 class SolutionSaver(ABC):
-    
+
     def __init__(self, show_mappings: bool = False, show_frequencies: bool = False):
         """
         Initialize the SolutionSaver.
@@ -12,36 +15,39 @@ class SolutionSaver(ABC):
         self.pattern_count = 0
         self.show_mappings = show_mappings
         self.show_frequencies = show_frequencies
-    
+
     @abstractmethod
-    def save(self, pattern: 'Pattern'):
+    def save(self, pattern: "Pattern"):
         """
         Abstract method to save a solution.
         """
         pass
-    
+
     def close(self):
         """
         Abstract method to close the solution saver.
         Subclasses should implement this to ensure the queue is empty before closing.
         """
         pass
-    
+
+
 class FileSolutionSaver(SolutionSaver):
     """
     This class is responsible for saving solutions to a file in a separate thread.
     """
 
-    def __init__(self, filename: str, show_mappings: bool = False, show_frequencies: bool = False):
-        super().__init__(show_mappings, show_frequencies)        
+    def __init__(
+        self, filename: str, show_mappings: bool = False, show_frequencies: bool = False
+    ):
+        super().__init__(show_mappings, show_frequencies)
         self.filename = filename
         self.queue = queue.Queue()
         self.thread = None
         self.running = True
         self.thread = threading.Thread(target=self._run)
         self.thread.start()
-        
-    def patter_to_str(self, pattern: 'Pattern') -> str:
+
+    def patter_to_str(self, pattern: "Pattern") -> str:
         """
         Converts a pattern to a string representation.
         """
@@ -56,13 +62,23 @@ class FileSolutionSaver(SolutionSaver):
         file_str = console_str
         if self.show_frequencies or self.show_mappings:
             console_str += f"\ninfo:\n"
-            console_str += f"{pattern.granular_frequencies_str()}\n" if self.show_frequencies and not self.show_mappings else ""
+            console_str += (
+                f"{pattern.granular_frequencies_str()}\n"
+                if self.show_frequencies and not self.show_mappings
+                else ""
+            )
             console_str += f"{pattern.mappings_str()}\n" if self.show_mappings else ""
 
             file_str += f"\ninfo:\n"
-            file_str += f"{pattern.granular_frequencies_str()}\n" if self.show_frequencies and not self.show_mappings else ""
-            file_str += f"{pattern.pattern_mappings.__str__()}\n" if self.show_mappings else ""
-        
+            file_str += (
+                f"{pattern.granular_frequencies_str()}\n"
+                if self.show_frequencies and not self.show_mappings
+                else ""
+            )
+            file_str += (
+                f"{pattern.pattern_mappings.__str__()}\n" if self.show_mappings else ""
+            )
+
         console_str += "----------\n"
         file_str += "----------\n"
         return console_str, file_str
@@ -87,7 +103,7 @@ class FileSolutionSaver(SolutionSaver):
         """
         Background thread method to save solutions to the file.
         """
-        with open(self.filename, 'w') as f:
+        with open(self.filename, "w") as f:
             while self.running:
                 pattern = self.queue.get()
                 if pattern is None:  # Sentinel value to exit the loop
@@ -96,25 +112,27 @@ class FileSolutionSaver(SolutionSaver):
                 print(console_str)
                 f.write(file_str)
                 self.queue.task_done()
-                
-            
+
+
 class ConsoleSolutionSaver(SolutionSaver):
     """
     This class is responsible for saving solutions to the console.
     """
+
     def __init__(self, show_mappings: bool = False, show_frequencies: bool = False):
         super().__init__(show_mappings, show_frequencies)
-        
-    def patter_to_str(self, pattern: 'Pattern') -> str:
+
+    def patter_to_str(self, pattern: "Pattern") -> str:
         """
         Converts a pattern to a string representation.
         """
+
         self.pattern_count += 1
-        output = f"t # {self.pattern_count}\n"
+        output = f"t # {self.pattern_count} {hashlib.md5(pattern.canonical_code().encode()).hexdigest()}\n"
         output += pattern.__str__()
         output += f"s {pattern.support()}\n"
         output += f"f {pattern.frequency()}\n"
-        
+
         # print()
         # for g, maps in pattern.pattern_mappings.patterns_mappings.items():
         #     output += f"g {g}\n"
@@ -123,16 +141,20 @@ class ConsoleSolutionSaver(SolutionSaver):
         #         for k, v in m._retrieve_edge_mapping().items():
         #             output += f"{k} -> {v}, "
         #         output += "\n"
-        
+
         if self.show_frequencies or self.show_mappings:
             output += f"\ninfo:\n"
             output += f"code: {pattern.canonical_code()}\n"
-            output += f"{pattern.granular_frequencies_str()}\n" if self.show_frequencies and not self.show_mappings else ""
+            output += (
+                f"{pattern.granular_frequencies_str()}\n"
+                if self.show_frequencies and not self.show_mappings
+                else ""
+            )
             output += f"{pattern.mappings_str()}\n" if self.show_mappings else ""
         output += "----------\n"
         return output
 
-    def save(self, pattern: 'Pattern'):
+    def save(self, pattern: "Pattern"):
         """
         Prints the solution to the console.
         """

@@ -104,8 +104,18 @@ class PatternMappings:
         for lab in sorted(labels):
             new_pattern_edge = (src_p, dst_p, new_key)
             if prev_lab != lab:
-                prev_keys = target.edge_keys_by_type(src_t, dst_t, lab)
+                try:
+                    prev_keys = target.edge_keys_by_type(src_t, dst_t, lab)
+                except KeyError:
+                    prev_keys = []
                 prev_lab = lab
+
+            if len(prev_keys) == 0:
+                raise ValueError(
+                    "Not enough target edges to map pattern edge labels: "
+                    f"({src_t}->{dst_t}, type='{lab}')"
+                )
+
             target_edge = (src_t, dst_t, prev_keys.pop(0))
             edge_mapping[new_pattern_edge] = target_edge
             new_key += 1
@@ -384,14 +394,19 @@ class Pattern:
                     node_mapping = {new_pattern_new_node_id: target_node_id}
 
                     # edge mapping
-                    edge_mapping = self.create_edge_mapping_dict(
-                        pattern_node_id,
-                        new_pattern_new_node_id,
-                        target_map.nodes_mapping()[pattern_node_id],
-                        target_node_id,
-                        target,
-                        node_extension.get_strategy(),
-                    )
+                    try:
+                        edge_mapping = self.create_edge_mapping_dict(
+                            pattern_node_id,
+                            new_pattern_new_node_id,
+                            target_map.nodes_mapping()[pattern_node_id],
+                            target_node_id,
+                            target,
+                            node_extension.get_strategy(),
+                        )
+                    except (ValueError, KeyError, IndexError):
+                        # The extension may be frequent overall but not applicable for this
+                        # specific mapping/target-node occurrence.
+                        continue
 
                     # ---- END CREATE THE NEW MAPPING ----
 

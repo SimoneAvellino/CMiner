@@ -1,10 +1,11 @@
+from asyncio import ALL_COMPLETED
 from collections import defaultdict
+from threading import Thread
 import time
 from concurrent.futures import FIRST_COMPLETED, ThreadPoolExecutor, wait
 
-from numpy import delete
+import threading
 
-# from networkx.algorithms import isomorphism as iso
 
 from Graph.DBGraph import DirectedDBGraph, UndirectedDBGraph
 from MultiGraphMatch.MultiGraphMatch import (
@@ -57,6 +58,22 @@ class CMiner:
         self.with_frequencies = with_frequencies
         self.pattern_type = pattern_type
         self.workers = max(1, int(workers))
+        self._active_tasks = 0
+        self._active_lock = threading.Lock()
+
+    def _worker_wrapper(self, worker_fn, pattern):
+        with self._active_lock:
+            self._active_tasks += 1
+        try:
+            worker_fn(pattern)
+        except Exception as e:
+            print(f"EXCEPTION in worker: {e}")
+            import traceback
+
+            traceback.print_exc()
+        finally:
+            with self._active_lock:
+                self._active_tasks -= 1
 
     def show_info(self):
         """
@@ -84,6 +101,7 @@ class CMiner:
 
         start = time.time()
         self._find_start_patterns()
+
         if self.pattern_type == "all":
             self.mine_all_patterns()
         elif self.pattern_type == "maximum":
@@ -104,7 +122,8 @@ class CMiner:
             futures = set()
             while True:
                 self._schedule_patterns(executor, futures, self._process_pattern_all)
-                if not futures:
+
+                if not futures and self.stack.is_empty():
                     break
                 done, futures = wait(futures, return_when=FIRST_COMPLETED)
 
@@ -120,18 +139,21 @@ class CMiner:
                 self._schedule_patterns(
                     executor, futures, self._process_pattern_maximum
                 )
-                if not futures:
+                with self._active_lock:
+                    active = self._active_tasks
+                if not futures and active == 0 and self.stack.is_empty():
                     break
                 done, futures = wait(futures, return_when=FIRST_COMPLETED)
 
-    def _schedule_patterns(self, executor, futures, worker_fn):
+    def _schedule_patterns(self, executor: ThreadPoolExecutor, futures, worker_fn):
         while len(futures) < self.workers:
             pattern = self.stack.try_pop()
             if pattern is None:
                 break
-            futures.add(executor.submit(worker_fn, pattern))
+            futures.add(executor.submit(self._worker_wrapper, worker_fn, pattern))
 
     def _process_pattern_all(self, pattern_to_extend: Pattern):
+
         if len(pattern_to_extend.nodes()) >= self.stack.max_nodes:
             return
 
