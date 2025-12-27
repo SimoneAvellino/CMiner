@@ -10,8 +10,8 @@ CMiner is an algorithm for mining patterns from graphs using a user-defined supp
 
 Make sure you have the following requirements to run the project:
 
--   **Python**: Version 3.11.6 or higher
--   **pip**: Version 24.2 or higher
+- **Python**: Version 3.11.6
+- **pip**: Version  24.2
 
 #### Installation steps
 
@@ -21,6 +21,7 @@ Make sure you have the following requirements to run the project:
     git clone https://github.com/SimoneAvellino/CMiner
     ```
 
+1. Download the repository from https://github.com/SimoneAvellino/CMiner.
 2. Move into the repository folder:
 
     ```bash
@@ -192,7 +193,3 @@ e 2 0</code></pre>
   </div>
 
 </div>
-
-#### Experiments from the paper
-
-The algorithm is published in this conference [LINK]; all the experiment files are inside `experiments/paper_experiments/`.
