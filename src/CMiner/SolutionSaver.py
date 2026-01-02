@@ -2,9 +2,6 @@ from abc import ABC, abstractmethod
 import threading
 import queue
 
-# from CMiner.CMiner import Pattern
-import hashlib
-
 
 class SolutionSaver(ABC):
 
@@ -128,7 +125,7 @@ class ConsoleSolutionSaver(SolutionSaver):
         """
 
         self.pattern_count += 1
-        output = f"t # {self.pattern_count} {hashlib.md5(pattern.canonical_code().encode()).hexdigest()}\n"
+        output = f"t # {self.pattern_count}\n"
         output += pattern.__str__()
         output += f"s {pattern.support()}\n"
         output += f"f {pattern.frequency()}\n"
