@@ -95,9 +95,9 @@ CMiner <db_file> -c <num_clusters> [clustering_options]
 -   `-l`, `--min_nodes`: Minimum number of nodes in the pattern (default: 1).
 -   `-u`, `--max_nodes`: Maximum number of nodes in the pattern (default: infinite).
 -   `-n`, `--num_nodes`: Exact number of nodes in the pattern (if this option is set, -l and -u are not considered).
--   `-d`, `--directed`: Flag to indicate if the graphs are directed (default: 1, directed).
+-   `-d`, `--is_directed`: Flag to indicate if the graphs are directed (default: 0, undirected).
 -   `-m`, `--show_mappings`: Display mappings of found patterns (default: 0, not displayed).
--   `-t`, `--templates_path`: File paths to start the search. The index of the nodes must start from 0.
+-   `-t`, `--templates_file`: File path to start the search. The index of the nodes must start from 0.
 -   `-f`, `--with_frequencies`: Display for each pattern the frequency in each graph. (default: 0, not displayed).
 -   `-x`, `--pattern_type`: Flag to indicate the type of pattern that CMiner return. It can be 'all', 'maximum' (default: all) NOTE: this feature is under development, it could have bug.
 -   `-o`, `--output_path`: File path to save results, if not set the results are shown in the console.
