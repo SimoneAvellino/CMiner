@@ -2,7 +2,7 @@
 
 # CMiner
 
-CMiner is an algorithm for mining patterns from graphs using a user-defined support technique. This implementation provides a command-line interface for running the algorithm, with configurable options like minimum and maximum nodes, support, and search approach.
+CMiner is an algorithm for mining patterns from graphs using a user-defined support technique. This implementation provides a command-line interface for both pattern mining and graph clustering (clustering currently in boilerplate stage).
 
 ## Installation
 
@@ -48,7 +48,8 @@ Make sure you have the following requirements to run the project:
 [//]: # '    Run directly from the command line with the following syntax:'
 
 ```bash
-CMiner <db_file> <support> [options]
+CMiner <db_file> -s <support> [mining_options]
+CMiner <db_file> -c <num_clusters> [clustering_options]
 ```
 
 [//]: #
@@ -84,9 +85,12 @@ CMiner <db_file> <support> [options]
 #### Required arguments:
 
 -   `db_file`: Absolute path to the graph database file.
--   `support`: **Minimum support for pattern extraction**: Specify a value between `0` and `1` to represent a percentage (e.g., `0.2` for 20%) or an absolute number (e.g., `20` for at least 20 graphs). To find patterns in all graphs, use `1` (100%). For patterns in at least one graph, use a value greater than `1` (e.g., `1.1`).
+-   `-s`, `--support`: **(Mining mode)** Minimum support for pattern extraction. Specify a value between `0` and `1` to represent a percentage (e.g., `0.2` for 20%) or an absolute number (e.g., `20` for at least 20 graphs). To find patterns in all graphs, use `1` (100%). For patterns in at least one graph, use a value greater than `1` (e.g., `1.1`).
+-   `-c`, `--num_clusters`: **(Clustering mode)** Number of clusters to generate.
 
-#### Additional options:
+`-s` and `-c` are mutually exclusive: exactly one mode must be selected.
+
+#### Mining options (used only with `-s`):
 
 -   `-l`, `--min_nodes`: Minimum number of nodes in the pattern (default: 1).
 -   `-u`, `--max_nodes`: Maximum number of nodes in the pattern (default: infinite).
@@ -99,18 +103,34 @@ CMiner <db_file> <support> [options]
 -   `-o`, `--output_path`: File path to save results, if not set the results are shown in the console.
 -   `-w`, `--worker`: Number of parallel workers to mine the patterns.
 
+#### Clustering options (used only with `-c`):
+
+-   `-d`, `--is_directed`: Flag to indicate if the graphs are directed (default: 0, undirected).
+-   `-o`, `--output_path`: File path to save clustering results.
+-   `--init_method`: Cluster initialization method (`random` or `kmeans++`, default: `random`).
+-   `--max_iter`: Maximum number of iterations (default: 100).
+-   `--tolerance`: Convergence tolerance (default: `1e-4`).
+
+Note: clustering is currently scaffolded but not implemented yet.
+
 #### Basic usage example
 
 -   Mine patterns from 2 up to 3 nodes, present in at least 50% of graphs in the database.
 
 ```bash
-CMiner /path/to/db.data 0.5 -l 2 -u 3
+CMiner /path/to/db.data -s 0.5 -l 2 -u 3
 ```
 
 -   Mine all patterns present in at least 2 graphs in the database that have exactly 5 nodes.
 
 ```bash
-CMiner /path/to/db.data 2 -n 5
+CMiner /path/to/db.data -s 2 -n 5
+```
+
+-   Start graph clustering with 4 clusters:
+
+```bash
+CMiner /path/to/db.data -c 4 --init_method kmeans++ --max_iter 200
 ```
 
 #### Template usage examples
@@ -120,7 +140,7 @@ Some usage examples from the folder `experiments/Datasets/OntoUML`:
 -   Mine all patterns present in at least 2 graphs in the database that match the template defined in `S1.txt`:
 
 ```bash
-CMiner ./ontographs.data 2 -t ./S1.txt -n 3
+CMiner ./ontographs.data -s 2 -t ./S1.txt -n 3
 ```
 
 Note: we specify `-n 3` so that only solutions that are exactly the template are returned.
@@ -147,7 +167,7 @@ e 2 0 Generalization</code></pre>
 -   Same as before, but this time node labels are not specified:
 
 ```bash
-CMiner ./ontographs.data 2 -t ./S2.txt -n 3
+CMiner ./ontographs.data -s 2 -t ./S2.txt -n 3
 ```
 
 <div style="display: flex; align-items: flex-start; gap: 40px;">
@@ -172,7 +192,7 @@ e 2 0 Generalization</code></pre>
 -   You can also partially or completely omit labels for both nodes and edges:
 
 ```bash
-CMiner ./ontographs.data 2 -t ./S3.txt -n 3
+CMiner ./ontographs.data -s 2 -t ./S3.txt -n 3
 ```
 
 <div style="display: flex; align-items: flex-start; gap: 40px;">
