@@ -1,5 +1,6 @@
 import time
 import argparse
+import sys
 from CCluster import CCluster
 
 
@@ -84,6 +85,12 @@ def _build_clustering_parser():
         "-o", "--output_path", type=str, help="Output file", default=None
     )
     parser.add_argument(
+        "--strategy",
+        type=str,
+        help="Distance-matrix strategy for clustering",
+        default="simple_structural",
+    )
+    parser.add_argument(
         "--init_method",
         type=str,
         choices=["random", "kmeans++"],
@@ -106,9 +113,15 @@ def _build_clustering_parser():
 
 
 def main_function():
-    base_args, _ = _build_base_parser().parse_known_args()
+    argv = sys.argv[1:]
+    has_support_mode = any(
+        arg == "-s" or arg.startswith("--support") for arg in argv
+    )
+    has_cluster_mode = any(
+        arg == "-c" or arg.startswith("--num_clusters") for arg in argv
+    )
 
-    if base_args.support is not None:
+    if has_support_mode:
         args = _build_mining_parser().parse_args()
         from CMiner import CMiner
 
@@ -142,12 +155,17 @@ def main_function():
             print(f"\n-> Execution time: {end_time - start_time} seconds")
         return
 
+    if not has_cluster_mode:
+        _build_base_parser().parse_args()
+        return
+
     args = _build_clustering_parser().parse_args()
     clusterer = CCluster(
         db_file=args.db_file,
         num_clusters=args.num_clusters,
         directed_graph=args.is_directed,
         output_path=args.output_path,
+        strategy=args.strategy,
         init_method=args.init_method,
         max_iter=args.max_iter,
         tolerance=args.tolerance,

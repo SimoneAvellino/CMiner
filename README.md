@@ -2,7 +2,7 @@
 
 # CMiner
 
-CMiner is an algorithm for mining patterns from graphs using a user-defined support technique. This implementation provides a command-line interface for both pattern mining and graph clustering (clustering currently in boilerplate stage).
+CMiner is an algorithm for mining patterns from graphs using a user-defined support technique. This implementation provides a command-line interface for both pattern mining and graph clustering.
 
 ## Installation
 
@@ -107,11 +107,12 @@ CMiner <db_file> -c <num_clusters> [clustering_options]
 
 -   `-d`, `--is_directed`: Flag to indicate if the graphs are directed (default: 0, undirected).
 -   `-o`, `--output_path`: File path to save clustering results.
+-   `--strategy`: Distance-matrix strategy used to represent graphs before clustering (default: `simple_structural`).
 -   `--init_method`: Cluster initialization method (`random` or `kmeans++`, default: `random`).
 -   `--max_iter`: Maximum number of iterations (default: 100).
 -   `--tolerance`: Convergence tolerance (default: `1e-4`).
 
-Note: clustering is currently scaffolded but not implemented yet.
+Current clustering implementation computes a graph distance matrix (via the selected strategy) and applies a medoid-based clustering routine.
 
 #### Basic usage example
 
