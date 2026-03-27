@@ -1,6 +1,5 @@
 import time
 import argparse
-from CMiner import CMiner
 from CCluster import CCluster
 
 
@@ -111,6 +110,7 @@ def main_function():
 
     if base_args.support is not None:
         args = _build_mining_parser().parse_args()
+        from CMiner import CMiner
 
         if args.num_nodes is not None:
             args.min_nodes = args.num_nodes
