@@ -1,10 +1,6 @@
-from asyncio import ALL_COMPLETED
 from collections import defaultdict
-from threading import Thread
 import time
-from concurrent.futures import FIRST_COMPLETED, ThreadPoolExecutor, wait
-
-import threading
+from concurrent.futures import FIRST_COMPLETED, ProcessPoolExecutor, wait
 
 
 from Graph.DBGraph import DirectedDBGraph, UndirectedDBGraph
@@ -19,6 +15,97 @@ from NetworkLoader.NetworksLoading import NetworksLoading
 
 from .Pattern import DirectedPattern, Pattern, PatternMappings, UndirectedPattern
 from .Stack import DFSStack
+
+
+def _process_pattern_all_task(pattern_to_extend: Pattern, min_support, max_nodes):
+    generated_patterns = []
+    if len(pattern_to_extend.nodes()) >= max_nodes:
+        return generated_patterns, []
+
+    node_extensions = pattern_to_extend.find_node_extensions(min_support)
+    if len(node_extensions) == 0:
+        return generated_patterns, []
+
+    local_seen_codes = set()
+    for node_ext in node_extensions:
+        node_extended_pattern = pattern_to_extend.apply_node_extension(node_ext)
+        node_extended_pattern.update_node_mappings(node_ext)
+
+        node_code = node_extended_pattern.canonical_code()
+        if node_code not in local_seen_codes:
+            local_seen_codes.add(node_code)
+            generated_patterns.append(node_extended_pattern)
+
+        edge_extensions = node_extended_pattern.find_edge_extensions(min_support)
+        for edge_ext in edge_extensions:
+            edge_extended_pattern = node_extended_pattern.apply_edge_extension(edge_ext)
+            edge_extended_pattern.update_edge_mappings(edge_ext)
+
+            edge_code = edge_extended_pattern.canonical_code()
+            if edge_code not in local_seen_codes:
+                local_seen_codes.add(edge_code)
+                generated_patterns.append(edge_extended_pattern)
+
+    return generated_patterns, []
+
+
+def _process_pattern_maximum_task(pattern_to_extend: Pattern, min_support, max_nodes):
+    generated_patterns = []
+    output_patterns = []
+
+    if len(pattern_to_extend.nodes()) >= max_nodes:
+        return generated_patterns, output_patterns
+
+    node_extensions = pattern_to_extend.find_node_extensions(min_support)
+    if len(node_extensions) == 0:
+        # In maximum pattern mining, patterns that cannot be extended are outputs.
+        output_patterns.append(pattern_to_extend)
+        return generated_patterns, output_patterns
+
+    local_seen_codes = set()
+    for node_ext in node_extensions:
+        node_extended_pattern = pattern_to_extend.apply_node_extension(node_ext)
+        node_extended_pattern.update_node_mappings(node_ext)
+
+        tree_pattern_added = False
+        edge_extensions = node_extended_pattern.find_edge_extensions(min_support)
+
+        # If no edge extensions are found, add the pattern to the queue.
+        if len(edge_extensions) == 0:
+            node_code = node_extended_pattern.canonical_code()
+            if node_code not in local_seen_codes:
+                local_seen_codes.add(node_code)
+                generated_patterns.append(node_extended_pattern)
+            continue
+
+        graphs_covered_by_edge_extensions = {
+            g for edge_ext in edge_extensions for g in edge_ext[0].graphs()
+        }
+
+        for edge_ext in edge_extensions:
+            edge_extended_pattern = node_extended_pattern.apply_edge_extension(edge_ext)
+            edge_extended_pattern.update_edge_mappings(edge_ext)
+
+            # If the support of the tree pattern is greater than the cycle pattern
+            # it means that the tree cannot be closed in a cycle for all of its
+            # occurrences in each graph, so it's considered a tree pattern.
+            if (
+                (not tree_pattern_added)
+                and (node_extended_pattern.support() > len(graphs_covered_by_edge_extensions))
+                and (node_extended_pattern.support() > edge_extended_pattern.support())
+            ):
+                node_code = node_extended_pattern.canonical_code()
+                if node_code not in local_seen_codes:
+                    local_seen_codes.add(node_code)
+                    generated_patterns.append(node_extended_pattern)
+                tree_pattern_added = True
+
+            edge_code = edge_extended_pattern.canonical_code()
+            if edge_code not in local_seen_codes:
+                local_seen_codes.add(edge_code)
+                generated_patterns.append(edge_extended_pattern)
+
+    return generated_patterns, output_patterns
 
 
 class CMiner:
@@ -58,22 +145,6 @@ class CMiner:
         self.with_frequencies = with_frequencies
         self.pattern_type = pattern_type
         self.workers = max(1, int(workers))
-        self._active_tasks = 0
-        self._active_lock = threading.Lock()
-
-    def _worker_wrapper(self, worker_fn, pattern):
-        with self._active_lock:
-            self._active_tasks += 1
-        try:
-            worker_fn(pattern)
-        except Exception as e:
-            print(f"EXCEPTION in worker: {e}")
-            import traceback
-
-            traceback.print_exc()
-        finally:
-            with self._active_lock:
-                self._active_tasks -= 1
 
     def show_info(self):
         """
@@ -118,14 +189,15 @@ class CMiner:
         self.stack.close()
 
     def mine_all_patterns(self):
-        with ThreadPoolExecutor(max_workers=self.workers) as executor:
+        with ProcessPoolExecutor(max_workers=self.workers) as executor:
             futures = set()
             while True:
-                self._schedule_patterns(executor, futures, self._process_pattern_all)
+                self._schedule_patterns(executor, futures, _process_pattern_all_task)
 
                 if not futures and self.stack.is_empty():
                     break
                 done, futures = wait(futures, return_when=FIRST_COMPLETED)
+                self._handle_completed_futures(done)
 
     def mine_maximum_patterns(self):
         if not self.db:
@@ -133,131 +205,44 @@ class CMiner:
             self._find_start_patterns()
             self._parse_support()
 
-        with ThreadPoolExecutor(max_workers=self.workers) as executor:
+        with ProcessPoolExecutor(max_workers=self.workers) as executor:
             futures = set()
             while True:
-                self._schedule_patterns(
-                    executor, futures, self._process_pattern_maximum
-                )
-                with self._active_lock:
-                    active = self._active_tasks
-                if not futures and active == 0 and self.stack.is_empty():
+                self._schedule_patterns(executor, futures, _process_pattern_maximum_task)
+                if not futures and self.stack.is_empty():
                     break
                 done, futures = wait(futures, return_when=FIRST_COMPLETED)
+                self._handle_completed_futures(done)
 
-    def _schedule_patterns(self, executor: ThreadPoolExecutor, futures, worker_fn):
+    def _schedule_patterns(self, executor, futures, worker_fn):
         while len(futures) < self.workers:
             pattern = self.stack.try_pop()
             if pattern is None:
                 break
-            futures.add(executor.submit(self._worker_wrapper, worker_fn, pattern))
-
-    def _process_pattern_all(self, pattern_to_extend: Pattern):
-
-        if len(pattern_to_extend.nodes()) >= self.stack.max_nodes:
-            return
-
-        node_extensions = pattern_to_extend.find_node_extensions(self.min_support)
-
-        if len(node_extensions) == 0:
-            return
-
-        for node_ext in node_extensions:
-
-            node_extended_pattern = pattern_to_extend.apply_node_extension(node_ext)
-
-            if self.stack.was_stacked(node_extended_pattern):
-                continue
-
-            node_extended_pattern.update_node_mappings(node_ext)
-
-            self.stack.push(node_extended_pattern)
-
-            edge_extensions = node_extended_pattern.find_edge_extensions(
-                self.min_support
+            futures.add(
+                executor.submit(
+                    worker_fn,
+                    pattern,
+                    self.min_support,
+                    self.stack.max_nodes,
+                )
             )
 
-            for edge_ext in edge_extensions:
+    def _handle_completed_futures(self, done_futures):
+        for future in done_futures:
+            try:
+                generated_patterns, output_patterns = future.result()
+            except Exception as e:
+                print(f"EXCEPTION in worker: {e}")
+                import traceback
 
-                edge_extended_pattern = node_extended_pattern.apply_edge_extension(
-                    edge_ext
-                )
-
-                if self.stack.was_stacked(edge_extended_pattern):
-                    continue
-
-                edge_extended_pattern.update_edge_mappings(edge_ext)
-
-                self.stack.push(edge_extended_pattern)
-
-    def _process_pattern_maximum(self, pattern_to_extend: Pattern):
-        if len(pattern_to_extend.nodes()) >= self.stack.max_nodes:
-            return
-
-        node_extensions = pattern_to_extend.find_node_extensions(self.min_support)
-
-        if len(node_extensions) == 0:
-            # In maximum pattern mining, patterns that cannot be extended are outputs.
-            self.stack.output(pattern_to_extend)
-            return
-
-        for node_ext in node_extensions:
-
-            node_extended_pattern = pattern_to_extend.apply_node_extension(node_ext)
-
-            # Ensure no duplicate patterns are processed
-            if self.stack.was_stacked(node_extended_pattern):
+                traceback.print_exc()
                 continue
 
-            node_extended_pattern.update_node_mappings(node_ext)
-
-            tree_pattern_added = False
-
-            edge_extensions = node_extended_pattern.find_edge_extensions(
-                self.min_support
-            )
-
-            # If no edge extensions are found, add the pattern
-            # to the stack, it could be extended adding a node
-            if len(edge_extensions) == 0:
-                self.stack.push(node_extended_pattern)
-                continue
-
-            graphs_covered_by_edge_extensions = {
-                g for edge_ext in edge_extensions for g in edge_ext[0].graphs()
-            }
-
-            for edge_ext in edge_extensions:
-
-                edge_extended_pattern = node_extended_pattern.apply_edge_extension(
-                    edge_ext
-                )
-
-                if self.stack.was_stacked(edge_extended_pattern):
-                    continue
-
-                edge_extended_pattern.update_edge_mappings(edge_ext)
-
-                # If the support of the tree pattern is greater than the cycle pattern
-                # it means that the tree cannot be closed in a cycle for all of his
-                # occurrence in each graph, so it's considered the tree pattern and added to the stack.
-                # Also check if the pattern is not already in the stack, because the same tree can be
-                # considered with more than one edge extension.
-                if (
-                    (not tree_pattern_added)
-                    and (
-                        node_extended_pattern.support()
-                        > len(graphs_covered_by_edge_extensions)
-                    )
-                    and (
-                        node_extended_pattern.support()
-                        > edge_extended_pattern.support()
-                    )
-                ):
-                    self.stack.push(node_extended_pattern)
-                    tree_pattern_added = True
-
-                self.stack.push(edge_extended_pattern)
+            for pattern in output_patterns:
+                self.stack.output(pattern)
+            for pattern in generated_patterns:
+                self.stack.push(pattern)
 
     def _pattern_factory(self, graph) -> Pattern:
         p = (

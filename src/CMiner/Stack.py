@@ -72,20 +72,22 @@ class DFSStack(list):
         """
         Push the pattern into the stack.
         """
+        if len(pattern.nodes()) > self.max_nodes or pattern.frequency() <= 0:
+            del pattern
+            return
+
+        code = pattern.canonical_code()
+        should_output = False
         with self._lock:
-            if (
-                len(pattern.nodes()) <= self.max_nodes
-                and not self.was_stacked(pattern)
-                and pattern.frequency() > 0
-            ):
-                super().append(pattern)
-                code = pattern.canonical_code()
-                if code not in self.found_patterns:
-                    self.found_patterns.add(code)
-                if self.output_options["pattern_type"] != "maximum":
-                    self.output(pattern)
-            else:
+            if code in self.found_patterns:
                 del pattern
+                return
+            super().append(pattern)
+            self.found_patterns.add(code)
+            should_output = self.output_options["pattern_type"] != "maximum"
+
+        if should_output:
+            self.output(pattern)
 
     def was_stacked(self, pattern: Pattern):
         """
