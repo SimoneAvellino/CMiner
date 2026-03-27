@@ -1,4 +1,5 @@
 import threading
+from typing import Optional
 
 from .Pattern import Pattern
 from .SolutionSaver import ConsoleSolutionSaver, FileSolutionSaver
@@ -58,7 +59,7 @@ class DFSStack(list):
 
             return pattern
 
-    def try_pop(self, backtracking=False) -> Pattern | None:
+    def try_pop(self, backtracking=False) -> Optional[Pattern]:
         """
         Safely pop the last element from the stack, returning None if empty.
         """
