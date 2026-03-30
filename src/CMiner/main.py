@@ -4,6 +4,24 @@ import sys
 from CCluster import CCluster
 
 
+def _num_clusters_arg(value):
+    normalized = value.strip().lower()
+    if normalized == "auto":
+        return "auto"
+
+    try:
+        parsed = int(value)
+    except ValueError as exc:
+        raise argparse.ArgumentTypeError(
+            "num_clusters must be a positive integer or 'auto'."
+        ) from exc
+
+    if parsed <= 0:
+        raise argparse.ArgumentTypeError("num_clusters must be greater than zero.")
+
+    return parsed
+
+
 def _build_base_parser():
     parser = argparse.ArgumentParser(description="CMiner algorithm")
     parser.add_argument("db_file", type=str, help="Path to graph db")
@@ -18,8 +36,8 @@ def _build_base_parser():
     mode_group.add_argument(
         "-c",
         "--num_clusters",
-        type=int,
-        help="Number of clusters for graph clustering",
+        type=_num_clusters_arg,
+        help="Number of clusters for graph clustering, or 'auto'",
         default=None,
     )
     return parser
@@ -87,8 +105,16 @@ def _build_clustering_parser():
     parser.add_argument(
         "--strategy",
         type=str,
+        choices=["simple_structural", "flexible_subgraph"],
         help="Distance-matrix strategy for clustering",
         default="simple_structural",
+    )
+    parser.add_argument(
+        "--subgraph_method",
+        type=str,
+        choices=["nodes", "edges"],
+        help="Method used by flexible_subgraph strategy",
+        default="nodes",
     )
     parser.add_argument(
         "--init_method",
@@ -109,6 +135,13 @@ def _build_clustering_parser():
         help="Convergence tolerance for clustering",
         default=1e-4,
     )
+    parser.add_argument(
+        "--verbose",
+        type=int,
+        choices=[0, 1],
+        help="Show distance-matrix computation progress (0: off, 1: on)",
+        default=0,
+    )
     return parser
 
 
@@ -123,7 +156,7 @@ def main_function():
 
     if has_support_mode:
         args = _build_mining_parser().parse_args()
-        from CMiner import CMiner
+        from CMiner.CMiner import CMiner
 
         if args.num_nodes is not None:
             args.min_nodes = args.num_nodes
@@ -169,6 +202,10 @@ def main_function():
         init_method=args.init_method,
         max_iter=args.max_iter,
         tolerance=args.tolerance,
+        strategy_params={
+            "method": args.subgraph_method,
+            "verbose": bool(args.verbose),
+        },
     )
 
     start_time = time.time()

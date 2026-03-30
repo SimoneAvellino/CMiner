@@ -61,15 +61,32 @@ class SimpleStructuralDistanceStrategy(GraphDistanceStrategy):
     def _euclidean_distance(vector_a, vector_b):
         return math.sqrt(sum((a - b) ** 2 for a, b in zip(vector_a, vector_b)))
 
+    @staticmethod
+    def _is_verbose(context: DistanceMatrixStrategyContext) -> bool:
+        return bool(context.strategy_params.get("verbose", False))
+
     def compute_distance_matrix(self, context: DistanceMatrixStrategyContext):
+        verbose = self._is_verbose(context)
         graphs = context.db_graphs
         graph_names = [graph.get_name() for graph in graphs]
 
+        if verbose:
+            print("[simple_structural] Phase 1/3: extracting graph feature vectors...")
+
         feature_vectors = [self._graph_feature_vector(graph) for graph in graphs]
+
+        if verbose:
+            print("[simple_structural] Phase 2/3: normalizing feature vectors...")
+
         normalized_vectors = self._normalize_feature_vectors(feature_vectors)
 
         n_graphs = len(normalized_vectors)
         distance_matrix = [[0.0 for _ in range(n_graphs)] for _ in range(n_graphs)]
+
+        if verbose:
+            print(
+                f"[simple_structural] Phase 3/3: computing pairwise distances for {n_graphs} graphs..."
+            )
 
         for i in range(n_graphs):
             for j in range(i + 1, n_graphs):
@@ -78,5 +95,8 @@ class SimpleStructuralDistanceStrategy(GraphDistanceStrategy):
                 )
                 distance_matrix[i][j] = distance
                 distance_matrix[j][i] = distance
+
+        if verbose:
+            print("[simple_structural] Distance matrix completed.")
 
         return distance_matrix, graph_names

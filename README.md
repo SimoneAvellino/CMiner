@@ -86,7 +86,7 @@ CMiner <db_file> -c <num_clusters> [clustering_options]
 
 -   `db_file`: Absolute path to the graph database file.
 -   `-s`, `--support`: **(Mining mode)** Minimum support for pattern extraction. Specify a value between `0` and `1` to represent a percentage (e.g., `0.2` for 20%) or an absolute number (e.g., `20` for at least 20 graphs). To find patterns in all graphs, use `1` (100%). For patterns in at least one graph, use a value greater than `1` (e.g., `1.1`).
--   `-c`, `--num_clusters`: **(Clustering mode)** Number of clusters to generate.
+-   `-c`, `--num_clusters`: **(Clustering mode)** Number of clusters to generate, or `auto` to estimate it with the Silhouette method.
 
 `-s` and `-c` are mutually exclusive: exactly one mode must be selected.
 
@@ -105,14 +105,33 @@ CMiner <db_file> -c <num_clusters> [clustering_options]
 
 #### Clustering options (used only with `-c`):
 
--   `-d`, `--is_directed`: Flag to indicate if the graphs are directed (default: 0, undirected).
--   `-o`, `--output_path`: File path to save clustering results.
--   `--strategy`: Distance-matrix strategy used to represent graphs before clustering (default: `simple_structural`).
--   `--init_method`: Cluster initialization method (`random` or `kmeans++`, default: `random`).
--   `--max_iter`: Maximum number of iterations (default: 100).
--   `--tolerance`: Convergence tolerance (default: `1e-4`).
+##### Global flags (all clustering strategies)
+
+| Flag | Default | Description |
+| --- | --- | --- |
+| `-d`, `--is_directed` | `0` | Graph direction flag (0 = undirected, 1 = directed). |
+| `-o`, `--output_path` | `None` | Output root folder path for clustering results. CMiner creates a subfolder named `cluster_[filename]`; inside it, one file per cluster (`cluster_i_j`) plus a `README.md`. |
+| `--strategy` | `simple_structural` | Distance-matrix strategy: `simple_structural` or `flexible_subgraph`. |
+| `--init_method` | `random` | Medoid initialization: `random` or `kmeans++`. |
+| `--max_iter` | `100` | Maximum clustering iterations. |
+| `--tolerance` | `1e-4` | Convergence tolerance for medoid updates. |
+| `--verbose` | `0` | Show distance-matrix computation progress logs (`0` = off, `1` = on). |
+
+##### Strategy: `simple_structural`
+
+| Flag | Values | Default | Description |
+| --- | --- | --- | --- |
+| No strategy-specific flags | - | - | This strategy uses only the global clustering flags. |
+
+##### Strategy: `flexible_subgraph`
+
+| Flag | Values | Default | Description |
+| --- | --- | --- | --- |
+| `--subgraph_method` | `nodes`, `edges` | `nodes` | Subgraph extraction mode: `nodes` (node-induced) or `edges` (edge-induced). |
 
 Current clustering implementation computes a graph distance matrix (via the selected strategy) and applies a medoid-based clustering routine.
+
+Note: `flexible_subgraph` can be computationally expensive on medium/large graphs because it enumerates many subgraph combinations.
 
 #### Basic usage example
 
@@ -132,6 +151,30 @@ CMiner /path/to/db.data -s 2 -n 5
 
 ```bash
 CMiner /path/to/db.data -c 4 --init_method kmeans++ --max_iter 200
+```
+
+-   Start graph clustering with automatic cluster-count selection (Silhouette):
+
+```bash
+CMiner /path/to/db.data -c auto --strategy simple_structural
+```
+
+-   Start graph clustering with the new flexible strategy (node-induced subgraphs):
+
+```bash
+CMiner /path/to/db.data -c 4 --strategy flexible_subgraph --subgraph_method nodes
+```
+
+-   Start graph clustering with the new flexible strategy (edge-induced subgraphs):
+
+```bash
+CMiner /path/to/db.data -c 4 --strategy flexible_subgraph --subgraph_method edges
+```
+
+-   Start graph clustering with progress logs enabled:
+
+```bash
+CMiner /path/to/db.data -c 4 --strategy flexible_subgraph --subgraph_method nodes --verbose 1
 ```
 
 #### Template usage examples

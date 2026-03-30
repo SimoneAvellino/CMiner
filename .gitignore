@@ -43,3 +43,6 @@ __pycache__/
 # Compilation files .egg-info
 *.egg-info/
 .eggs/
+
+# Developer-specific files
+internal_test

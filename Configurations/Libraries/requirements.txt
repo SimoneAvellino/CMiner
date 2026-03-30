@@ -1,4 +1,5 @@
 networkx
 pandas
+scikit-learn
 ZODB
 BTrees
