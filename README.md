@@ -111,7 +111,7 @@ CMiner <db_file> -c <num_clusters> [clustering_options]
 | --- | --- | --- |
 | `-d`, `--is_directed` | `0` | Graph direction flag (0 = undirected, 1 = directed). |
 | `-o`, `--output_path` | `None` | Output root folder path for clustering results. CMiner creates a subfolder named `cluster_[filename]`; inside it, one file per cluster (`cluster_i_j`) plus a `README.md`. |
-| `--strategy` | `simple_structural` | Distance-matrix strategy: `simple_structural` or `flexible_subgraph`. |
+| `--strategy` | `simple_structural` | Distance-matrix strategy: `simple_structural`, `flexible_subgraph` or `ged`. |
 | `--init_method` | `random` | Medoid initialization: `random` or `kmeans++`. |
 | `--max_iter` | `100` | Maximum clustering iterations. |
 | `--tolerance` | `1e-4` | Convergence tolerance for medoid updates. |
@@ -129,9 +129,22 @@ CMiner <db_file> -c <num_clusters> [clustering_options]
 | --- | --- | --- | --- |
 | `--subgraph_method` | `nodes`, `edges` | `nodes` | Subgraph extraction mode: `nodes` (node-induced) or `edges` (edge-induced). |
 
+##### Strategy: `ged`
+
+| Flag | Values | Default | Description |
+| --- | --- | --- | --- |
+| `--ged_timeout` | float | `5.0` | Timeout (seconds) for each GED pairwise computation. If `<= 0`, timeout is disabled. |
+| `--ged_normalize` | `0`, `1` | `1` | Normalize GED values using a graph-size upper bound (`1` = enabled). |
+| `--ged_node_del_cost` | float | `1.0` | Node deletion cost used by GED. |
+| `--ged_node_ins_cost` | float | `1.0` | Node insertion cost used by GED. |
+| `--ged_edge_del_cost` | float | `1.0` | Edge deletion cost used by GED. |
+| `--ged_edge_ins_cost` | float | `1.0` | Edge insertion cost used by GED. |
+
 Current clustering implementation computes a graph distance matrix (via the selected strategy) and applies a medoid-based clustering routine.
 
 Note: `flexible_subgraph` can be computationally expensive on medium/large graphs because it enumerates many subgraph combinations.
+
+Detailed GED documentation is available in `src/CCluster/strategies/GED_STRATEGY.md`.
 
 #### Basic usage example
 
@@ -175,6 +188,12 @@ CMiner /path/to/db.data -c 4 --strategy flexible_subgraph --subgraph_method edge
 
 ```bash
 CMiner /path/to/db.data -c 4 --strategy flexible_subgraph --subgraph_method nodes --verbose 1
+```
+
+-   Start graph clustering with Graph Edit Distance (GED):
+
+```bash
+CMiner /path/to/db.data -c 4 --strategy ged --ged_timeout 3 --ged_normalize 1
 ```
 
 #### Template usage examples

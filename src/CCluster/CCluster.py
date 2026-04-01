@@ -7,6 +7,7 @@ from sklearn.metrics import silhouette_score
 from .strategies import (
     DistanceMatrixStrategyContext,
     FlexibleSubgraphDistanceStrategy,
+    GEDDistanceStrategy,
     GraphDistanceStrategy,
     SimpleStructuralDistanceStrategy,
 )
@@ -69,6 +70,7 @@ class CCluster:
         strategy_registry = {
             "simple_structural": SimpleStructuralDistanceStrategy(),
             "flexible_subgraph": FlexibleSubgraphDistanceStrategy(),
+            "ged": GEDDistanceStrategy(),
         }
         if self.strategy not in strategy_registry:
             available = ", ".join(sorted(strategy_registry))

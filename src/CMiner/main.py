@@ -105,7 +105,7 @@ def _build_clustering_parser():
     parser.add_argument(
         "--strategy",
         type=str,
-        choices=["simple_structural", "flexible_subgraph"],
+        choices=["simple_structural", "flexible_subgraph", "ged"],
         help="Distance-matrix strategy for clustering",
         default="simple_structural",
     )
@@ -141,6 +141,43 @@ def _build_clustering_parser():
         choices=[0, 1],
         help="Show distance-matrix computation progress (0: off, 1: on)",
         default=0,
+    )
+    parser.add_argument(
+        "--ged_timeout",
+        type=float,
+        help="Per-pair timeout in seconds for GED (<=0 disables timeout)",
+        default=5.0,
+    )
+    parser.add_argument(
+        "--ged_normalize",
+        type=int,
+        choices=[0, 1],
+        help="Normalize GED values in [0,1] using graph size-based upper bound",
+        default=1,
+    )
+    parser.add_argument(
+        "--ged_node_del_cost",
+        type=float,
+        help="Node deletion cost for GED",
+        default=1.0,
+    )
+    parser.add_argument(
+        "--ged_node_ins_cost",
+        type=float,
+        help="Node insertion cost for GED",
+        default=1.0,
+    )
+    parser.add_argument(
+        "--ged_edge_del_cost",
+        type=float,
+        help="Edge deletion cost for GED",
+        default=1.0,
+    )
+    parser.add_argument(
+        "--ged_edge_ins_cost",
+        type=float,
+        help="Edge insertion cost for GED",
+        default=1.0,
     )
     return parser
 
@@ -205,6 +242,12 @@ def main_function():
         strategy_params={
             "method": args.subgraph_method,
             "verbose": bool(args.verbose),
+            "ged_timeout": args.ged_timeout,
+            "ged_normalize": bool(args.ged_normalize),
+            "ged_node_del_cost": args.ged_node_del_cost,
+            "ged_node_ins_cost": args.ged_node_ins_cost,
+            "ged_edge_del_cost": args.ged_edge_del_cost,
+            "ged_edge_ins_cost": args.ged_edge_ins_cost,
         },
     )
 
