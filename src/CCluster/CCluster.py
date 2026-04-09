@@ -8,6 +8,7 @@ from .strategies import (
     DistanceMatrixStrategyContext,
     FlexibleSubgraphDistanceStrategy,
     GraphDistanceStrategy,
+    MCSDistanceStrategy,
     SimpleStructuralDistanceStrategy,
 )
 
@@ -69,6 +70,7 @@ class CCluster:
         strategy_registry = {
             "simple_structural": SimpleStructuralDistanceStrategy(),
             "flexible_subgraph": FlexibleSubgraphDistanceStrategy(),
+            "mcs": MCSDistanceStrategy(),
         }
         if self.strategy not in strategy_registry:
             available = ", ".join(sorted(strategy_registry))

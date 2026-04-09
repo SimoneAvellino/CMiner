@@ -105,9 +105,16 @@ def _build_clustering_parser():
     parser.add_argument(
         "--strategy",
         type=str,
-        choices=["simple_structural", "flexible_subgraph"],
+        choices=["simple_structural", "flexible_subgraph", "mcs"],
         help="Distance-matrix strategy for clustering",
         default="simple_structural",
+    )
+    parser.add_argument(
+        "--mcs_use_mcis",
+        type=int,
+        choices=[0, 1],
+        help="If 1 and strategy is mcs, use MCIS instead of MCS",
+        default=0,
     )
     parser.add_argument(
         "--subgraph_method",
@@ -204,6 +211,7 @@ def main_function():
         tolerance=args.tolerance,
         strategy_params={
             "method": args.subgraph_method,
+            "mcs_use_mcis": bool(args.mcs_use_mcis),
             "verbose": bool(args.verbose),
         },
     )
