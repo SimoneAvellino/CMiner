@@ -1,6 +1,6 @@
 import math
 
-from .strategy_interface import DistanceMatrixStrategyContext, GraphDistanceStrategy
+from .embedding_strategy import DistanceMatrixStrategyContext, GraphDistanceStrategy
 
 
 class SimpleStructuralDistanceStrategy(GraphDistanceStrategy):

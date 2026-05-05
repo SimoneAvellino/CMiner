@@ -1,40 +1,77 @@
 import os
-import random
 import re
 
 from sklearn.metrics import silhouette_score
 
-from .strategies import (
+from .strategies.clustering import (
+    ClusteringContext,
+    ClusteringStrategy,
+    KMedoidsClusteringStrategy,
+)
+from .strategies.embedding import (
     DistanceMatrixStrategyContext,
     FlexibleSubgraphDistanceStrategy,
     GraphDistanceStrategy,
     SimpleStructuralDistanceStrategy,
 )
+from .strategies.enrichment import (
+    EnrichGraphSemanticsStrategy,
+    EnrichmentContext,
+    NoOpEnrichmentStrategy,
+    SemanticLabelClusteringEnrichmentStrategy,
+)
 
 
 class CCluster:
+    """Pipeline orchestrator: read graphs -> enrich -> embed -> cluster -> emit.
+
+    The three pluggable steps are:
+
+    * ``enrichment_strategy``: an :class:`EnrichGraphSemanticsStrategy` that
+      augments the semantic content of the graphs read from the database.
+      Defaults to a no-op identity strategy.
+    * ``embedding_strategy``: a :class:`GraphDistanceStrategy` that turns the
+      (possibly enriched) graphs into a pairwise distance matrix.
+    * ``clustering_strategy``: a :class:`ClusteringStrategy` that partitions
+      the graphs based on the distance matrix. Defaults to k-medoids.
+    """
+
     def __init__(
         self,
         db_file,
         num_clusters,
         directed_graph=0,
         output_path=None,
-        strategy="simple_structural",
+        embedding_strategy="simple_structural",
+        clustering_strategy="kmedoids",
+        enrichment_strategy="noop",
         init_method="random",
         max_iter=100,
         tolerance=1e-4,
-        strategy_params=None,
+        auto_k_max=None,
+        embedding_params=None,
+        clustering_params=None,
+        enrichment_params=None,
     ):
         self.db_file = db_file
         self.num_clusters = num_clusters
         self.directed_graph = directed_graph
         self.output_path = output_path
-        self.strategy = strategy
+        self.embedding_strategy = embedding_strategy
+        self.clustering_strategy = clustering_strategy
+        self.enrichment_strategy = enrichment_strategy
         self.init_method = init_method
         self.max_iter = max_iter
         self.tolerance = tolerance
-        self.strategy_params = strategy_params or {}
+        # Upper bound for the auto-K silhouette grid search.
+        # ``None`` (default) -> ceil(sqrt(n_items)) heuristic.
+        self.auto_k_max = auto_k_max
+        self.embedding_params = embedding_params or {}
+        self.clustering_params = clustering_params or {}
+        self.enrichment_params = enrichment_params or {}
         self.db = []
+
+    # --------------------------------------------------------------- helpers
 
     @staticmethod
     def _silhouette_score(distance_matrix, assignments, n_items):
@@ -46,7 +83,9 @@ class CCluster:
         # Ignore failed candidate clusterings (for example when empty clusters
         # reduce the number of effective labels below 2).
         try:
-            return float(silhouette_score(distance_matrix, labels, metric="precomputed"))
+            return float(
+                silhouette_score(distance_matrix, labels, metric="precomputed")
+            )
         except ValueError:
             return float("-inf")
 
@@ -65,65 +104,62 @@ class CCluster:
         ).Networks.items():
             self.db.append(constructor_db_graph(network, name))
 
-    def _resolve_strategy(self) -> GraphDistanceStrategy:
-        strategy_registry = {
+    # ------------------------------------------------------ strategy resolvers
+
+    def _resolve_enrichment_strategy(self) -> EnrichGraphSemanticsStrategy:
+        if isinstance(self.enrichment_strategy, EnrichGraphSemanticsStrategy):
+            return self.enrichment_strategy
+
+        registry = {
+            "noop": NoOpEnrichmentStrategy(),
+            "semantic_label_clustering": SemanticLabelClusteringEnrichmentStrategy(),
+        }
+        if self.enrichment_strategy not in registry:
+            available = ", ".join(sorted(registry))
+            raise ValueError(
+                f"Unknown enrichment strategy '{self.enrichment_strategy}'. "
+                f"Available strategies: {available}"
+            )
+        return registry[self.enrichment_strategy]
+
+    def _resolve_embedding_strategy(self) -> GraphDistanceStrategy:
+        if isinstance(self.embedding_strategy, GraphDistanceStrategy):
+            return self.embedding_strategy
+
+        registry = {
             "simple_structural": SimpleStructuralDistanceStrategy(),
             "flexible_subgraph": FlexibleSubgraphDistanceStrategy(),
         }
-        if self.strategy not in strategy_registry:
-            available = ", ".join(sorted(strategy_registry))
+        if self.embedding_strategy not in registry:
+            available = ", ".join(sorted(registry))
             raise ValueError(
-                f"Unknown strategy '{self.strategy}'. Available strategies: {available}"
+                f"Unknown embedding strategy '{self.embedding_strategy}'. "
+                f"Available strategies: {available}"
             )
-        return strategy_registry[self.strategy]
+        return registry[self.embedding_strategy]
 
-    @staticmethod
-    def _distance(i, j, distance_matrix):
-        if i == j:
-            return 0.0
-        if i < j:
-            return distance_matrix[i][j]
-        return distance_matrix[j][i]
+    def _resolve_clustering_strategy(self) -> ClusteringStrategy:
+        if isinstance(self.clustering_strategy, ClusteringStrategy):
+            return self.clustering_strategy
 
-    def _initialize_medoids(self, distance_matrix, n_items, num_clusters):
-        if self.init_method == "random":
-            return random.sample(range(n_items), num_clusters)
-
-        if self.init_method != "kmeans++":
+        registry = {
+            "kmedoids": KMedoidsClusteringStrategy(),
+        }
+        if self.clustering_strategy not in registry:
+            available = ", ".join(sorted(registry))
             raise ValueError(
-                f"Unknown init_method '{self.init_method}'. Use 'random' or 'kmeans++'."
+                f"Unknown clustering strategy '{self.clustering_strategy}'. "
+                f"Available strategies: {available}"
             )
+        return registry[self.clustering_strategy]
 
-        medoids = [random.randrange(n_items)]
-        while len(medoids) < num_clusters:
-            distances_to_nearest_medoid = []
-            for idx in range(n_items):
-                if idx in medoids:
-                    distances_to_nearest_medoid.append(0.0)
-                    continue
-                nearest = min(
-                    self._distance(idx, medoid, distance_matrix) for medoid in medoids
-                )
-                distances_to_nearest_medoid.append(nearest**2)
+    # ------------------------------------------------------------ auto-tuning
 
-            total = sum(distances_to_nearest_medoid)
-            if total == 0:
-                remaining = [idx for idx in range(n_items) if idx not in medoids]
-                medoids.extend(random.sample(remaining, num_clusters - len(medoids)))
-                break
+    def _select_num_clusters_auto(
+        self, clustering_strategy, distance_matrix, graph_names
+    ):
+        import math
 
-            target = random.random() * total
-            cumulative = 0.0
-            for idx, value in enumerate(distances_to_nearest_medoid):
-                cumulative += value
-                if cumulative >= target:
-                    if idx not in medoids:
-                        medoids.append(idx)
-                    break
-
-        return medoids
-
-    def _select_num_clusters_auto(self, distance_matrix, graph_names):
         n_items = len(graph_names)
         if n_items == 0:
             raise ValueError("Graph database is empty.")
@@ -135,21 +171,68 @@ class CCluster:
             )
             return n_items
 
+        # Verbose flag is consistent with the verbose flag of the clustering
+        # strategy itself; when on we print one line per candidate k so the
+        # user can see auto-mode making progress on long runs.
+        verbose = bool(self.clustering_params.get("verbose", False))
+
+        # Upper bound for the silhouette grid search.
+        # Default: ceil(sqrt(n_items)) — enough to find a sensible k for
+        # most real DBs without paying the O(n) cost of testing every k up
+        # to n_items - 1. Override with ``auto_k_max=N`` (constructor) or
+        # ``--auto_k_max N`` (CLI).
+        if self.auto_k_max is None:
+            k_max = max(2, int(math.ceil(math.sqrt(n_items))))
+        else:
+            k_max = max(2, int(self.auto_k_max))
+        # silhouette requires k <= n_items - 1
+        k_max = min(k_max, n_items - 1)
+
         best_k = 2
         best_score = float("-inf")
 
-        for candidate_k in range(2, n_items):
-            _, assignments = self._run_clustering_algorithm(
-                distance_matrix,
-                graph_names,
+        if verbose:
+            tag = "default sqrt-heuristic" if self.auto_k_max is None else "user override"
+            print(
+                f"[auto_k] testing candidate_k in [2, {k_max}] on {n_items} graphs "
+                f"({tag})",
+                flush=True,
+            )
+
+        # Pass-through clustering params for auto-K: silence the inner kmedoids
+        # logging during the grid search to avoid swamping the output with
+        # iteration logs from O(n) candidate fits.
+        inner_clustering_params = dict(self.clustering_params)
+        inner_clustering_params["verbose"] = False
+
+        for candidate_k in range(2, k_max + 1):
+            context = ClusteringContext(
                 num_clusters=candidate_k,
-                return_assignments=True,
+                init_method=self.init_method,
+                max_iter=self.max_iter,
+                tolerance=self.tolerance,
+                strategy_params=inner_clustering_params,
+            )
+            _, assignments = clustering_strategy.cluster(
+                distance_matrix, graph_names, context
             )
 
             if any(len(points) == 0 for points in assignments):
+                if verbose:
+                    print(
+                        f"[auto_k]   k={candidate_k}: empty cluster, skipped",
+                        flush=True,
+                    )
                 continue
 
             score = self._silhouette_score(distance_matrix, assignments, n_items)
+
+            if verbose:
+                marker = " <-- best" if score > best_score else ""
+                print(
+                    f"[auto_k]   k={candidate_k}: silhouette={score:.4f}{marker}",
+                    flush=True,
+                )
 
             if score > best_score:
                 best_score = score
@@ -161,111 +244,7 @@ class CCluster:
         )
         return best_k
 
-    def _repair_empty_clusters(self, medoids, assignments, distance_matrix, n_items):
-        empty_cluster_indices = [idx for idx, points in enumerate(assignments) if not points]
-        if not empty_cluster_indices:
-            return medoids, False
-
-        new_medoids = medoids[:]
-        used_medoids = set(new_medoids)
-        available_points = [point_idx for point_idx in range(n_items) if point_idx not in used_medoids]
-
-        if not available_points:
-            return new_medoids, False
-
-        for empty_cluster_idx in empty_cluster_indices:
-            if not available_points:
-                break
-
-            # Choose a point far from existing medoids to maximize separation.
-            replacement = max(
-                available_points,
-                key=lambda point_idx: min(
-                    self._distance(point_idx, medoid_idx, distance_matrix)
-                    for medoid_idx in new_medoids
-                ),
-            )
-            new_medoids[empty_cluster_idx] = replacement
-            available_points.remove(replacement)
-
-        return new_medoids, True
-
-    def _assign_points(self, medoids, distance_matrix, n_items):
-        assignments = [[] for _ in medoids]
-        for idx in range(n_items):
-            best_cluster = min(
-                range(len(medoids)),
-                key=lambda cluster_idx: self._distance(
-                    idx, medoids[cluster_idx], distance_matrix
-                ),
-            )
-            assignments[best_cluster].append(idx)
-        return assignments
-
-    def _recompute_medoids(self, assignments, medoids, distance_matrix):
-        new_medoids = medoids[:]
-        for cluster_idx, cluster_points in enumerate(assignments):
-            if not cluster_points:
-                continue
-            best_medoid = min(
-                cluster_points,
-                key=lambda candidate: sum(
-                    self._distance(candidate, other, distance_matrix)
-                    for other in cluster_points
-                ),
-            )
-            new_medoids[cluster_idx] = best_medoid
-        return new_medoids
-
-    def _run_clustering_algorithm(
-        self,
-        distance_matrix,
-        graph_names,
-        num_clusters=None,
-        return_assignments=False,
-    ):
-        effective_num_clusters = (
-            self.num_clusters if num_clusters is None else num_clusters
-        )
-        n_items = len(graph_names)
-        if n_items == 0:
-            raise ValueError("Graph database is empty.")
-        if effective_num_clusters <= 0:
-            raise ValueError("num_clusters must be greater than zero.")
-        if effective_num_clusters > n_items:
-            raise ValueError(
-                "num_clusters "
-                f"({effective_num_clusters}) cannot be greater than number of graphs ({n_items})."
-            )
-
-        medoids = self._initialize_medoids(
-            distance_matrix, n_items, effective_num_clusters
-        )
-
-        for _ in range(self.max_iter):
-            assignments = self._assign_points(medoids, distance_matrix, n_items)
-            medoids, repaired = self._repair_empty_clusters(
-                medoids, assignments, distance_matrix, n_items
-            )
-            if repaired:
-                assignments = self._assign_points(medoids, distance_matrix, n_items)
-
-            new_medoids = self._recompute_medoids(assignments, medoids, distance_matrix)
-            changed = sum(1 for old, new in zip(medoids, new_medoids) if old != new)
-            medoids = new_medoids
-
-            if (changed / effective_num_clusters) <= self.tolerance:
-                break
-
-        clusters = {}
-        final_assignments = self._assign_points(medoids, distance_matrix, n_items)
-        for cluster_idx, points in enumerate(final_assignments):
-            clusters[cluster_idx] = [graph_names[point_idx] for point_idx in points]
-
-        if return_assignments:
-            return clusters, final_assignments
-
-        return clusters
+    # ------------------------------------------------------------------ I/O
 
     def _emit_results(self, clusters):
         print("Clustering result:")
@@ -298,7 +277,9 @@ class CCluster:
 
                     for node in sorted(graph.nodes(), key=lambda node_id: str(node_id)):
                         labels = graph.nodes[node].get("labels", [])
-                        labels_part = " ".join(str(label) for label in labels if str(label))
+                        labels_part = " ".join(
+                            str(label) for label in labels if str(label)
+                        )
                         if labels_part:
                             handle.write(f"v {node} {labels_part}\n")
                         else:
@@ -340,34 +321,68 @@ class CCluster:
 
         print(f"Results written to folder: {target_folder}")
 
+    # --------------------------------------------------------------- pipeline
+
     def cluster(self):
+        # 1. Load graphs from the database file.
         print("Reading graphs from file...", end=" ")
         self._read_graphs_from_file()
         print("done.")
 
-        strategy = self._resolve_strategy()
+        # 2. Optionally enrich the semantic content of the graphs.
+        # The enriched graphs are fed only to the embedding step; ``self.db``
+        # keeps the original graphs so the output emitted on disk does NOT
+        # include any synthetic semantic super-node / super-edge.
+        enrichment_strategy = self._resolve_enrichment_strategy()
+        enrichment_context = EnrichmentContext(
+            db_graphs=self.db,
+            db_file=self.db_file,
+            directed_graph=bool(self.directed_graph),
+            strategy_params=self.enrichment_params,
+        )
+        enriched_graphs = list(enrichment_strategy.enrich(enrichment_context))
+
+        # 3. Compute the pairwise distance matrix via the embedding strategy.
+        embedding_strategy = self._resolve_embedding_strategy()
         context_num_clusters = (
             2 if isinstance(self.num_clusters, str) else self.num_clusters
         )
-        context = DistanceMatrixStrategyContext(
-            db_graphs=self.db,
+        embedding_context = DistanceMatrixStrategyContext(
+            db_graphs=enriched_graphs,
             db_file=self.db_file,
             directed_graph=bool(self.directed_graph),
             num_clusters=context_num_clusters,
             init_method=self.init_method,
             max_iter=self.max_iter,
             tolerance=self.tolerance,
-            strategy_params=self.strategy_params,
+            strategy_params=self.embedding_params,
+        )
+        distance_matrix, graph_names = embedding_strategy.compute_distance_matrix(
+            embedding_context
         )
 
-        distance_matrix, graph_names = strategy.compute_distance_matrix(context)
+        # 4. Run the clustering algorithm on the distance matrix.
+        clustering_strategy = self._resolve_clustering_strategy()
 
         if isinstance(self.num_clusters, str):
             if self.num_clusters != "auto":
                 raise ValueError(
                     "num_clusters string value is invalid. Supported value: 'auto'."
                 )
-            self.num_clusters = self._select_num_clusters_auto(distance_matrix, graph_names)
+            self.num_clusters = self._select_num_clusters_auto(
+                clustering_strategy, distance_matrix, graph_names
+            )
 
-        clusters = self._run_clustering_algorithm(distance_matrix, graph_names)
+        clustering_context = ClusteringContext(
+            num_clusters=self.num_clusters,
+            init_method=self.init_method,
+            max_iter=self.max_iter,
+            tolerance=self.tolerance,
+            strategy_params=self.clustering_params,
+        )
+        clusters, _ = clustering_strategy.cluster(
+            distance_matrix, graph_names, clustering_context
+        )
+
+        # 5. Emit results.
         self._emit_results(clusters)

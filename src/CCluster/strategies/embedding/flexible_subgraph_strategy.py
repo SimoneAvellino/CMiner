@@ -52,11 +52,18 @@ ALGORITHM compute_distance_matrix(db_graphs, method):
 
 import itertools
 import math
+import time
 
 import networkx as nx
 import numpy as np
 
-from .strategy_interface import DistanceMatrixStrategyContext, GraphDistanceStrategy
+from .embedding_strategy import DistanceMatrixStrategyContext, GraphDistanceStrategy
+
+
+# Heartbeat tuning: stamp progress at most every this many combinations OR
+# every this many seconds (whichever comes first).
+_HEARTBEAT_EVERY_N_COMBOS = 50_000
+_HEARTBEAT_EVERY_SECONDS = 5.0
 
 
 class FlexibleSubgraphDistanceStrategy(GraphDistanceStrategy):
@@ -127,20 +134,77 @@ class FlexibleSubgraphDistanceStrategy(GraphDistanceStrategy):
         return subgraph
 
     @staticmethod
-    def _count_connected_node_induced_subgraphs(graph):
-        """Count connected node-induced subgraphs grouped by canonical code."""
+    def _count_connected_node_induced_subgraphs(
+        graph, *, min_size=2, max_size=None, verbose=False, log_prefix=""
+    ):
+        """Count connected node-induced subgraphs grouped by canonical code.
+
+        Parameters
+        ----------
+        min_size:
+            Lower bound (inclusive) on the size of the enumerated subgraphs.
+            Defaults to ``2``.
+        max_size:
+            Upper bound (inclusive). ``None`` means ``n_nodes`` (no cap).
+
+        When ``verbose`` is true and ``log_prefix`` is set, prints a heartbeat
+        every ``_HEARTBEAT_EVERY_N_COMBOS`` combinations or every
+        ``_HEARTBEAT_EVERY_SECONDS`` seconds (whichever comes first), so the
+        user can see progress on graphs whose subset enumeration takes a
+        while.
+        """
         counts = {}
         nodes = list(graph.nodes())
+        n_nodes = len(nodes)
 
-        for size in range(2, len(nodes) + 1):
+        lo = max(2, int(min_size))
+        hi = n_nodes if max_size is None else min(n_nodes, int(max_size))
+        if hi < lo:
+            # Empty effective range: nothing to enumerate.
+            if verbose:
+                print(
+                    f"{log_prefix}n_nodes={n_nodes}, "
+                    f"effective size range [{lo}, {hi}] is empty -> 0 subsets",
+                    flush=True,
+                )
+            return counts
+
+        total = sum(math.comb(n_nodes, k) for k in range(lo, hi + 1))
+
+        if verbose and total > 0:
+            print(
+                f"{log_prefix}n_nodes={n_nodes}, "
+                f"size range [{lo}, {hi}], "
+                f"node-subsets to test={total:,}",
+                flush=True,
+            )
+
+        processed = 0
+        connected_kept = 0
+        last_log = time.time()
+
+        for size in range(lo, hi + 1):
             for node_combo in itertools.combinations(nodes, size):
+                processed += 1
                 subgraph = FlexibleSubgraphDistanceStrategy._node_induced_subgraph(
                     graph, node_combo
                 )
-                if not FlexibleSubgraphDistanceStrategy._is_connected(subgraph):
-                    continue
-                code = subgraph.canonical_code()
-                counts[code] = counts.get(code, 0) + 1
+                if FlexibleSubgraphDistanceStrategy._is_connected(subgraph):
+                    code = subgraph.canonical_code()
+                    counts[code] = counts.get(code, 0) + 1
+                    connected_kept += 1
+
+                if verbose and (
+                    processed % _HEARTBEAT_EVERY_N_COMBOS == 0
+                    or (time.time() - last_log) >= _HEARTBEAT_EVERY_SECONDS
+                ):
+                    pct = (processed * 100 // total) if total else 100
+                    print(
+                        f"{log_prefix}  {processed:,}/{total:,} ({pct}%) "
+                        f"node-subsets tested, connected so far={connected_kept:,}",
+                        flush=True,
+                    )
+                    last_log = time.time()
 
         return counts
 
@@ -164,20 +228,72 @@ class FlexibleSubgraphDistanceStrategy(GraphDistanceStrategy):
         return subgraph
 
     @staticmethod
-    def _count_connected_edge_induced_subgraphs(graph):
-        """Count connected edge-induced subgraphs grouped by canonical code."""
+    def _count_connected_edge_induced_subgraphs(
+        graph, *, min_size=1, max_size=None, verbose=False, log_prefix=""
+    ):
+        """Count connected edge-induced subgraphs grouped by canonical code.
+
+        Parameters
+        ----------
+        min_size:
+            Lower bound (inclusive) on the number of edges per subgraph.
+            Defaults to ``1``.
+        max_size:
+            Upper bound (inclusive). ``None`` means ``n_edges`` (no cap).
+
+        Mirrors the heartbeat behavior of the node-induced variant.
+        """
         counts = {}
         edges = list(graph.edges(keys=True))
+        n_edges = len(edges)
 
-        for size in range(1, len(edges) + 1):
+        lo = max(1, int(min_size))
+        hi = n_edges if max_size is None else min(n_edges, int(max_size))
+        if hi < lo:
+            if verbose:
+                print(
+                    f"{log_prefix}n_edges={n_edges}, "
+                    f"effective size range [{lo}, {hi}] is empty -> 0 subsets",
+                    flush=True,
+                )
+            return counts
+
+        total = sum(math.comb(n_edges, k) for k in range(lo, hi + 1))
+
+        if verbose and total > 0:
+            print(
+                f"{log_prefix}n_edges={n_edges}, "
+                f"size range [{lo}, {hi}], "
+                f"edge-subsets to test={total:,}",
+                flush=True,
+            )
+
+        processed = 0
+        connected_kept = 0
+        last_log = time.time()
+
+        for size in range(lo, hi + 1):
             for edge_combo in itertools.combinations(edges, size):
+                processed += 1
                 subgraph = FlexibleSubgraphDistanceStrategy._edge_induced_subgraph(
                     graph, edge_combo
                 )
-                if not FlexibleSubgraphDistanceStrategy._is_connected(subgraph):
-                    continue
-                code = subgraph.canonical_code()
-                counts[code] = counts.get(code, 0) + 1
+                if FlexibleSubgraphDistanceStrategy._is_connected(subgraph):
+                    code = subgraph.canonical_code()
+                    counts[code] = counts.get(code, 0) + 1
+                    connected_kept += 1
+
+                if verbose and (
+                    processed % _HEARTBEAT_EVERY_N_COMBOS == 0
+                    or (time.time() - last_log) >= _HEARTBEAT_EVERY_SECONDS
+                ):
+                    pct = (processed * 100 // total) if total else 100
+                    print(
+                        f"{log_prefix}  {processed:,}/{total:,} ({pct}%) "
+                        f"edge-subsets tested, connected so far={connected_kept:,}",
+                        flush=True,
+                    )
+                    last_log = time.time()
 
         return counts
 
@@ -235,58 +351,84 @@ class FlexibleSubgraphDistanceStrategy(GraphDistanceStrategy):
         """
         # 1. Convert to contiguous C-array (much faster memory access)
         X = np.array(weighted_matrix, dtype=np.float64)
-        
+
         # 2. Vectorized norm computation
         norms = np.linalg.norm(X, axis=1)
-        
+
         # 3. Handle zero norms safely to avoid division by zero
         zero_mask = (norms == 0.0)
         safe_norms = np.where(zero_mask, 1.0, norms) # Replace 0 with 1 for division
-        
+
         # Broadcased division to normalize all vectors at once
         X_normalized = X / safe_norms[:, np.newaxis]
-        
+
         # 4. Matrix multiplication (Dot product of normalized vectors) -> O(N^2) in C
         cosine_similarity = np.dot(X_normalized, X_normalized.T)
         cosine_similarity = np.clip(cosine_similarity, -1.0, 1.0)
-        
+
         # 5. Convert similarity to distance
         distances = 1.0 - cosine_similarity
-        
+
         # 6. Apply your exact zero-norm business logic using boolean masks
         mask_i = zero_mask[:, np.newaxis] # Shape (N, 1)
         mask_j = zero_mask[np.newaxis, :] # Shape (1, N)
-        
+
         # If either i or j is 0-norm -> distance is 1.0
         distances = np.where(mask_i | mask_j, 1.0, distances)
-        
+
         # If BOTH i and j are 0-norm -> distance is 0.0
         distances = np.where(mask_i & mask_j, 0.0, distances)
-        
+
         # Force exact 0.0 on the diagonal to avoid floating point inaccuracies (e.g., 1e-16)
         np.fill_diagonal(distances, 0.0)
-        
-        # Return as list of lists to match your original return type, 
+
+        # Return as list of lists to match your original return type,
         # though returning the NumPy array directly is highly recommended for downstream tasks.
         return distances.tolist()
 
     def compute_distance_matrix(self, context: DistanceMatrixStrategyContext):
         """Build the strategy distance matrix and return `(distance_matrix, names)`.
 
-        Reads `context.strategy_params["method"]` to choose extraction mode.
+        Strategy parameters (``context.strategy_params``):
+
+        ``subgraph_method``  ``"nodes"`` (default) or ``"edges"`` — selects the
+                             enumeration mode (node-induced vs edge-induced).
+        ``min_size``         Lower bound (inclusive) on subgraph size.
+                             Defaults: ``2`` for nodes, ``1`` for edges.
+        ``max_size``         Upper bound (inclusive). ``None`` = no cap.
+        ``verbose``          Print progress logs.
         """
+        params = context.strategy_params
         verbose = self._is_verbose(context)
-        method = (context.strategy_params.get("method", "nodes") or "nodes").strip().lower()
+        method = (
+            params.get("subgraph_method", "nodes") or "nodes"
+        ).strip().lower()
         if method not in {"nodes", "edges"}:
             raise ValueError(
-                "Unknown flexible_subgraph method "
-                f"'{method}'. Supported methods: nodes, edges"
+                "Unknown flexible_subgraph subgraph_method "
+                f"'{method}'. Supported values: nodes, edges"
+            )
+
+        # Optional size bounds. ``None`` keeps the legacy default
+        # (min=2 nodes / 1 edge, no upper cap).
+        min_size = params.get("min_size", None)
+        max_size = params.get("max_size", None)
+        default_min = 2 if method == "nodes" else 1
+        effective_min = default_min if min_size is None else int(min_size)
+        if effective_min < 1:
+            raise ValueError("flexible_subgraph min_size must be >= 1")
+        if max_size is not None and int(max_size) < effective_min:
+            raise ValueError(
+                "flexible_subgraph max_size "
+                f"({max_size}) must be >= min_size ({effective_min})"
             )
 
         if verbose:
             print(
                 "[flexible_subgraph] Phase 1/4: extracting connected "
-                f"{method}-induced subgraphs and computing canonical-code counts..."
+                f"{method}-induced subgraphs and computing canonical-code counts "
+                f"(min_size={effective_min}, "
+                f"max_size={'inf' if max_size is None else int(max_size)})..."
             )
 
         graph_profiles = []
@@ -294,18 +436,35 @@ class FlexibleSubgraphDistanceStrategy(GraphDistanceStrategy):
 
         total_graphs = len(context.db_graphs)
         for index, graph in enumerate(context.db_graphs, start=1):
+            graph_name = (
+                graph.get_name() if hasattr(graph, "get_name") else f"#{index}"
+            )
             if verbose:
                 print(
-                    "[flexible_subgraph] "
-                    f"Processing graph {index}/{total_graphs}: ",
-                    end="",
+                    f"[flexible_subgraph] Processing graph {index}/{total_graphs} "
+                    f"({graph_name})",
                     flush=True,
                 )
 
+            t_start = time.time()
+            log_prefix = f"[flexible_subgraph] graph {index}/{total_graphs}: "
             if method == "nodes":
-                counts = self._count_connected_node_induced_subgraphs(graph)
+                counts = self._count_connected_node_induced_subgraphs(
+                    graph,
+                    min_size=effective_min,
+                    max_size=max_size,
+                    verbose=verbose,
+                    log_prefix=log_prefix,
+                )
             else:
-                counts = self._count_connected_edge_induced_subgraphs(graph)
+                counts = self._count_connected_edge_induced_subgraphs(
+                    graph,
+                    min_size=effective_min,
+                    max_size=max_size,
+                    verbose=verbose,
+                    log_prefix=log_prefix,
+                )
+            elapsed = time.time() - t_start
 
             graph_profiles.append(counts)
             global_vocabulary.update(counts.keys())
@@ -313,7 +472,9 @@ class FlexibleSubgraphDistanceStrategy(GraphDistanceStrategy):
             if verbose:
                 extracted_subgraphs = sum(counts.values())
                 print(
-                    f"{extracted_subgraphs} subgraphs extracted"
+                    f"[flexible_subgraph] graph {index}/{total_graphs} done "
+                    f"({extracted_subgraphs:,} connected subgraphs in {elapsed:.1f}s)",
+                    flush=True,
                 )
 
         if verbose:

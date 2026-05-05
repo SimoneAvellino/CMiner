@@ -90,6 +90,54 @@ def _build_mining_parser():
     return parser
 
 
+def _coerce_value(s: str):
+    """Best-effort cast of a CLI string token to bool / int / float / None / str."""
+    sl = s.lower()
+    if sl == "true":
+        return True
+    if sl == "false":
+        return False
+    if sl == "none":
+        return None
+    try:
+        return int(s)
+    except ValueError:
+        pass
+    try:
+        return float(s)
+    except ValueError:
+        pass
+    return s
+
+
+def _parse_strategy(values):
+    """Parse a strategy CLI argument of the form
+
+        NAME [key1=val1 key2=val2 ...]
+
+    into ``(name, {key: coerced_value, ...})``.
+    """
+    if not values:
+        raise argparse.ArgumentTypeError("strategy must specify a name")
+    name = values[0]
+    params = {}
+    for kv in values[1:]:
+        if "=" not in kv:
+            raise argparse.ArgumentTypeError(
+                f"strategy parameters must be in key=value form, got: {kv!r}"
+            )
+        key, value = kv.split("=", 1)
+        params[key.strip()] = _coerce_value(value.strip())
+    return name, params
+
+
+# Strategy names accepted by the resolvers in CCluster. Listed here only for
+# the --help text; the actual validation happens inside CCluster.
+_ENRICHMENT_NAMES = ("noop", "semantic_label_clustering")
+_EMBEDDING_NAMES = ("simple_structural", "flexible_subgraph")
+_CLUSTERING_NAMES = ("kmedoids",)
+
+
 def _build_clustering_parser():
     parser = _build_base_parser()
     parser.add_argument(
@@ -103,46 +151,65 @@ def _build_clustering_parser():
         "-o", "--output_path", type=str, help="Output file", default=None
     )
     parser.add_argument(
-        "--strategy",
-        type=str,
-        choices=["simple_structural", "flexible_subgraph"],
-        help="Distance-matrix strategy for clustering",
-        default="simple_structural",
+        "--enrichment_strategy",
+        nargs="+",
+        metavar=("NAME", "KEY=VAL"),
+        default=["noop"],
+        help=(
+            "Semantic-enrichment strategy and its parameters. Available "
+            f"names: {', '.join(_ENRICHMENT_NAMES)}. "
+            "Pass parameters as space-separated key=value tokens, e.g. "
+            "'--enrichment_strategy semantic_label_clustering "
+            "model_name=all-MiniLM-L6-v2 max_k=8'."
+        ),
     )
     parser.add_argument(
-        "--subgraph_method",
-        type=str,
-        choices=["nodes", "edges"],
-        help="Method used by flexible_subgraph strategy",
-        default="nodes",
+        "--embedding_strategy",
+        nargs="+",
+        metavar=("NAME", "KEY=VAL"),
+        default=["simple_structural"],
+        help=(
+            "Embedding strategy and its parameters. Available names: "
+            f"{', '.join(_EMBEDDING_NAMES)}. Example: "
+            "'--embedding_strategy flexible_subgraph subgraph_method=nodes "
+            "min_size=3 max_size=5'."
+        ),
     )
     parser.add_argument(
-        "--init_method",
-        type=str,
-        choices=["random", "kmeans++"],
-        help="Cluster initialization method",
-        default="random",
+        "--clustering_strategy",
+        nargs="+",
+        metavar=("NAME", "KEY=VAL"),
+        default=["kmedoids"],
+        help=(
+            "Clustering strategy and its parameters. Available names: "
+            f"{', '.join(_CLUSTERING_NAMES)}. Example: "
+            "'--clustering_strategy kmedoids init_method=kmeans++ "
+            "max_iter=200 tolerance=1e-4'."
+        ),
     )
     parser.add_argument(
-        "--max_iter",
+        "--auto_k_max",
         type=int,
-        help="Maximum iterations for the clustering algorithm",
-        default=100,
-    )
-    parser.add_argument(
-        "--tolerance",
-        type=float,
-        help="Convergence tolerance for clustering",
-        default=1e-4,
+        help=(
+            "Upper bound for the silhouette grid search when -c auto is used. "
+            "Default: ceil(sqrt(n_graphs))."
+        ),
+        default=None,
     )
     parser.add_argument(
         "--verbose",
         type=int,
         choices=[0, 1],
-        help="Show distance-matrix computation progress (0: off, 1: on)",
+        help="Show pipeline progress logs (0: off, 1: on)",
         default=0,
     )
     return parser
+
+
+# Clustering parameters that map to first-class kwargs of ``CCluster``
+# (they are shared with the auto-K silhouette grid search). Anything not in
+# this allow-list is forwarded to ``clustering_params`` as a free-form dict.
+_CLUSTERING_KWARGS = {"init_method", "max_iter", "tolerance"}
 
 
 def main_function():
@@ -193,19 +260,40 @@ def main_function():
         return
 
     args = _build_clustering_parser().parse_args()
+
+    enrich_name, enrich_params = _parse_strategy(args.enrichment_strategy)
+    embed_name, embed_params = _parse_strategy(args.embedding_strategy)
+    cluster_name, cluster_params = _parse_strategy(args.clustering_strategy)
+
+    # Propagate the global --verbose flag into all three strategy contexts
+    # (per-strategy 'verbose=...' override still wins).
+    verbose = bool(args.verbose)
+    enrich_params.setdefault("verbose", verbose)
+    embed_params.setdefault("verbose", verbose)
+    cluster_params.setdefault("verbose", verbose)
+
+    # Promote well-known clustering knobs from cluster_params to first-class
+    # CCluster constructor kwargs (the orchestrator also reuses them inside
+    # the auto-K silhouette grid search).
+    promoted_kwargs = {
+        key: cluster_params.pop(key)
+        for key in list(cluster_params)
+        if key in _CLUSTERING_KWARGS
+    }
+
     clusterer = CCluster(
         db_file=args.db_file,
         num_clusters=args.num_clusters,
         directed_graph=args.is_directed,
         output_path=args.output_path,
-        strategy=args.strategy,
-        init_method=args.init_method,
-        max_iter=args.max_iter,
-        tolerance=args.tolerance,
-        strategy_params={
-            "method": args.subgraph_method,
-            "verbose": bool(args.verbose),
-        },
+        enrichment_strategy=enrich_name,
+        embedding_strategy=embed_name,
+        clustering_strategy=cluster_name,
+        auto_k_max=args.auto_k_max,
+        enrichment_params=enrich_params,
+        embedding_params=embed_params,
+        clustering_params=cluster_params,
+        **promoted_kwargs,
     )
 
     start_time = time.time()
