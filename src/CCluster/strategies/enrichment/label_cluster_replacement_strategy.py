@@ -48,6 +48,16 @@ class LabelClusterReplacementEnrichmentStrategy(
     def name(self) -> str:
         return "label_cluster_replacement"
 
+    @property
+    def description(self) -> str:
+        return (
+            "Runs the same SentenceTransformer + K-Means label clustering as "
+            "semantic_label_clustering, but instead of adding super-nodes it "
+            "rewrites every node label and edge type in-place with the cluster "
+            "name (semantic_cluster_<id>). Graph structure is preserved; only "
+            "the label vocabulary changes."
+        )
+
     # ------------------------------------------------------------------ main
 
     def enrich(self, context: EnrichmentContext) -> List:

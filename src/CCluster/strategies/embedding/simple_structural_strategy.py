@@ -8,6 +8,15 @@ class SimpleStructuralDistanceStrategy(GraphDistanceStrategy):
     def name(self) -> str:
         return "simple_structural"
 
+    @property
+    def description(self) -> str:
+        return (
+            "Represents each graph as a 5-dimensional structural vector "
+            "(node count, edge count, unique node labels, unique edge labels, "
+            "average degree), L2-normalises it, then computes pairwise Euclidean "
+            "distances. Fast and parameter-free."
+        )
+
     @staticmethod
     def _safe_avg_degree(graph):
         n_nodes = graph.number_of_nodes()

@@ -19,6 +19,15 @@ class KMedoidsClusteringStrategy(ClusteringStrategy):
     def name(self) -> str:
         return "kmedoids"
 
+    @property
+    def description(self) -> str:
+        return (
+            "Partitioning Around Medoids (PAM) on the precomputed distance matrix. "
+            "Iteratively reassigns each graph to the nearest medoid and updates "
+            "medoids to minimise total within-cluster distance. "
+            "Default init: random."
+        )
+
     # ------------------------------------------------------------------ utils
 
     @staticmethod

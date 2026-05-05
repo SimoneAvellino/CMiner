@@ -80,6 +80,15 @@ class FlexibleSubgraphDistanceStrategy(GraphDistanceStrategy):
         """Return the strategy identifier used by the clustering registry."""
         return "flexible_subgraph"
 
+    @property
+    def description(self) -> str:
+        return (
+            "Enumerates all connected subgraphs within a configurable size range, "
+            "encodes each graph as a TF-IDF bag-of-subgraphs vector, and computes "
+            "pairwise cosine distances. Captures fine-grained structural patterns "
+            "at the cost of higher runtime."
+        )
+
     @staticmethod
     def _is_verbose(context: DistanceMatrixStrategyContext) -> bool:
         """Return whether verbose logging is enabled for this strategy."""

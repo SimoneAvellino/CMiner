@@ -20,6 +20,7 @@ across runs.  Use ``random_state`` to make them reproducible.
 
 from __future__ import annotations
 
+import warnings
 from typing import Dict, List, Optional, Tuple
 
 import numpy as np
@@ -35,6 +36,15 @@ class SpectralClusteringStrategy(ClusteringStrategy):
     @property
     def name(self) -> str:
         return "spectral"
+
+    @property
+    def description(self) -> str:
+        return (
+            "Spectral clustering via a Gaussian affinity matrix derived from the "
+            "distance matrix. Projects graphs into a low-dimensional eigenspace "
+            "before k-means, which lets it detect complex, non-spherical cluster "
+            "shapes that distance-based methods may miss."
+        )
 
     # -------------------------------------------------------------- helpers
 
@@ -116,7 +126,11 @@ class SpectralClusteringStrategy(ClusteringStrategy):
             random_state=random_state,
             n_init=n_init,
         )
-        flat_labels = model.fit_predict(affinity)
+        with warnings.catch_warnings(), np.errstate(
+            invalid="ignore", divide="ignore", over="ignore"
+        ):
+            warnings.filterwarnings("ignore", category=RuntimeWarning)
+            flat_labels = model.fit_predict(affinity)
 
         assignments: List[List[int]] = [[] for _ in range(num_clusters)]
         for idx, label in enumerate(flat_labels):

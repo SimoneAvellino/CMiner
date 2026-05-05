@@ -37,6 +37,15 @@ class AgglomerativeClusteringStrategy(ClusteringStrategy):
     def name(self) -> str:
         return "agglomerative"
 
+    @property
+    def description(self) -> str:
+        return (
+            "Hierarchical agglomerative clustering (average linkage by default) on "
+            "the precomputed distance matrix. Fully deterministic — no random "
+            "initialisation — and tends to produce better results than k-medoids "
+            "when clusters have unequal sizes or densities."
+        )
+
     def cluster(
         self,
         distance_matrix,

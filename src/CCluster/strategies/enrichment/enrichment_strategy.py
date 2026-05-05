@@ -49,6 +49,11 @@ class EnrichGraphSemanticsStrategy(ABC):
     def name(self) -> str:
         """Return the strategy identifier used by the clustering registry."""
 
+    @property
+    @abstractmethod
+    def description(self) -> str:
+        """Return a human-readable description of what this strategy does."""
+
     @abstractmethod
     def enrich(self, context: EnrichmentContext) -> List:
         """Return the (possibly) semantically enriched list of graphs.

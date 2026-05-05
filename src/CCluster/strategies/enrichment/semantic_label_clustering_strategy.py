@@ -79,6 +79,18 @@ class SemanticLabelClusteringEnrichmentStrategy(EnrichGraphSemanticsStrategy):
     def name(self) -> str:
         return "semantic_label_clustering"
 
+    @property
+    def description(self) -> str:
+        return (
+            "Embeds node/edge labels with a SentenceTransformer model "
+            "(default: all-MiniLM-L6-v2), groups them via K-Means (k selected "
+            "automatically by silhouette score), then adds one synthetic super-node "
+            "per cluster to each graph. Original nodes are connected to their "
+            "label's super-node via a BELONGS_TO_SEMANTIC_NODE edge; edge endpoints "
+            "are connected to the edge-label super-node via a "
+            "PARTICIPATES_IN_SEMANTIC_EDGE edge."
+        )
+
     # ------------------------------------------------------------------ main
 
     def enrich(self, context: EnrichmentContext) -> List:

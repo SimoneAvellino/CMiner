@@ -1,6 +1,8 @@
 import os
 import re
+import warnings
 
+import numpy as np
 from sklearn.metrics import silhouette_score
 
 from .strategies.clustering import (
@@ -24,6 +26,33 @@ from .strategies.enrichment import (
     NoOpEnrichmentStrategy,
     SemanticLabelClusteringEnrichmentStrategy,
 )
+
+# ---------------------------------------------------------------------------
+# Public strategy registries.
+# Adding a new strategy requires only two steps:
+#   1. Implement the strategy class (with name + description properties).
+#   2. Add an entry to the relevant registry below.
+# Everything else — CLI help text, grid_compute, resolver validation — picks
+# it up automatically.
+# ---------------------------------------------------------------------------
+
+ENRICHMENT_REGISTRY: dict = {
+    "noop": NoOpEnrichmentStrategy(),
+    "semantic_label_clustering": SemanticLabelClusteringEnrichmentStrategy(),
+    "label_cluster_replacement": LabelClusterReplacementEnrichmentStrategy(),
+}
+
+EMBEDDING_REGISTRY: dict = {
+    "simple_structural": SimpleStructuralDistanceStrategy(),
+    "flexible_subgraph": FlexibleSubgraphDistanceStrategy(),
+    "mcs": MCSDistanceStrategy(),
+}
+
+CLUSTERING_REGISTRY: dict = {
+    "kmedoids": KMedoidsClusteringStrategy(),
+    "agglomerative": AgglomerativeClusteringStrategy(),
+    "spectral": SpectralClusteringStrategy(),
+}
 
 
 class CCluster:
@@ -87,9 +116,13 @@ class CCluster:
         # Ignore failed candidate clusterings (for example when empty clusters
         # reduce the number of effective labels below 2).
         try:
-            return float(
-                silhouette_score(distance_matrix, labels, metric="precomputed")
-            )
+            with warnings.catch_warnings(), np.errstate(
+                invalid="ignore", divide="ignore", over="ignore"
+            ):
+                warnings.filterwarnings("ignore", category=RuntimeWarning)
+                return float(
+                    silhouette_score(distance_matrix, labels, metric="precomputed")
+                )
         except ValueError:
             return float("-inf")
 
@@ -113,53 +146,35 @@ class CCluster:
     def _resolve_enrichment_strategy(self) -> EnrichGraphSemanticsStrategy:
         if isinstance(self.enrichment_strategy, EnrichGraphSemanticsStrategy):
             return self.enrichment_strategy
-
-        registry = {
-            "noop": NoOpEnrichmentStrategy(),
-            "semantic_label_clustering": SemanticLabelClusteringEnrichmentStrategy(),
-            "label_cluster_replacement": LabelClusterReplacementEnrichmentStrategy(),
-        }
-        if self.enrichment_strategy not in registry:
-            available = ", ".join(sorted(registry))
+        if self.enrichment_strategy not in ENRICHMENT_REGISTRY:
+            available = ", ".join(sorted(ENRICHMENT_REGISTRY))
             raise ValueError(
                 f"Unknown enrichment strategy '{self.enrichment_strategy}'. "
                 f"Available strategies: {available}"
             )
-        return registry[self.enrichment_strategy]
+        return ENRICHMENT_REGISTRY[self.enrichment_strategy]
 
     def _resolve_embedding_strategy(self) -> GraphDistanceStrategy:
         if isinstance(self.embedding_strategy, GraphDistanceStrategy):
             return self.embedding_strategy
-
-        registry = {
-            "simple_structural": SimpleStructuralDistanceStrategy(),
-            "flexible_subgraph": FlexibleSubgraphDistanceStrategy(),
-            "mcs": MCSDistanceStrategy(),
-        }
-        if self.embedding_strategy not in registry:
-            available = ", ".join(sorted(registry))
+        if self.embedding_strategy not in EMBEDDING_REGISTRY:
+            available = ", ".join(sorted(EMBEDDING_REGISTRY))
             raise ValueError(
                 f"Unknown embedding strategy '{self.embedding_strategy}'. "
                 f"Available strategies: {available}"
             )
-        return registry[self.embedding_strategy]
+        return EMBEDDING_REGISTRY[self.embedding_strategy]
 
     def _resolve_clustering_strategy(self) -> ClusteringStrategy:
         if isinstance(self.clustering_strategy, ClusteringStrategy):
             return self.clustering_strategy
-
-        registry = {
-            "kmedoids": KMedoidsClusteringStrategy(),
-            "agglomerative": AgglomerativeClusteringStrategy(),
-            "spectral": SpectralClusteringStrategy(),
-        }
-        if self.clustering_strategy not in registry:
-            available = ", ".join(sorted(registry))
+        if self.clustering_strategy not in CLUSTERING_REGISTRY:
+            available = ", ".join(sorted(CLUSTERING_REGISTRY))
             raise ValueError(
                 f"Unknown clustering strategy '{self.clustering_strategy}'. "
                 f"Available strategies: {available}"
             )
-        return registry[self.clustering_strategy]
+        return CLUSTERING_REGISTRY[self.clustering_strategy]
 
     # ------------------------------------------------------------ auto-tuning
 
@@ -331,16 +346,28 @@ class CCluster:
 
     # --------------------------------------------------------------- pipeline
 
-    def cluster(self):
-        # 1. Load graphs from the database file.
+    def prepare_distance_matrix(self):
+        """Read graphs, enrich, and compute the pairwise distance matrix.
+
+        Populates ``self.db`` with the original graphs (used later by
+        ``cluster_and_emit`` to write output files) and returns the distance
+        matrix together with the aligned list of graph names.
+
+        This method is exposed so that callers (e.g. grid_compute) can reuse
+        the same distance matrix across multiple clustering strategies without
+        repeating the expensive enrichment and embedding steps.
+
+        Returns
+        -------
+        distance_matrix : list[list[float]]
+            Symmetric pairwise distance matrix.
+        graph_names : list[str]
+            Graph names aligned with the rows/columns of the matrix.
+        """
         print("Reading graphs from file...", end=" ")
         self._read_graphs_from_file()
         print("done.")
 
-        # 2. Optionally enrich the semantic content of the graphs.
-        # The enriched graphs are fed only to the embedding step; ``self.db``
-        # keeps the original graphs so the output emitted on disk does NOT
-        # include any synthetic semantic super-node / super-edge.
         enrichment_strategy = self._resolve_enrichment_strategy()
         enrichment_context = EnrichmentContext(
             db_graphs=self.db,
@@ -350,7 +377,6 @@ class CCluster:
         )
         enriched_graphs = list(enrichment_strategy.enrich(enrichment_context))
 
-        # 3. Compute the pairwise distance matrix via the embedding strategy.
         embedding_strategy = self._resolve_embedding_strategy()
         context_num_clusters = (
             2 if isinstance(self.num_clusters, str) else self.num_clusters
@@ -368,8 +394,21 @@ class CCluster:
         distance_matrix, graph_names = embedding_strategy.compute_distance_matrix(
             embedding_context
         )
+        return distance_matrix, graph_names
 
-        # 4. Run the clustering algorithm on the distance matrix.
+    def cluster_and_emit(self, distance_matrix, graph_names):
+        """Run the clustering step on a precomputed distance matrix and emit results.
+
+        Requires ``self.db`` to already be populated — either by a prior call to
+        ``prepare_distance_matrix`` on this instance, or by assigning it directly.
+
+        Parameters
+        ----------
+        distance_matrix : list[list[float]]
+            Symmetric pairwise distance matrix.
+        graph_names : list[str]
+            Graph names aligned with the rows/columns of the matrix.
+        """
         clustering_strategy = self._resolve_clustering_strategy()
 
         if isinstance(self.num_clusters, str):
@@ -391,6 +430,9 @@ class CCluster:
         clusters, _ = clustering_strategy.cluster(
             distance_matrix, graph_names, clustering_context
         )
-
-        # 5. Emit results.
         self._emit_results(clusters)
+
+    def cluster(self):
+        """Run the full pipeline: read → enrich → embed → cluster → emit."""
+        distance_matrix, graph_names = self.prepare_distance_matrix()
+        self.cluster_and_emit(distance_matrix, graph_names)

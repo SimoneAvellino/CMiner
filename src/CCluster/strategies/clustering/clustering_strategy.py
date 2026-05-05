@@ -33,6 +33,11 @@ class ClusteringStrategy(ABC):
     def name(self) -> str:
         """Return the strategy identifier used by the clustering registry."""
 
+    @property
+    @abstractmethod
+    def description(self) -> str:
+        """Return a human-readable description of what this strategy does."""
+
     @abstractmethod
     def cluster(
         self,

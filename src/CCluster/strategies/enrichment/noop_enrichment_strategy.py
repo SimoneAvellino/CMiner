@@ -17,6 +17,13 @@ class NoOpEnrichmentStrategy(EnrichGraphSemanticsStrategy):
     def name(self) -> str:
         return "noop"
 
+    @property
+    def description(self) -> str:
+        return (
+            "Passes graphs through unchanged. No semantic enrichment is applied "
+            "before embedding."
+        )
+
     def enrich(self, context: EnrichmentContext) -> List:
         verbose = bool(context.strategy_params.get("verbose", False))
         if verbose:

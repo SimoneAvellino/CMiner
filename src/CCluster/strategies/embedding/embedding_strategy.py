@@ -34,6 +34,11 @@ class GraphDistanceStrategy(ABC):
     def name(self) -> str:
         pass
 
+    @property
+    @abstractmethod
+    def description(self) -> str:
+        """Return a human-readable description of what this strategy does."""
+
     @abstractmethod
     def compute_distance_matrix(self, context: DistanceMatrixStrategyContext):
         """Return a tuple: (distance_matrix, graph_names)."""

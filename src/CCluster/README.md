@@ -11,13 +11,70 @@ CMiner <db_file> -c <num_clusters | auto> [options]
 | `-o`, `--output_path` | — | Save one file per cluster to this folder |
 | `--auto_k_max` | `ceil(sqrt(n_graphs))` | Upper bound on K when using `auto` |
 | `--verbose` | `0` | Progress logs (`1` = enabled) |
+| `--grid_compute` | off | Run all strategy combinations (requires `-o`) |
 
 ```bash
 CMiner db.data -c 4
 CMiner db.data -c auto
 CMiner db.data -c auto --auto_k_max 12
 CMiner db.data -c 4 -o ./output
+CMiner db.data -c 4 --grid_compute -o ./grid_out
 ```
+
+---
+
+# `--grid_compute`
+
+Runs every combination of enrichment × embedding × clustering strategies automatically and writes results into separate subfolders inside `-o`. **`-o` is required** when this flag is set.
+
+```bash
+CMiner <db_file> -c <num_clusters> --grid_compute -o <output_dir> [--verbose 1]
+```
+
+With 3 enrichment × 3 embedding × 3 clustering strategies this produces **27 subfolders**.
+
+## Output structure
+
+```
+<output_dir>/
+├── README.md                        ← summary table of all combinations + status
+├── enr=noop__emb=simple_structural__cls=kmedoids/
+│   ├── README.md                    ← per-experiment description & exact command
+│   └── cluster_<db_name>/
+│       ├── cluster_0_<n>
+│       ├── cluster_1_<n>
+│       └── README.md
+├── enr=noop__emb=simple_structural__cls=agglomerative/
+│   └── ...
+└── ...
+```
+
+Folder names encode the three strategies used: `enr=<enrichment>__emb=<embedding>__cls=<clustering>`.
+
+Each subfolder's `README.md` contains a plain `CMiner` command to re-run that specific experiment with its default parameters.
+
+The top-level `README.md` is a Markdown table with one row per combination showing enrichment, embedding, clustering, wall-clock time, and success/error status.
+
+## Notes
+
+- If one combination fails the grid continues; the error is recorded in the summary.
+- Pressing Ctrl+C mid-grid saves partial results and writes the summary before exiting.
+- Strategy parameters are not supported in grid mode; all strategies run with their defaults. Pick the best combination from the summary and tune it with a regular `CMiner` invocation.
+
+## Adding a new strategy
+
+To add a new strategy and have it appear in `--grid_compute` automatically:
+
+1. Implement the class with `name`, `description`, and the required abstract method.
+2. Add one entry to the relevant registry in `CCluster.py`:
+
+```python
+# CCluster.py
+ENRICHMENT_REGISTRY["my_strategy"] = MyEnrichmentStrategy()
+# or EMBEDDING_REGISTRY / CLUSTERING_REGISTRY
+```
+
+That's all. The CLI help text, `--grid_compute` combinations, and per-folder READMEs will pick it up with no further changes.
 
 ---
 
@@ -179,7 +236,13 @@ CMiner db.data -c 4 \
 CMiner db.data -c 4 \
     --clustering_strategy spectral affinity_mode=gaussian random_state=0 \
     --verbose 1
+
+# Grid search across all strategy combinations (27 runs)
+CMiner db.data -c 4 --grid_compute -o ./grid_out --verbose 1
 ```
 
 
 
+
+
+CMiner /Users/simone/Desktop/archigraph_s5.data -c auto --grid_compute -o /Users/simone/Desktop/archi_lab_clust

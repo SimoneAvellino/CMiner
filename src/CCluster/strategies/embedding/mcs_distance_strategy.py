@@ -8,6 +8,14 @@ class MCSDistanceStrategy(GraphDistanceStrategy):
     def name(self) -> str:
         return "mcs"
 
+    @property
+    def description(self) -> str:
+        return (
+            "Maximum Common Subgraph distance: d(G1, G2) = 1 - |MCS| / "
+            "max(|G1|, |G2|). The most structurally precise comparison available, "
+            "but computationally intensive on large graphs."
+        )
+
     @staticmethod
     def _is_verbose(context: DistanceMatrixStrategyContext) -> bool:
         return bool(context.strategy_params.get("verbose", False))
