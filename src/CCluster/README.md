@@ -108,7 +108,44 @@ Partitioning Around Medoids on the precomputed distance matrix.
 | `init_method` | `random`, `kmeans++` | `random` | Medoid initialization |
 | `max_iter` | `int >= 1` | `100` | Maximum PAM iterations |
 | `tolerance` | `float` | `1e-4` | Convergence threshold |
-| `verbose` | inherits `--verbose` | Per-iteration logs |
+| `verbose` | inherits `--verbose` | | Per-iteration logs |
+
+---
+
+### `agglomerative`
+Hierarchical agglomerative clustering (UPGMA / complete / single linkage). Fully **deterministic** — no random initialisation — and tends to produce better results than k-medoids when clusters have unequal densities or sizes.
+
+`ward` linkage is not available because it requires raw Euclidean coordinates.
+
+```bash
+--clustering_strategy agglomerative [key=value ...]
+```
+
+| Parameter | Values | Default | Description |
+| --- | --- | --- | --- |
+| `linkage` | `average`, `complete`, `single` | `average` | Linkage criterion |
+| `verbose` | inherits `--verbose` | | Progress log |
+
+---
+
+### `spectral`
+Spectral clustering via a precomputed affinity matrix. Projects graphs onto a low-dimensional eigenspace before running k-means, which lets it detect clusters with **complex, non-spherical shapes** that k-medoids or agglomerative methods may miss.
+
+The distance matrix is first converted to an affinity matrix:
+- `gaussian` — `A = exp(−D² / σ²)`, σ defaults to the median pairwise distance
+- `reciprocal` — `A = 1 / (1 + D)`, no tuning required
+
+```bash
+--clustering_strategy spectral [key=value ...]
+```
+
+| Parameter | Values | Default | Description |
+| --- | --- | --- | --- |
+| `affinity_mode` | `gaussian`, `reciprocal` | `gaussian` | Distance → affinity conversion |
+| `sigma` | `float` | median of pairwise distances | Bandwidth for `gaussian` mode |
+| `random_state` | `int` | `42` | Seed for internal k-means |
+| `n_init` | `int >= 1` | `10` | Number of k-means restarts in the spectral embedding |
+| `verbose` | inherits `--verbose` | | Progress log |
 
 ---
 
@@ -132,6 +169,16 @@ CMiner db.data -c 4 \
     --embedding_strategy flexible_subgraph subgraph_method=edges min_size=2 max_size=5 \
     --clustering_strategy kmedoids init_method=kmeans++ max_iter=200 \
     --verbose 1 -o ./out
+
+# Deterministic hierarchical clustering (no random init)
+CMiner db.data -c 4 \
+    --clustering_strategy agglomerative linkage=average \
+    --verbose 1
+
+# Spectral clustering for complex cluster shapes
+CMiner db.data -c 4 \
+    --clustering_strategy spectral affinity_mode=gaussian random_state=0 \
+    --verbose 1
 ```
 
 

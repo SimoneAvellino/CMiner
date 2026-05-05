@@ -4,9 +4,11 @@ import re
 from sklearn.metrics import silhouette_score
 
 from .strategies.clustering import (
+    AgglomerativeClusteringStrategy,
     ClusteringContext,
     ClusteringStrategy,
     KMedoidsClusteringStrategy,
+    SpectralClusteringStrategy,
 )
 from .strategies.embedding import (
     DistanceMatrixStrategyContext,
@@ -148,6 +150,8 @@ class CCluster:
 
         registry = {
             "kmedoids": KMedoidsClusteringStrategy(),
+            "agglomerative": AgglomerativeClusteringStrategy(),
+            "spectral": SpectralClusteringStrategy(),
         }
         if self.clustering_strategy not in registry:
             available = ", ".join(sorted(registry))
