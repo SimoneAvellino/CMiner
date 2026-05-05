@@ -134,7 +134,7 @@ def _parse_strategy(values):
 # Strategy names accepted by the resolvers in CCluster. Listed here only for
 # the --help text; the actual validation happens inside CCluster.
 _ENRICHMENT_NAMES = ("noop", "semantic_label_clustering")
-_EMBEDDING_NAMES = ("simple_structural", "flexible_subgraph")
+_EMBEDDING_NAMES = ("simple_structural", "flexible_subgraph", "mcs")
 _CLUSTERING_NAMES = ("kmedoids",)
 
 

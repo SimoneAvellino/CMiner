@@ -23,6 +23,7 @@ from .embedding import (
     DistanceMatrixStrategyContext,
     FlexibleSubgraphDistanceStrategy,
     GraphDistanceStrategy,
+    MCSDistanceStrategy,
     SimpleStructuralDistanceStrategy,
 )
 from .enrichment import (
@@ -43,6 +44,7 @@ __all__ = [
     "GraphDistanceStrategy",
     "SimpleStructuralDistanceStrategy",
     "FlexibleSubgraphDistanceStrategy",
+    "MCSDistanceStrategy",
     # Clustering algorithms
     "ClusteringContext",
     "ClusteringStrategy",

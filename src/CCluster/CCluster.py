@@ -12,6 +12,7 @@ from .strategies.embedding import (
     DistanceMatrixStrategyContext,
     FlexibleSubgraphDistanceStrategy,
     GraphDistanceStrategy,
+    MCSDistanceStrategy,
     SimpleStructuralDistanceStrategy,
 )
 from .strategies.enrichment import (
@@ -129,6 +130,7 @@ class CCluster:
         registry = {
             "simple_structural": SimpleStructuralDistanceStrategy(),
             "flexible_subgraph": FlexibleSubgraphDistanceStrategy(),
+            "mcs": MCSDistanceStrategy(),
         }
         if self.embedding_strategy not in registry:
             available = ", ".join(sorted(registry))
