@@ -18,6 +18,7 @@ from .strategies.embedding import (
 from .strategies.enrichment import (
     EnrichGraphSemanticsStrategy,
     EnrichmentContext,
+    LabelClusterReplacementEnrichmentStrategy,
     NoOpEnrichmentStrategy,
     SemanticLabelClusteringEnrichmentStrategy,
 )
@@ -114,6 +115,7 @@ class CCluster:
         registry = {
             "noop": NoOpEnrichmentStrategy(),
             "semantic_label_clustering": SemanticLabelClusteringEnrichmentStrategy(),
+            "label_cluster_replacement": LabelClusterReplacementEnrichmentStrategy(),
         }
         if self.enrichment_strategy not in registry:
             available = ", ".join(sorted(registry))

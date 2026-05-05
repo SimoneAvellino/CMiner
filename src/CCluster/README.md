@@ -52,6 +52,22 @@ Adds synthetic super-nodes grouping semantically similar node/edge labels via Se
 
 ---
 
+### `label_cluster_replacement`
+Same semantic clustering pipeline as `semantic_label_clustering`, but instead of adding super-nodes/edges it **replaces** each node label and edge type with the name of its cluster (`semantic_cluster_<id>`). The graph structure stays identical to the original; only the labels change.
+
+```bash
+--enrichment_strategy label_cluster_replacement [key=value ...]
+```
+
+| Parameter | Default | Description |
+| --- | --- | --- |
+| `model_name` | `all-MiniLM-L6-v2` | SentenceTransformer model |
+| `random_state` | `42` | Seed for K-Means |
+| `max_k` | `ceil(sqrt(n_labels))` | Upper bound for the K grid search |
+| `verbose` | inherits `--verbose` | Progress logs |
+
+---
+
 ## `--embedding_strategy`
 
 Produces a pairwise distance matrix from the (enriched) graphs.
@@ -103,10 +119,20 @@ Partitioning Around Medoids on the precomputed distance matrix.
 CMiner db.data -c 4 \
     --embedding_strategy flexible_subgraph subgraph_method=nodes min_size=3 max_size=5
 
-# Full pipeline
+# Full pipeline with super-node enrichment
 CMiner db.data -c 4 \
     --enrichment_strategy semantic_label_clustering model_name=all-MiniLM-L6-v2 \
     --embedding_strategy flexible_subgraph subgraph_method=edges min_size=2 max_size=5 \
     --clustering_strategy kmedoids init_method=kmeans++ max_iter=200 \
     --verbose 1 -o ./out
+
+# Full pipeline with label replacement enrichment
+CMiner db.data -c 4 \
+    --enrichment_strategy label_cluster_replacement model_name=all-MiniLM-L6-v2 \
+    --embedding_strategy flexible_subgraph subgraph_method=edges min_size=2 max_size=5 \
+    --clustering_strategy kmedoids init_method=kmeans++ max_iter=200 \
+    --verbose 1 -o ./out
 ```
+
+
+
