@@ -346,6 +346,7 @@ def _write_grid_summary_readme(output_path, db_file, num_clusters, is_directed, 
         "├── README.md                   ← this file",
         "├── enr=<e>__emb=<b>__cls=<c>/",
         "│   ├── README.md               ← per-experiment description & command",
+        "│   ├── tsne.png                ← t-SNE scatter plot coloured by cluster",
         "│   └── cluster_<db_name>/      ← cluster files (one per cluster)",
         "│       ├── cluster_0_<n>",
         "│       ├── cluster_1_<n>",
@@ -365,9 +366,6 @@ def _run_grid_compute(args):
 
     The distance matrix only depends on the (enrichment, embedding) pair, so
     it is computed ONCE per pair and reused across all clustering strategies.
-    With N_enr enrichment × N_emb embedding × N_cls clustering strategies this
-    reduces expensive matrix computations from N_enr*N_emb*N_cls down to
-    N_enr*N_emb — a factor of N_cls.
     """
     if not args.output_path:
         print(
@@ -382,36 +380,28 @@ def _run_grid_compute(args):
     n_emb = len(EMBEDDING_REGISTRY)
     n_cls = len(CLUSTERING_REGISTRY)
     total = n_enr * n_emb * n_cls
+    col_cls = max(len(c) for c in CLUSTERING_REGISTRY)
 
-    print(
-        f"[grid_compute] {total} combinations "
-        f"({n_enr} enrichment × {n_emb} embedding × {n_cls} clustering)"
-    )
-    print(
-        f"[grid_compute] distance matrix computed once per (enrichment, embedding) "
-        f"pair → {n_enr * n_emb} matrix computation(s) instead of {total}"
-    )
-    print(f"[grid_compute] output root: {args.output_path}")
+    print(f"grid_compute  {n_enr} enrichment × {n_emb} embedding × {n_cls} clustering = {total} runs")
+    print(f"output        {args.output_path}")
     print()
 
     verbose = bool(args.verbose)
     results = []
-    combo_idx = 0  # global counter across all three loops
+    combo_idx = 0
+    t_total = time.time()
 
     for enr in ENRICHMENT_REGISTRY:
         for emb in EMBEDDING_REGISTRY:
 
-            # ----------------------------------------------------------
-            # Compute the distance matrix once for this (enr, emb) pair.
-            # ----------------------------------------------------------
-            print(f"[grid_compute] === enr={enr}  emb={emb} ===")
-            print(f"[grid_compute] computing distance matrix...", flush=True)
-
+            # --- distance matrix (computed once per enr+emb pair) ----------
             t_matrix = time.time()
             matrix_error = None
             distance_matrix = None
             graph_names = None
             base_db = None
+
+            print(f"  enr={enr}  emb={emb}", end="  ", flush=True)
 
             try:
                 base = CCluster(
@@ -423,16 +413,13 @@ def _run_grid_compute(args):
                     auto_k_max=args.auto_k_max,
                     enrichment_params={"verbose": verbose},
                     embedding_params={"verbose": verbose},
+                    quiet=True,
                 )
                 distance_matrix, graph_names = base.prepare_distance_matrix()
                 base_db = base.db
             except KeyboardInterrupt:
                 elapsed = time.time() - t_matrix
-                print(
-                    f"\n[grid_compute] interrupted while computing distance matrix "
-                    f"for enr={enr} emb={emb}. Partial results saved."
-                )
-                # Record all remaining combos in this group as interrupted.
+                print(f"\ninterrupted (matrix). Partial results saved.")
                 for cls in CLUSTERING_REGISTRY:
                     combo_idx += 1
                     fn = _combo_folder_name(enr, emb, cls)
@@ -444,17 +431,21 @@ def _run_grid_compute(args):
                 sys.exit(0)
             except Exception as exc:  # noqa: BLE001
                 matrix_error = type(exc).__name__ + ": " + str(exc)
-                print(f"[grid_compute] distance matrix ERROR: {matrix_error}")
 
             elapsed_matrix = time.time() - t_matrix
-            if matrix_error is None:
-                print(
-                    f"[grid_compute] distance matrix ready in {elapsed_matrix:.1f}s\n"
-                )
 
-            # ----------------------------------------------------------
-            # Run each clustering strategy on the shared distance matrix.
-            # ----------------------------------------------------------
+            if matrix_error:
+                print(f"matrix ERROR: {matrix_error}")
+                for cls in CLUSTERING_REGISTRY:
+                    combo_idx += 1
+                    fn = _combo_folder_name(enr, emb, cls)
+                    results.append((enr, emb, cls, elapsed_matrix, matrix_error, fn))
+                print()
+                continue
+
+            print(f"matrix {elapsed_matrix:.1f}s")
+
+            # --- clustering strategies (one line each) ---------------------
             for cls in CLUSTERING_REGISTRY:
                 combo_idx += 1
                 folder_name = _combo_folder_name(enr, emb, cls)
@@ -464,20 +455,6 @@ def _run_grid_compute(args):
                     combo_folder, args.db_file, args.num_clusters,
                     args.is_directed, enr, emb, cls,
                 )
-
-                print(
-                    f"[grid_compute] [{combo_idx}/{total}] "
-                    f"clustering with cls={cls}  ({folder_name})"
-                )
-
-                # If the matrix computation failed, propagate the error to
-                # every clustering variant in this group without re-running.
-                if matrix_error is not None:
-                    results.append(
-                        (enr, emb, cls, elapsed_matrix, matrix_error, folder_name)
-                    )
-                    print(f"[grid_compute]   skipped (matrix error)\n")
-                    continue
 
                 t_cls = time.time()
                 status = "ok"
@@ -490,17 +467,13 @@ def _run_grid_compute(args):
                         clustering_strategy=cls,
                         auto_k_max=args.auto_k_max,
                         clustering_params={"verbose": verbose},
+                        quiet=True,
                     )
-                    # Share the already-loaded original graphs so _emit_results
-                    # can write the output files without re-reading the database.
                     clusterer.db = base_db
                     clusterer.cluster_and_emit(distance_matrix, graph_names)
                 except KeyboardInterrupt:
                     elapsed_cls = time.time() - t_cls
-                    print(
-                        f"\n[grid_compute] interrupted at combination "
-                        f"{combo_idx}/{total}. Partial results saved."
-                    )
+                    print(f"\ninterrupted at [{combo_idx}/{total}]. Partial results saved.")
                     results.append(
                         (enr, emb, cls, elapsed_matrix + elapsed_cls,
                          "interrupted", folder_name)
@@ -512,19 +485,35 @@ def _run_grid_compute(args):
                     sys.exit(0)
                 except Exception as exc:  # noqa: BLE001
                     status = type(exc).__name__ + ": " + str(exc)
-                    print(f"[grid_compute]   ERROR: {status}")
 
                 elapsed_cls = time.time() - t_cls
-                # Report total elapsed = matrix time + clustering time so the
-                # summary table reflects the true wall-clock cost of each combo.
                 results.append(
                     (enr, emb, cls, elapsed_matrix + elapsed_cls, status, folder_name)
                 )
-                print(
-                    f"[grid_compute]   done in {elapsed_cls:.1f}s  status={status}\n"
-                )
 
-            print()  # blank line between (enr, emb) groups
+                # One compact line per clustering run
+                if status == "ok":
+                    k_info = ""
+                    if clusterer.auto_k_result is not None:
+                        k, sil = clusterer.auto_k_result
+                        k_info = f"k={k:<3}  sil={sil:.4f}"
+                    elif not isinstance(args.num_clusters, str):
+                        k_info = f"k={args.num_clusters}"
+                    tsne_tag = "  [tsne.png]" if os.path.exists(
+                        os.path.join(combo_folder, "tsne.png")
+                    ) else ""
+                    print(
+                        f"    [{combo_idx:>{len(str(total))}}/{total}]"
+                        f"  {cls:<{col_cls}}  {k_info}  {elapsed_cls:.1f}s  ✓{tsne_tag}"
+                    )
+                else:
+                    short_err = status[:60] + "…" if len(status) > 60 else status
+                    print(
+                        f"    [{combo_idx:>{len(str(total))}}/{total}]"
+                        f"  {cls:<{col_cls}}  ERROR: {short_err}"
+                    )
+
+            print()
 
     _write_grid_summary_readme(
         args.output_path, args.db_file, args.num_clusters,
@@ -532,10 +521,9 @@ def _run_grid_compute(args):
     )
 
     ok_count = sum(1 for *_, s, _ in results if s == "ok")
-    print(
-        f"[grid_compute] finished: {ok_count}/{total} succeeded. "
-        f"Summary written to {os.path.join(args.output_path, 'README.md')}"
-    )
+    elapsed_total = time.time() - t_total
+    print(f"done  {ok_count}/{total} succeeded  {elapsed_total:.1f}s total")
+    print(f"summary → {os.path.join(args.output_path, 'README.md')}")
 
 
 # ------------------------------------------------------------------ entry point

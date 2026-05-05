@@ -40,6 +40,7 @@ With 3 enrichment × 3 embedding × 3 clustering strategies this produces **27 s
 ├── README.md                        ← summary table of all combinations + status
 ├── enr=noop__emb=simple_structural__cls=kmedoids/
 │   ├── README.md                    ← per-experiment description & exact command
+│   ├── tsne.png                     ← t-SNE scatter plot coloured by cluster
 │   └── cluster_<db_name>/
 │       ├── cluster_0_<n>
 │       ├── cluster_1_<n>
@@ -240,9 +241,3 @@ CMiner db.data -c 4 \
 # Grid search across all strategy combinations (27 runs)
 CMiner db.data -c 4 --grid_compute -o ./grid_out --verbose 1
 ```
-
-
-
-
-
-CMiner /Users/simone/Desktop/archigraph_s5.data -c auto --grid_compute -o /Users/simone/Desktop/archi_lab_clust

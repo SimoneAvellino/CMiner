@@ -85,6 +85,7 @@ class CCluster:
         embedding_params=None,
         clustering_params=None,
         enrichment_params=None,
+        quiet=False,
     ):
         self.db_file = db_file
         self.num_clusters = num_clusters
@@ -102,7 +103,10 @@ class CCluster:
         self.embedding_params = embedding_params or {}
         self.clustering_params = clustering_params or {}
         self.enrichment_params = enrichment_params or {}
+        self.quiet = quiet
         self.db = []
+        # Populated by _select_num_clusters_auto; readable by callers.
+        self.auto_k_result = None  # (best_k, best_silhouette_score)
 
     # --------------------------------------------------------------- helpers
 
@@ -261,18 +265,21 @@ class CCluster:
                 best_score = score
                 best_k = candidate_k
 
-        print(
-            "Auto mode selected "
-            f"num_clusters={best_k} using silhouette score={best_score:.6f}."
-        )
+        self.auto_k_result = (best_k, best_score)
+        if not self.quiet:
+            print(
+                "Auto mode selected "
+                f"num_clusters={best_k} using silhouette score={best_score:.6f}."
+            )
         return best_k
 
     # ------------------------------------------------------------------ I/O
 
     def _emit_results(self, clusters):
-        print("Clustering result:")
-        for cluster_id in sorted(clusters):
-            print(f"  Cluster {cluster_id}: {clusters[cluster_id]}")
+        if not self.quiet:
+            print("Clustering result:")
+            for cluster_id in sorted(clusters):
+                print(f"  Cluster {cluster_id}: {clusters[cluster_id]}")
 
         if self.output_path is None:
             return
@@ -342,7 +349,8 @@ class CCluster:
                 "is the input database filename without extension.\n"
             )
 
-        print(f"Results written to folder: {target_folder}")
+        if not self.quiet:
+            print(f"Results written to folder: {target_folder}")
 
     # --------------------------------------------------------------- pipeline
 
@@ -364,9 +372,11 @@ class CCluster:
         graph_names : list[str]
             Graph names aligned with the rows/columns of the matrix.
         """
-        print("Reading graphs from file...", end=" ")
+        if not self.quiet:
+            print("Reading graphs from file...", end=" ")
         self._read_graphs_from_file()
-        print("done.")
+        if not self.quiet:
+            print("done.")
 
         enrichment_strategy = self._resolve_enrichment_strategy()
         enrichment_context = EnrichmentContext(
@@ -431,6 +441,110 @@ class CCluster:
             distance_matrix, graph_names, clustering_context
         )
         self._emit_results(clusters)
+        self._save_tsne_plot(distance_matrix, graph_names, clusters)
+
+    # ----------------------------------------------------------------- t-SNE
+
+    def _save_tsne_plot(self, distance_matrix, graph_names, clusters):
+        """Save a t-SNE scatter plot of the graphs coloured by cluster assignment.
+
+        Skipped silently when ``output_path`` is None, matplotlib is not
+        installed, or the database has fewer than 3 graphs.
+        """
+        if self.output_path is None:
+            return
+
+        n = len(graph_names)
+        if n < 3:
+            if not self.quiet:
+                print("t-SNE plot skipped: fewer than 3 graphs.")
+            return
+
+        try:
+            import matplotlib.pyplot as plt
+            plt.switch_backend("Agg")
+            from sklearn.manifold import TSNE
+        except ImportError as exc:
+            print(f"t-SNE plot skipped (missing dependency: {exc}). Run: pip install matplotlib")
+            return
+
+        dist = np.asarray(distance_matrix, dtype=np.float64)
+        dist = (dist + dist.T) / 2.0          # ensure perfect symmetry
+        np.fill_diagonal(dist, 0.0)
+        dist = np.nan_to_num(dist, nan=0.0, posinf=0.0, neginf=0.0)
+
+        # perplexity must be in [1, n-1]; default 30 is too large for small DBs
+        perplexity = float(min(30.0, max(1.0, (n - 1) / 2.0)))
+
+        try:
+            with warnings.catch_warnings():
+                warnings.filterwarnings("ignore", category=RuntimeWarning)
+                tsne = TSNE(
+                    n_components=2,
+                    metric="precomputed",
+                    perplexity=perplexity,
+                    random_state=42,
+                    init="random",
+                )
+                coords = tsne.fit_transform(dist)
+        except Exception as exc:
+            if not self.quiet:
+                print(f"t-SNE plot skipped ({exc}).")
+            return
+
+        # Map each graph name to its cluster id
+        name_to_cluster = {
+            name: cid
+            for cid, names in clusters.items()
+            for name in names
+        }
+
+        cluster_ids = sorted(clusters.keys())
+        n_clusters = len(cluster_ids)
+
+        cmap = plt.get_cmap("tab20" if n_clusters <= 20 else "hsv")
+        color_map = {
+            cid: cmap(i / max(n_clusters - 1, 1))
+            for i, cid in enumerate(cluster_ids)
+        }
+
+        fig, ax = plt.subplots(figsize=(9, 7))
+
+        for cid in cluster_ids:
+            indices = [
+                i for i, name in enumerate(graph_names)
+                if name_to_cluster.get(name) == cid
+            ]
+            ax.scatter(
+                coords[indices, 0],
+                coords[indices, 1],
+                c=[color_map[cid]],
+                label=f"Cluster {cid}  (n={len(indices)})",
+                s=60,
+                alpha=0.85,
+                edgecolors="white",
+                linewidths=0.4,
+            )
+
+        ax.set_title("t-SNE — graph distance matrix, coloured by cluster", fontsize=12)
+        ax.set_xlabel("Component 1")
+        ax.set_ylabel("Component 2")
+        ax.tick_params(left=False, bottom=False, labelleft=False, labelbottom=False)
+        ax.legend(
+            title=f"{n_clusters} cluster{'s' if n_clusters != 1 else ''}",
+            bbox_to_anchor=(1.02, 1),
+            loc="upper left",
+            fontsize=8,
+            title_fontsize=9,
+        )
+
+        plt.tight_layout()
+        plot_path = os.path.join(self.output_path, "tsne.png")
+        plt.savefig(plot_path, dpi=150, bbox_inches="tight")
+        plt.close(fig)
+
+        if not self.quiet:
+            print(f"t-SNE plot saved to: {plot_path}")
 
     def cluster(self):
         """Run the full pipeline: read → enrich → embed → cluster → emit."""
