@@ -38,6 +38,8 @@ class DFSStack(list):
             self.solution_saver = ConsoleSolutionSaver(
                 output_options["show_mappings"], output_options["with_frequencies"]
             )
+        # Store pattern objects for structured access
+        self.output_structured_patterns: list[Pattern] = []
         # Lock to guarantee exclusive stack access in concurrent scenarios
         self._lock = threading.RLock()
 
@@ -108,6 +110,7 @@ class DFSStack(list):
             return
         with self._lock:
             self.solution_saver.save(pattern)
+            self.output_structured_patterns.append(pattern)
 
     def get_string_results(self) -> str:
         """

@@ -459,3 +459,48 @@ class CMinerAPI:
         Close the solution saver.
         """
         self.stack.close()
+
+    def get_structured_patterns(self) -> list[dict]:
+        """
+        Return structured pattern data including per-occurrence node/edge mappings.
+        Each dict contains: nodes, edges, support, frequency, mappings.
+        The 'mappings' key is a dict: {graph_name: [occurrence, ...]} where each
+        occurrence has 'nodes' {pattern_node: target_node} and 'edges' [target_edge].
+        """
+        results = []
+        for pattern in self.stack.output_structured_patterns:
+            nodes = []
+            for node_id, data in pattern.nodes(data=True):
+                labels = list(data.get("labels", []))
+                nodes.append((node_id, labels))
+
+            edges = []
+            for u, v, key, data in pattern.edges(keys=True, data=True):
+                edge_type = data.get("type", "")
+                edges.append((u, v, edge_type))
+
+            mappings = {}
+            pm = pattern.pattern_mappings
+            for graph in pm.graphs():
+                graph_name = graph.get_name()
+                occurrences = []
+                for mapping in pm.mappings(graph):
+                    node_map = mapping.nodes_mapping()
+                    edge_map = mapping._retrieve_edge_mapping()
+                    occurrences.append({
+                        "nodes": dict(node_map),
+                        "edges": [
+                            {"src": t_src, "dst": t_dst, "key": t_key}
+                            for (p_src, p_dst, p_key), (t_src, t_dst, t_key) in edge_map.items()
+                        ],
+                    })
+                mappings[graph_name] = occurrences
+
+            results.append({
+                "nodes": nodes,
+                "edges": edges,
+                "support": pattern.support(),
+                "frequency": pattern.frequency(),
+                "mappings": mappings,
+            })
+        return results
