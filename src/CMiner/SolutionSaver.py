@@ -204,3 +204,60 @@ class StringSolutionSaver(SolutionSaver):
 
     def close(self):
         pass
+
+
+class QueueSolutionSaver(SolutionSaver):
+    """
+    Streams patterns through a thread-safe queue instead of accumulating them.
+
+    This saver is meant to be consumed by a single iterator (typically from
+    DFSStack.iter_results / CMinerAPI.mine_stream). Each produced Pattern is
+    enqueued as-is; the consumer formats it on demand, so the library never
+    builds the full output string in memory.
+    """
+
+    def __init__(self, show_mappings: bool = False, show_frequencies: bool = False):
+        super().__init__(show_mappings, show_frequencies)
+        self._queue = queue.Queue()
+        self._closed = False
+
+    def save(self, pattern: "Pattern"):
+        """Enqueue a pattern for the streaming consumer."""
+        self._queue.put(pattern)
+
+    def close(self):
+        """Signal the consumer that no more patterns will be produced."""
+        if not self._closed:
+            self._closed = True
+            self._queue.put(None)
+
+    def patter_to_str(self, pattern: "Pattern") -> str:
+        """
+        Converts a pattern to the same string representation used by
+        StringSolutionSaver. The consumer calls this, so pattern numbering
+        follows the order in which patterns are dequeued.
+        """
+        self.pattern_count += 1
+        output = f"t # {self.pattern_count}\n"
+        output += pattern.__str__()
+        output += f"s {pattern.support()}\n"
+        output += f"f {pattern.frequency()}\n"
+        if self.show_frequencies or self.show_mappings:
+            output += f"\ninfo:\n"
+            output += (
+                f"{pattern.granular_frequencies_str()}\n"
+                if self.show_frequencies and not self.show_mappings
+                else ""
+            )
+            output += f"{pattern.mappings_str()}\n" if self.show_mappings else ""
+        output += "----------\n"
+        return output
+
+    def __iter__(self):
+        return self
+
+    def __next__(self) -> "Pattern":
+        pattern = self._queue.get()
+        if pattern is None:
+            raise StopIteration
+        return pattern

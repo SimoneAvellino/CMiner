@@ -18,6 +18,7 @@ from NetworkLoader.NetworkConfigurator import NetworkConfigurator
 from NetworkLoader.NetworksLoading import NetworksLoading
 
 from .Pattern import DirectedPattern, Pattern, PatternMappings, UndirectedPattern
+from .SolutionSaver import QueueSolutionSaver
 from .Stack import DFSStack
 
 
@@ -37,9 +38,11 @@ class CMinerAPI:
         pattern_type="all",  # type of pattern to mine: 'all' or 'maximum'
         workers: int = 1,  # number of parallel workers
         string_output: bool = False,  # whether to return results as a string instead of printing
+        streaming_output: bool = False,  # whether to yield patterns one-by-one instead of accumulating them
     ):
         self.db_file = db_file
         self.string_output = string_output
+        self.streaming_output = streaming_output
         self.stack = DFSStack(
             min_nodes,
             max_nodes,
@@ -50,6 +53,7 @@ class CMinerAPI:
                 "pattern_type": pattern_type,
                 "output_path": output_path,
                 "string_output": string_output,
+                "streaming_output": streaming_output,
             },
         )
         self.min_support = support
@@ -88,6 +92,7 @@ class CMinerAPI:
                 "pattern_type": self.pattern_type,
                 "output_path": self.output_path,
                 "string_output": self.string_output,
+                "streaming_output": self.streaming_output,
             },
         )
 
@@ -107,6 +112,7 @@ class CMinerAPI:
                 "pattern_type": self.pattern_type,
                 "output_path": self.output_path,
                 "string_output": self.string_output,
+                "streaming_output": self.streaming_output,
             },
         )
 
@@ -143,6 +149,10 @@ class CMinerAPI:
         return info_str
 
     def mine(self) -> str | None:
+        if self.streaming_output:
+            raise RuntimeError(
+                "streaming_output=True is set. Use mine_stream() instead of mine()."
+            )
         print(self.get_info())
         print("Reading graphs from file...", end=" ")
         self._read_graphs_from_file()
@@ -172,6 +182,80 @@ class CMinerAPI:
             return result
         self.stack.close()
         return None
+
+    def mine_stream(
+        self,
+        pattern_type=None,
+        start_patterns_done: bool = False,
+        yield_strings: bool = True,
+    ):
+        """
+        Generator that yields patterns one at a time while mining runs in the
+        background. This avoids building the full result string in memory.
+
+        Parameters
+        ----------
+        pattern_type : str, optional
+            Override the instance pattern type. Defaults to self.pattern_type.
+        start_patterns_done : bool
+            If False, this method reads the graphs, parses support, and finds
+            the start patterns before streaming. If True, it assumes the caller
+            has already done that (e.g. called _read_graphs_from_file,
+            _parse_support and _find_start_patterns).
+        yield_strings : bool
+            If True (default), yields formatted strings. If False, yields the
+            raw Pattern objects so the caller can format or store them itself.
+
+        Yields
+        ------
+        str or Pattern
+            The next mined pattern, either as a formatted string or as a
+            Pattern object.
+
+        Raises
+        ------
+        TypeError
+            If streaming_output was not set to True when constructing the
+            CMinerAPI instance.
+        """
+        if not isinstance(self.stack.solution_saver, QueueSolutionSaver):
+            raise TypeError(
+                "mine_stream() requires streaming_output=True when constructing "
+                "the CMinerAPI instance."
+            )
+
+        if not start_patterns_done:
+            print(self.get_info())
+            print("Reading graphs from file...", end=" ")
+            self._read_graphs_from_file()
+            print("done.")
+            self._parse_support()
+            self._find_start_patterns()
+
+        pt = pattern_type or self.pattern_type
+        if pt == "all":
+            target = self.mine_all_patterns
+        elif pt == "maximum":
+            target = self.mine_maximum_patterns
+        else:
+            raise ValueError(
+                f"Unknown pattern type: {pt}. Expected 'all' or 'maximum'."
+            )
+
+        def run():
+            try:
+                target()
+            finally:
+                self.stack.close()
+
+        thread = Thread(target=run, daemon=True)
+        thread.start()
+
+        try:
+            yield from self.stack.iter_results(yield_strings=yield_strings)
+        finally:
+            self.stack.close()
+            thread.join(timeout=1)
 
     def mine_all_patterns(self):
         with ThreadPoolExecutor(max_workers=self.workers) as executor:

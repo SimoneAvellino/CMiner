@@ -1,7 +1,12 @@
 import threading
 
 from .Pattern import Pattern
-from .SolutionSaver import ConsoleSolutionSaver, FileSolutionSaver, StringSolutionSaver
+from .SolutionSaver import (
+    ConsoleSolutionSaver,
+    FileSolutionSaver,
+    QueueSolutionSaver,
+    StringSolutionSaver,
+)
 
 
 class DFSStack(list):
@@ -23,12 +28,22 @@ class DFSStack(list):
         self.last_popped_pattern = None
         # Memoize BitMatrices
         self.bit_matrices = {}
+        # Streaming mode lets callers consume patterns one-by-one instead of
+        # building a giant result string/list in memory.
+        self.streaming_output = output_options.get("streaming_output", False)
+        self.keep_structured_patterns = output_options.get(
+            "keep_structured_patterns", not self.streaming_output
+        )
         # solution saver
         if output_options["output_path"]:
             self.solution_saver = FileSolutionSaver(
                 output_options["output_path"],
                 output_options["show_mappings"],
                 output_options["with_frequencies"],
+            )
+        elif self.streaming_output:
+            self.solution_saver = QueueSolutionSaver(
+                output_options["show_mappings"], output_options["with_frequencies"]
             )
         elif output_options.get("string_output", False):
             self.solution_saver = StringSolutionSaver(
@@ -110,7 +125,8 @@ class DFSStack(list):
             return
         with self._lock:
             self.solution_saver.save(pattern)
-            self.output_structured_patterns.append(pattern)
+            if self.keep_structured_patterns:
+                self.output_structured_patterns.append(pattern)
 
     def get_string_results(self) -> str:
         """
@@ -122,6 +138,31 @@ class DFSStack(list):
                 "get_string_results() is only available when string_output=True."
             )
         return self.solution_saver.get_results()
+
+    def iter_results(self, yield_strings: bool = True):
+        """
+        Yield results one pattern at a time when streaming_output is enabled.
+
+        Parameters
+        ----------
+        yield_strings : bool
+            If True (default), yields formatted strings. If False, yields the
+            raw Pattern objects so the caller can format or store them itself.
+
+        Raises
+        ------
+        TypeError
+            If the current saver is not a QueueSolutionSaver.
+        """
+        if not isinstance(self.solution_saver, QueueSolutionSaver):
+            raise TypeError(
+                "iter_results() is only available when streaming_output=True."
+            )
+        for pattern in self.solution_saver:
+            if yield_strings:
+                yield self.solution_saver.patter_to_str(pattern)
+            else:
+                yield pattern
 
     def close(self):
         """
