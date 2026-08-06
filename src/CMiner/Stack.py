@@ -18,9 +18,9 @@ class DFSStack(list):
         super().__init__()
         self.min_nodes = min_nodes
         self.max_nodes = max_nodes
-        # Dictionary that keeps track of already computed pattern.
-        # key   := pattern_code
-        # value := list of patterns
+        # Set that keeps track of already computed patterns.
+        # Entries are compact (hash, prefix) fingerprints,
+        # so the set stays small. Collision would cause a rare silent pattern skip.
         self.found_patterns = set()
         self.output_options = output_options
         # In case of closed pattern mining, keep track of the last popped pattern
@@ -88,6 +88,14 @@ class DFSStack(list):
                 return None
             return self.pop(index=-1, backtracking=backtracking)
 
+    @staticmethod
+    def _fingerprint(code: str) -> tuple[int, str]:
+        """
+        Compact fingerprint of a canonical code: full hash + short prefix.
+        A false "already stacked" hit needs both to collide (~2^-80).
+        """
+        return (hash(code), code[:16])
+
     def push(self, pattern: Pattern):
         """
         Push the pattern into the stack.
@@ -99,9 +107,7 @@ class DFSStack(list):
                 and pattern.frequency() > 0
             ):
                 super().append(pattern)
-                code = pattern.canonical_code()
-                if code not in self.found_patterns:
-                    self.found_patterns.add(code)
+                self.found_patterns.add(self._fingerprint(pattern.canonical_code()))
                 if self.output_options["pattern_type"] != "maximum":
                     self.output(pattern)
             else:
@@ -116,9 +122,9 @@ class DFSStack(list):
               so the code is used to prune the search space, but the
               isomorphism check is still needed.
         """
-        code = pattern.canonical_code()
+        fingerprint = self._fingerprint(pattern.canonical_code())
         with self._lock:
-            return code in self.found_patterns
+            return fingerprint in self.found_patterns
 
     def output(self, pattern: Pattern):
         if len(pattern.nodes()) < self.min_nodes:

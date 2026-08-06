@@ -216,9 +216,16 @@ class QueueSolutionSaver(SolutionSaver):
     builds the full output string in memory.
     """
 
-    def __init__(self, show_mappings: bool = False, show_frequencies: bool = False):
+    def __init__(
+        self,
+        show_mappings: bool = False,
+        show_frequencies: bool = False,
+        maxsize: int = 0,
+    ):
         super().__init__(show_mappings, show_frequencies)
-        self._queue = queue.Queue()
+        # maxsize=0 (default) keeps the queue unbounded,
+        # maxsize!=0 blocks mining workers when the queue is full to not fill RAM.
+        self._queue = queue.Queue(maxsize=maxsize)
         self._closed = False
 
     def save(self, pattern: "Pattern"):
@@ -229,7 +236,17 @@ class QueueSolutionSaver(SolutionSaver):
         """Signal the consumer that no more patterns will be produced."""
         if not self._closed:
             self._closed = True
-            self._queue.put(None)
+            # avoid blocking forever the producer if the consumer is slow or stopped.
+            while True:
+                try:
+                    self._queue.put(None, timeout=0.5)
+                    break
+                except queue.Full:
+                    try:
+                        self._queue.get_nowait()
+                        self._queue.task_done()
+                    except queue.Empty:
+                        pass
 
     def patter_to_str(self, pattern: "Pattern") -> str:
         """

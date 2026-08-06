@@ -154,7 +154,8 @@ class Pattern:
             **attr: Additional attributes for the pattern.
         """
         self.pattern_mappings = pattern_mappings
-        self.extended_pattern = extended_pattern
+        # Do NOT retain the parent pattern, nothing reads this attribute
+        self.extended_pattern = None
 
     # ---- basic methods ----
 
