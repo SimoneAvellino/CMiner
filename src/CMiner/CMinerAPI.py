@@ -39,10 +39,12 @@ class CMinerAPI:
         workers: int = 1,  # number of parallel workers
         string_output: bool = False,  # whether to return results as a string instead of printing
         streaming_output: bool = False,  # whether to yield patterns one-by-one instead of accumulating them
+        lazy_dfs: bool = False,  # whether to traverse with lazy DFS (O(depth) live patterns) instead of the stack frontier (O(depth x siblings))
     ):
         self.db_file = db_file
         self.string_output = string_output
         self.streaming_output = streaming_output
+        self.lazy_dfs = lazy_dfs
         self.stack = DFSStack(
             min_nodes,
             max_nodes,
@@ -163,7 +165,7 @@ class CMinerAPI:
         self._find_start_patterns()
 
         if self.pattern_type == "all":
-            self.mine_all_patterns()
+            self._all_patterns_target()()
         elif self.pattern_type == "maximum":
             self.mine_maximum_patterns()
         else:
@@ -234,7 +236,7 @@ class CMinerAPI:
 
         pt = pattern_type or self.pattern_type
         if pt == "all":
-            target = self.mine_all_patterns
+            target = self._all_patterns_target()
         elif pt == "maximum":
             target = self.mine_maximum_patterns
         else:
@@ -257,7 +259,20 @@ class CMinerAPI:
             self.stack.close()
             thread.join(timeout=1)
 
+    def _all_patterns_target(self):
+        """Pick the 'all' mining strategy: lazy DFS when enabled, stack otherwise."""
+        if self.lazy_dfs:
+            return self.mine_all_patterns_lazy
+        return self.mine_all_patterns
+
     def mine_all_patterns(self):
+        """
+        Depth-First Search (DFS) for 'all' pattern mining.
+        Pushes EVERY child of a popped pattern
+        onto the DFS stack before any of them is processed, so the number of
+        live patterns is O(depth x siblings-per-level) and each one pins its
+        full occurrence mappings in RAM.
+        """
         with ThreadPoolExecutor(max_workers=self.workers) as executor:
             futures = set()
             while True:
@@ -266,6 +281,70 @@ class CMinerAPI:
                 if not futures and self.stack.is_empty():
                     break
                 done, futures = wait(futures, return_when=FIRST_COMPLETED)
+
+    def mine_all_patterns_lazy(self):
+        """
+        Lazy Depth-First Search (DFS) for 'all' pattern mining.
+        Visits each child immediately after creating it, so only
+        the current root-to-leaf path (O(depth) patterns) is alive at any
+        moment.
+        Consume less memory than mine_all_patterns(),
+        but runs serially (the workers setting is ignored).
+        """
+        while True:
+            pattern = self.stack.try_pop()
+            if pattern is None:
+                break
+            self._visit_lazy(pattern)
+
+    def _visit_lazy(self, pattern: Pattern):
+        # Mirror of _process_pattern_all, but recurses immediately instead of
+        # pushing children onto the shared stack.
+        if len(pattern.nodes()) >= self.stack.max_nodes:
+            return
+
+        node_extensions = pattern.find_node_extensions(self.min_support)
+
+        if len(node_extensions) == 0:
+            return
+
+        for node_ext in node_extensions:
+
+            node_extended_pattern = pattern.apply_node_extension(node_ext)
+
+            if self.stack.was_stacked(node_extended_pattern):
+                del node_extended_pattern
+                continue
+
+            node_extended_pattern.update_node_mappings(node_ext)
+
+            # register() fingerprints + outputs the pattern and reports whether
+            # it was accepted (new, within bounds, has occurrences).
+            if not self.stack.register(node_extended_pattern):
+                continue
+
+            edge_extensions = node_extended_pattern.find_edge_extensions(
+                self.min_support
+            )
+
+            for edge_ext in edge_extensions:
+
+                edge_extended_pattern = node_extended_pattern.apply_edge_extension(
+                    edge_ext
+                )
+
+                if self.stack.was_stacked(edge_extended_pattern):
+                    del edge_extended_pattern
+                    continue
+
+                edge_extended_pattern.update_edge_mappings(edge_ext)
+
+                if not self.stack.register(edge_extended_pattern):
+                    continue
+
+                self._visit_lazy(edge_extended_pattern)
+
+            self._visit_lazy(node_extended_pattern)
 
     def mine_maximum_patterns(self):
         if not self.db:

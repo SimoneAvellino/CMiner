@@ -100,11 +100,13 @@ class DirectedEdgeExtensionManager(EdgeExtensionManager):
 
         edge_group_finders = {}
 
-        for (
-            pattern_node_src,
-            pattern_node_dest,
-            target_edge_labels_code,
-        ), db_graphs in self.extensions.items():
+        # Drain self.extensions as we go
+        while self.extensions:
+            (
+                pattern_node_src,
+                pattern_node_dest,
+                target_edge_labels_code,
+            ), db_graphs = self.extensions.popitem()
 
             # use the finder code to identify the finder
             finder_code = (pattern_node_src, pattern_node_dest)
@@ -116,6 +118,7 @@ class DirectedEdgeExtensionManager(EdgeExtensionManager):
             location = {}
             for g in db_graphs:
                 location[g] = set(db_graphs[g])
+            del db_graphs
 
             # select the correct finder and add the edge extension
             edge_group_finder = edge_group_finders[finder_code]
@@ -181,11 +184,12 @@ class UndirectedEdgeExtensionManager(EdgeExtensionManager):
 
         edge_group_finders = {}
 
-        for (
-            pattern_node_src,
-            pattern_node_dest,
-            target_edge_labels_code,
-        ), db_graphs in self.extensions.items():
+        while self.extensions:
+            (
+                pattern_node_src,
+                pattern_node_dest,
+                target_edge_labels_code,
+            ), db_graphs = self.extensions.popitem()
 
             # use the finder code to identify the finder
             finder_code = (pattern_node_src, pattern_node_dest)
@@ -197,6 +201,7 @@ class UndirectedEdgeExtensionManager(EdgeExtensionManager):
             location = {}
             for g in db_graphs:
                 location[g] = set(db_graphs[g])
+            del db_graphs
 
             # select the correct finder and add the edge extension
             edge_group_finder = edge_group_finders[finder_code]

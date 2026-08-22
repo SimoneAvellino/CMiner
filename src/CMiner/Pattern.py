@@ -368,14 +368,17 @@ class Pattern:
                     continue
 
                 # mapped node ids of the pattern (without the new node)
-                mapped_node_ids = list(target_map.nodes_mapping().values())  #####
+                base_node_ids = list(target_map.nodes_mapping().values())
 
                 for target_node_id in target_node_ids:
 
                     # ---- START CHECK THE MAPPING IS REDUNDANT ----
 
-                    # complete the array with all mapped node ids (including the new node)
-                    mapped_node_ids.append(target_node_id)
+                    # complete the array with all mapped node ids (including
+                    # the new node). build a fresh list per candidate
+                    # appending to a shared list leaks the previous candidates'
+                    # ids into the code, which breaks duplicate detection.
+                    mapped_node_ids = base_node_ids + [target_node_id]
 
                     mapping_code = PatternMappings.mapping_code(mapped_node_ids)
                     # check if the mapping code is already in the set

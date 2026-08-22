@@ -157,11 +157,13 @@ class DirectedNodeExtensionManager(NodeExtensionManager):
 
         edge_group_finders = {}
 
-        for (
-            pattern_node_id,
-            node_labels_code,
-            target_edge_labels_code,
-        ), db_graphs in self.extensions.items():
+        # Drain self.extensions as we go
+        while self.extensions:
+            (
+                pattern_node_id,
+                node_labels_code,
+                target_edge_labels_code,
+            ), db_graphs = self.extensions.popitem()
 
             # use the finder code to identify the finder
             finder_code = (pattern_node_id, node_labels_code)
@@ -178,6 +180,7 @@ class DirectedNodeExtensionManager(NodeExtensionManager):
                         aa[mapping] = []
                     aa[mapping].append(node_id)
                 location[g] = aa
+            del db_graphs
 
             # select the correct finder and add the edge extension
             edge_group_finder = edge_group_finders[finder_code]
@@ -199,6 +202,7 @@ class DirectedNodeExtensionManager(NodeExtensionManager):
                         ),
                     )
                 )
+        self.memoization.clear()
         return frequent_extensions
 
     @staticmethod
@@ -269,11 +273,12 @@ class UndirectedNodeExtensionManager(NodeExtensionManager):
 
         edge_group_finders = {}
 
-        for (
-            pattern_node_id,
-            node_labels_code,
-            target_edge_labels_code,
-        ), db_graphs in self.extensions.items():
+        while self.extensions:
+            (
+                pattern_node_id,
+                node_labels_code,
+                target_edge_labels_code,
+            ), db_graphs = self.extensions.popitem()
 
             # use the finder code to identify the finder
             finder_code = (pattern_node_id, node_labels_code)
@@ -290,6 +295,7 @@ class UndirectedNodeExtensionManager(NodeExtensionManager):
                         aa[mapping] = []
                     aa[mapping].append(node_id)
                 location[g] = aa
+            del db_graphs
 
             # select the correct finder and add the edge extension
             edge_group_finder = edge_group_finders[finder_code]
@@ -309,4 +315,5 @@ class UndirectedNodeExtensionManager(NodeExtensionManager):
                         UndirectedExtension(e.out_edge_labels, e.location),
                     )  # NOTE: i use only out_edge_labels because the in_edge_labels are not used in undirected graphs
                 )
+        self.memoization.clear()
         return frequent_extensions

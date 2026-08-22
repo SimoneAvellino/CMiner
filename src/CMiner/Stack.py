@@ -113,6 +113,27 @@ class DFSStack(list):
             else:
                 del pattern
 
+    def register(self, pattern: Pattern) -> bool:
+        """
+        Fingerprint and output a pattern WITHOUT pushing it on the stack.
+
+        Used by the lazy DFS traversal (mine_all_patterns_lazy), which visits
+        Returns True when the pattern was accepted
+        (i.e. it is new, within the node bound and has occurrences).
+        """
+        with self._lock:
+            if (
+                len(pattern.nodes()) <= self.max_nodes
+                and not self.was_stacked(pattern)
+                and pattern.frequency() > 0
+            ):
+                self.found_patterns.add(self._fingerprint(pattern.canonical_code()))
+                if self.output_options["pattern_type"] != "maximum":
+                    self.output(pattern)
+                return True
+            del pattern
+            return False
+
     def was_stacked(self, pattern: Pattern):
         """
         Check if the pattern is already computed.
