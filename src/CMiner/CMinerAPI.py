@@ -1,6 +1,7 @@
 from asyncio import ALL_COMPLETED
 from collections import defaultdict
 from threading import Thread
+import os
 import time
 from concurrent.futures import FIRST_COMPLETED, ThreadPoolExecutor, wait
 
@@ -44,7 +45,17 @@ class CMinerAPI:
         spill_mappings: bool = True,  # whether to spill idle occurrence mappings to disk (LRU, budget-based) to bound RAM
         spill_max_loaded: int = 4_000_000,  # budget of live mapping links (occurrences x pattern depth) before eviction
         spill_dir: str | None = None,  # directory for spill files (default: fresh temp dir)
+        two_pass_discovery: bool = True,  # count-first extension discovery (cuts the candidate-tuple accumulator peak RAM; ~2x candidate-scan CPU)
     ):
+        # Two-pass extension discovery toggle. Env override: CMINER_TWO_PASS=0/1.
+        from .EdgeExtension import set_two_pass
+
+        env_tp = os.environ.get("CMINER_TWO_PASS")
+        set_two_pass(
+            two_pass_discovery
+            if env_tp is None
+            else env_tp.strip().lower() not in ("0", "false", "no", "off")
+        )
         # Configure the process-wide spill manager for occurrence mappings.
         # Env overrides: CMINER_SPILL, CMINER_SPILL_MAX_LINKS, CMINER_SPILL_DIR.
         # When disabled (or never configured, e.g. legacy CMiner class),

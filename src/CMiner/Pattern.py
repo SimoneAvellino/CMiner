@@ -18,6 +18,7 @@ from .EdgeExtension import (
     DirectedEdgeExtensionManager,
     EdgeExtensionManager,
     UndirectedEdgeExtensionManager,
+    two_pass_enabled,
 )
 from .Extension import DirectedExtension, Extension, UndirectedExtension
 from .SpillManager import get_spill_manager
@@ -407,12 +408,13 @@ class Pattern:
 
     # ---- node extension methods ----
 
-    def find_node_extensions(self, min_support) -> list[NodeExtension]:
+    def _collect_node_extension_candidates(self, extension_manager):
         """
-        Find all possible node extensions for the pattern.
+        Feed every (occurrence x pattern node x candidate neighbor) into the
+        manager. Run twice by the two-pass discovery: pass 1 (count_only)
+        records graph sets per code, pass 2 (code_whitelist) materializes
+        occurrence tuples only for surviving codes.
         """
-        # Create a node extension manager to keep track of the candidate extensions
-        extension_manager = self.create_node_extension_manager(min_support)
         # for all graph in the database that contains the current extension
         for g in self.graphs():
             # obtain where the current extension is located in the graph
@@ -430,6 +432,28 @@ class Pattern:
                         mapped_target_nodes
                     ):
                         extension_manager.add(node_p, node_db, neigh, g, _map)
+
+    def find_node_extensions(self, min_support) -> list[NodeExtension]:
+        """
+        Find all possible node extensions for the pattern.
+
+        Two-pass discovery: pass 1 counts graphs per extension code (no
+        occurrence tuples stored), pass 2 materializes tuples only for
+        surviving codes. The resulting extensions are identical to the
+        single-pass version; the peak RAM of this step drops with the
+        fraction of infrequent candidates.
+        """
+        # Create a node extension manager to keep track of the candidate extensions
+        extension_manager = self.create_node_extension_manager(min_support)
+        if two_pass_enabled():
+            # ---- pass 1: count graphs per extension code ----
+            extension_manager.count_only = True
+            self._collect_node_extension_candidates(extension_manager)
+            needed = extension_manager.needed_codes()
+            # ---- pass 2: collect tuples only for surviving codes ----
+            extension_manager = self.create_node_extension_manager(min_support)
+            extension_manager.code_whitelist = needed
+        self._collect_node_extension_candidates(extension_manager)
 
         extensions = extension_manager.frequent_extensions()
         del extension_manager
@@ -551,17 +575,13 @@ class Pattern:
 
     # ---- edge extension methods ----
 
-    def find_edge_extensions(self, min_support) -> list[list[EdgeExtension]]:
+    def _collect_edge_extension_candidates(self, extension_manager):
         """
-        Find all possible edge extensions for the pattern.
+        Feed every (occurrence x candidate edge group) into the manager.
+        Run twice by the two-pass discovery: pass 1 (count_only) records
+        graph sets per code, pass 2 (code_whitelist) materializes occurrence
+        tuples only for surviving codes.
         """
-        if len(self.nodes()) < 3:
-            # if the pattern has less than 3 nodes,
-            # it is not possible to find edge extensions
-            return []
-
-        extension_manager = self.create_edge_extension_manager(min_support)
-
         for g in self.graphs():
             for _map in self.pattern_mappings.mappings(g):
                 mapped_pattern_complete_graph_edges = g.all_edges_of_subgraph(
@@ -602,6 +622,32 @@ class Pattern:
 
                 for (src, dst), labels in groups.items():
                     extension_manager.add(src, dst, labels, g, _map)
+
+    def find_edge_extensions(self, min_support) -> list[list[EdgeExtension]]:
+        """
+        Find all possible edge extensions for the pattern.
+
+        Two-pass discovery: pass 1 counts graphs per extension code (no
+        occurrence tuples stored), pass 2 materializes tuples only for
+        surviving codes. The resulting extensions are identical to the
+        single-pass version; the peak RAM of this step drops with the
+        fraction of infrequent candidates.
+        """
+        if len(self.nodes()) < 3:
+            # if the pattern has less than 3 nodes,
+            # it is not possible to find edge extensions
+            return []
+
+        extension_manager = self.create_edge_extension_manager(min_support)
+        if two_pass_enabled():
+            # ---- pass 1: count graphs per extension code ----
+            extension_manager.count_only = True
+            self._collect_edge_extension_candidates(extension_manager)
+            needed = extension_manager.needed_codes()
+            # ---- pass 2: collect tuples only for surviving codes ----
+            extension_manager = self.create_edge_extension_manager(min_support)
+            extension_manager.code_whitelist = needed
+        self._collect_edge_extension_candidates(extension_manager)
 
         extensions = extension_manager.frequent_extensions()
 

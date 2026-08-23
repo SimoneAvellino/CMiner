@@ -39,6 +39,21 @@ class EdgeExtensionManager:
     def __init__(self, support):
         self.min_support = support
         self.extensions = {}
+        # Two-pass discovery state (see compute_needed_codes):
+        # count_only=True  -> add() records only ext_code -> set(graphs)
+        # code_whitelist   -> add() stores tuples only for these codes
+        self.count_only = False
+        self.code_whitelist = None
+        self._graph_sets = {}
+
+    def needed_codes(self) -> set:
+        """
+        Pass-1 result: ext_codes whose occurrence tuples must be collected
+        in pass 2 to reproduce the exact frequent_extensions output.
+        """
+        needed = compute_needed_codes(self._graph_sets, self.min_support)
+        self._graph_sets = {}
+        return needed
 
     def add(self, pattern_node_src, pattern_node_dest, labels, db_graph, _map):
         """
@@ -85,6 +100,12 @@ class DirectedEdgeExtensionManager(EdgeExtensionManager):
             )
         )
         extension_code = (pattern_node_src, pattern_node_dest, target_edge_labels_code)
+
+        if self.count_only:
+            self._graph_sets.setdefault(extension_code, set()).add(db_graph)
+            return
+        if self.code_whitelist is not None and extension_code not in self.code_whitelist:
+            return
 
         if extension_code not in self.extensions:
             self.extensions[extension_code] = {}
@@ -169,6 +190,12 @@ class UndirectedEdgeExtensionManager(EdgeExtensionManager):
             )
         )
         extension_code = (pattern_node_src, pattern_node_dest, target_edge_labels_code)
+
+        if self.count_only:
+            self._graph_sets.setdefault(extension_code, set()).add(db_graph)
+            return
+        if self.code_whitelist is not None and extension_code not in self.code_whitelist:
+            return
 
         if extension_code not in self.extensions:
             self.extensions[extension_code] = {}
@@ -454,3 +481,115 @@ class EdgeGroupsFinder:
                 )
 
         return extensions
+
+
+class _LightEdgeGroupsFinder:
+    """
+    Graph-set replica of EdgeGroupsFinder, used by the two-pass extension
+    discovery (pass 1) to decide which extension codes survive without
+    materializing any occurrence tuple.
+
+    Rows carry a frozenset of graphs instead of the full location dict.
+    Row ordering (descending popcount, stable), the transitive top-down
+    merge (row_i absorbs row_j when row_i ⊆ row_j) and the emission rule
+    (|merged graphs| >= min_support) mirror EdgeGroupsFinder exactly, so the
+    survival decisions are identical to the full finder's: the full finder
+    computes support as the number of graph keys in the merged location,
+    which is exactly the merged graph-set union computed here.
+    """
+
+    def __init__(self, min_support):
+        self.min_support = min_support
+        self._columns = []
+        self._col_index = {}
+        self._masks: list[int] = []
+        self._graphs: list[set] = []  # own graph set per row
+        self._codes: list = []  # ext_code per row
+        self._neg_popcounts: list[int] = []
+
+    def add(self, edge_labels, graphs, code):
+        edge_labels = EdgeGroupsFinder.parse_edge_labels(edge_labels)
+        mask = 0
+        for label in edge_labels:
+            if label not in self._col_index:
+                self._col_index[label] = len(self._columns)
+                self._columns.append(label)
+            mask |= 1 << self._col_index[label]
+        popcount = mask.bit_count()
+        ins = bisect.bisect_right(self._neg_popcounts, -popcount)
+        self._masks.insert(ins, mask)
+        self._graphs.insert(ins, graphs)
+        self._codes.insert(ins, code)
+        self._neg_popcounts.insert(ins, -popcount)
+
+    def find(self):
+        """
+        Return (emitted_codes, needed_codes): emitted rows (in row order)
+        plus every row that is a superset of an emitted row (its merge
+        contributors, transitively closed by the ⊆ relation).
+        """
+        merged = [set(g) for g in self._graphs]
+        emitted = []
+        for i in range(len(self._masks)):
+            mask_i = self._masks[i]
+            for j in range(i - 1, -1, -1):
+                if mask_i & ~self._masks[j] == 0:
+                    merged[i] |= merged[j]
+            if len(merged[i]) >= self.min_support:
+                emitted.append(i)
+        needed = set()
+        for i in emitted:
+            needed.add(self._codes[i])
+            mask_i = self._masks[i]
+            for j in range(len(self._masks)):
+                if j != i and mask_i & ~self._masks[j] == 0:
+                    needed.add(self._codes[j])
+        return [self._codes[i] for i in emitted], needed
+
+
+_TWO_PASS = True
+
+
+def set_two_pass(enabled: bool):
+    """Enable/disable the two-pass extension discovery (see Pattern.find_*)."""
+    global _TWO_PASS
+    _TWO_PASS = bool(enabled)
+
+
+def two_pass_enabled() -> bool:
+    return _TWO_PASS
+
+
+def compute_needed_codes(graph_sets: dict, min_support) -> set:
+    """
+    Two-pass extension discovery, pass-1 survivor computation.
+
+    Parameters:
+        graph_sets: {ext_code: set(DBGraph)} collected by a manager in
+            count_only mode. ext_code is (finder_a, finder_b, labels_code);
+            the finder group key is ext_code[:2] for both node extensions
+            ((pattern_node_id, node_labels_code)) and edge extensions
+            ((pattern_node_src, pattern_node_dst)).
+        min_support: minimum number of graphs for an extension to survive.
+
+    Returns:
+        The set of ext_codes whose full occurrence tuples must be
+        materialized in pass 2 to reproduce the exact frequent_extensions
+        output (emitted rows plus all their merge contributors).
+
+    Codes are consumed in REVERSE insertion order, matching the popitem()
+    drain order of the full managers, so the light finders see rows in the
+    same order as the full ones.
+    """
+    finders: dict = {}
+    for code in reversed(list(graph_sets.keys())):
+        finder_code = code[:2]
+        finder = finders.get(finder_code)
+        if finder is None:
+            finder = finders[finder_code] = _LightEdgeGroupsFinder(min_support)
+        finder.add(code[2].split(" "), graph_sets[code], code)
+    needed = set()
+    for finder in finders.values():
+        _, finder_needed = finder.find()
+        needed |= finder_needed
+    return needed

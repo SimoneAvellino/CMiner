@@ -1,5 +1,5 @@
+from .EdgeExtension import EdgeGroupsFinder, compute_needed_codes
 from .Extension import DirectedExtension, Extension, UndirectedExtension
-from .EdgeExtension import EdgeGroupsFinder
 
 
 class NodeExtension:
@@ -54,6 +54,22 @@ class NodeExtensionManager:
         self.min_support = min_support
         self.extensions = {}
         self.memoization = {}
+        # Two-pass discovery state (see EdgeExtension.compute_needed_codes):
+        # count_only=True  -> add() records only ext_code -> set(graphs)
+        # code_whitelist   -> add() stores tuples only for these codes
+        self.count_only = False
+        self.code_whitelist = None
+        self._graph_sets = {}
+
+    def needed_codes(self) -> set:
+        """
+        Pass-1 result: ext_codes whose occurrence tuples must be collected
+        in pass 2 to reproduce the exact frequent_extensions output.
+        """
+        needed = compute_needed_codes(self._graph_sets, self.min_support)
+        self._graph_sets = {}
+        self.memoization.clear()
+        return needed
 
     @staticmethod
     def _memo_key(db_graph, src_node_id: int, dst_node_id: int):
@@ -141,6 +157,12 @@ class DirectedNodeExtensionManager(NodeExtensionManager):
             neigh_target_node_labels_code,
             target_edge_labels_code,
         )
+
+        if self.count_only:
+            self._graph_sets.setdefault(ext_code, set()).add(db_graph)
+            return
+        if self.code_whitelist is not None and ext_code not in self.code_whitelist:
+            return
 
         if ext_code not in self.extensions:
             self.extensions[ext_code] = {}
@@ -257,6 +279,12 @@ class UndirectedNodeExtensionManager(NodeExtensionManager):
             neigh_target_node_labels_code,
             target_edge_labels_code,
         )
+
+        if self.count_only:
+            self._graph_sets.setdefault(ext_code, set()).add(db_graph)
+            return
+        if self.code_whitelist is not None and ext_code not in self.code_whitelist:
+            return
 
         if ext_code not in self.extensions:
             self.extensions[ext_code] = {}
