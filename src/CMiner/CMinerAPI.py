@@ -19,6 +19,7 @@ from NetworkLoader.NetworksLoading import NetworksLoading
 
 from .Pattern import DirectedPattern, Pattern, PatternMappings, UndirectedPattern
 from .SolutionSaver import QueueSolutionSaver
+from .SpillManager import close_spill_manager, configure_spill
 from .Stack import DFSStack
 
 
@@ -40,7 +41,19 @@ class CMinerAPI:
         string_output: bool = False,  # whether to return results as a string instead of printing
         streaming_output: bool = False,  # whether to yield patterns one-by-one instead of accumulating them
         lazy_dfs: bool = False,  # whether to traverse with lazy DFS (O(depth) live patterns) instead of the stack frontier (O(depth x siblings))
+        spill_mappings: bool = True,  # whether to spill idle occurrence mappings to disk (LRU, budget-based) to bound RAM
+        spill_max_loaded: int = 4_000_000,  # budget of live mapping links (occurrences x pattern depth) before eviction
+        spill_dir: str | None = None,  # directory for spill files (default: fresh temp dir)
     ):
+        # Configure the process-wide spill manager for occurrence mappings.
+        # Env overrides: CMINER_SPILL, CMINER_SPILL_MAX_LINKS, CMINER_SPILL_DIR.
+        # When disabled (or never configured, e.g. legacy CMiner class),
+        # PatternMappings stays purely in-RAM.
+        configure_spill(
+            enabled=spill_mappings,
+            max_loaded=spill_max_loaded,
+            directory=spill_dir,
+        )
         self.db_file = db_file
         self.string_output = string_output
         self.streaming_output = streaming_output
@@ -303,48 +316,59 @@ class CMinerAPI:
         if len(pattern.nodes()) >= self.stack.max_nodes:
             return
 
-        node_extensions = pattern.find_node_extensions(self.min_support)
+        # Pin the occurrence mappings for the whole visit: extensions key
+        # their locations on Mapping object identities, so the set must not
+        # be spilled/reloaded (new identities) until the visit is over.
+        pattern.pattern_mappings.pin()
+        try:
+            node_extensions = pattern.find_node_extensions(self.min_support)
 
-        if len(node_extensions) == 0:
-            return
+            if len(node_extensions) == 0:
+                return
 
-        for node_ext in node_extensions:
+            for node_ext in node_extensions:
 
-            node_extended_pattern = pattern.apply_node_extension(node_ext)
+                node_extended_pattern = pattern.apply_node_extension(node_ext)
 
-            if self.stack.was_stacked(node_extended_pattern):
-                del node_extended_pattern
-                continue
-
-            node_extended_pattern.update_node_mappings(node_ext)
-
-            # register() fingerprints + outputs the pattern and reports whether
-            # it was accepted (new, within bounds, has occurrences).
-            if not self.stack.register(node_extended_pattern):
-                continue
-
-            edge_extensions = node_extended_pattern.find_edge_extensions(
-                self.min_support
-            )
-
-            for edge_ext in edge_extensions:
-
-                edge_extended_pattern = node_extended_pattern.apply_edge_extension(
-                    edge_ext
-                )
-
-                if self.stack.was_stacked(edge_extended_pattern):
-                    del edge_extended_pattern
+                if self.stack.was_stacked(node_extended_pattern):
+                    del node_extended_pattern
                     continue
 
-                edge_extended_pattern.update_edge_mappings(edge_ext)
+                node_extended_pattern.update_node_mappings(node_ext)
 
-                if not self.stack.register(edge_extended_pattern):
+                # register() fingerprints + outputs the pattern and reports whether
+                # it was accepted (new, within bounds, has occurrences).
+                if not self.stack.register(node_extended_pattern):
                     continue
 
-                self._visit_lazy(edge_extended_pattern)
+                node_extended_pattern.pattern_mappings.pin()
+                try:
+                    edge_extensions = node_extended_pattern.find_edge_extensions(
+                        self.min_support
+                    )
 
-            self._visit_lazy(node_extended_pattern)
+                    for edge_ext in edge_extensions:
+
+                        edge_extended_pattern = node_extended_pattern.apply_edge_extension(
+                            edge_ext
+                        )
+
+                        if self.stack.was_stacked(edge_extended_pattern):
+                            del edge_extended_pattern
+                            continue
+
+                        edge_extended_pattern.update_edge_mappings(edge_ext)
+
+                        if not self.stack.register(edge_extended_pattern):
+                            continue
+
+                        self._visit_lazy(edge_extended_pattern)
+                finally:
+                    node_extended_pattern.pattern_mappings.unpin()
+
+                self._visit_lazy(node_extended_pattern)
+        finally:
+            pattern.pattern_mappings.unpin()
 
     def mine_maximum_patterns(self):
         if not self.db:
@@ -376,107 +400,131 @@ class CMinerAPI:
         if len(pattern_to_extend.nodes()) >= self.stack.max_nodes:
             return
 
-        node_extensions = pattern_to_extend.find_node_extensions(self.min_support)
+        # Pin the occurrence mappings for the whole processing step: the
+        # extension objects found here key their locations on the Mapping
+        # object identities, so the set must not be spilled (and reloaded
+        # with different identities) until the step is over.
+        pattern_to_extend.pattern_mappings.pin()
+        try:
+            node_extensions = pattern_to_extend.find_node_extensions(self.min_support)
 
-        if len(node_extensions) == 0:
-            return
+            if len(node_extensions) == 0:
+                return
 
-        for node_ext in node_extensions:
+            for node_ext in node_extensions:
 
-            node_extended_pattern = pattern_to_extend.apply_node_extension(node_ext)
+                node_extended_pattern = pattern_to_extend.apply_node_extension(node_ext)
 
-            if self.stack.was_stacked(node_extended_pattern):
-                continue
-
-            node_extended_pattern.update_node_mappings(node_ext)
-
-            self.stack.push(node_extended_pattern)
-
-            edge_extensions = node_extended_pattern.find_edge_extensions(
-                self.min_support
-            )
-
-            for edge_ext in edge_extensions:
-
-                edge_extended_pattern = node_extended_pattern.apply_edge_extension(
-                    edge_ext
-                )
-
-                if self.stack.was_stacked(edge_extended_pattern):
+                if self.stack.was_stacked(node_extended_pattern):
                     continue
 
-                edge_extended_pattern.update_edge_mappings(edge_ext)
+                node_extended_pattern.update_node_mappings(node_ext)
 
-                self.stack.push(edge_extended_pattern)
+                self.stack.push(node_extended_pattern)
+
+                # Same pinning for the edge-extension phase: update_edge_mappings
+                # membership-tests Mapping identities collected by
+                # find_edge_extensions on this pattern's mappings.
+                node_extended_pattern.pattern_mappings.pin()
+                try:
+                    edge_extensions = node_extended_pattern.find_edge_extensions(
+                        self.min_support
+                    )
+
+                    for edge_ext in edge_extensions:
+
+                        edge_extended_pattern = node_extended_pattern.apply_edge_extension(
+                            edge_ext
+                        )
+
+                        if self.stack.was_stacked(edge_extended_pattern):
+                            continue
+
+                        edge_extended_pattern.update_edge_mappings(edge_ext)
+
+                        self.stack.push(edge_extended_pattern)
+                finally:
+                    node_extended_pattern.pattern_mappings.unpin()
+        finally:
+            pattern_to_extend.pattern_mappings.unpin()
 
     def _process_pattern_maximum(self, pattern_to_extend: Pattern):
         if len(pattern_to_extend.nodes()) >= self.stack.max_nodes:
             return
 
-        node_extensions = pattern_to_extend.find_node_extensions(self.min_support)
+        # Pin the occurrence mappings for the whole step (see _process_pattern_all).
+        pattern_to_extend.pattern_mappings.pin()
+        try:
+            node_extensions = pattern_to_extend.find_node_extensions(self.min_support)
 
-        if len(node_extensions) == 0:
-            # In maximum pattern mining, patterns that cannot be extended are outputs.
-            self.stack.output(pattern_to_extend)
-            return
+            if len(node_extensions) == 0:
+                # In maximum pattern mining, patterns that cannot be extended are outputs.
+                self.stack.output(pattern_to_extend)
+                return
 
-        for node_ext in node_extensions:
+            for node_ext in node_extensions:
 
-            node_extended_pattern = pattern_to_extend.apply_node_extension(node_ext)
+                node_extended_pattern = pattern_to_extend.apply_node_extension(node_ext)
 
-            # Ensure no duplicate patterns are processed
-            if self.stack.was_stacked(node_extended_pattern):
-                continue
-
-            node_extended_pattern.update_node_mappings(node_ext)
-
-            tree_pattern_added = False
-
-            edge_extensions = node_extended_pattern.find_edge_extensions(
-                self.min_support
-            )
-
-            # If no edge extensions are found, add the pattern
-            # to the stack, it could be extended adding a node
-            if len(edge_extensions) == 0:
-                self.stack.push(node_extended_pattern)
-                continue
-
-            graphs_covered_by_edge_extensions = {
-                g for edge_ext in edge_extensions for g in edge_ext[0].graphs()
-            }
-
-            for edge_ext in edge_extensions:
-
-                edge_extended_pattern = node_extended_pattern.apply_edge_extension(
-                    edge_ext
-                )
-
-                if self.stack.was_stacked(edge_extended_pattern):
+                # Ensure no duplicate patterns are processed
+                if self.stack.was_stacked(node_extended_pattern):
                     continue
 
-                edge_extended_pattern.update_edge_mappings(edge_ext)
+                node_extended_pattern.update_node_mappings(node_ext)
 
-                # If the support of the tree pattern is greater than the cycle pattern
-                # it means that the tree cannot be closed in a cycle for all of his
-                # occurrence in each graph, so it's considered the tree pattern and added to the stack.
-                # Also check if the pattern is not already in the stack, because the same tree can be
-                # considered with more than one edge extension.
-                if (
-                    (not tree_pattern_added)
-                    and (
-                        node_extended_pattern.support()
-                        > len(graphs_covered_by_edge_extensions)
-                    )
-                    and (
-                        node_extended_pattern.support()
-                        > edge_extended_pattern.support()
-                    )
-                ):
-                    self.stack.push(node_extended_pattern)
-                    tree_pattern_added = True
+                tree_pattern_added = False
 
-                self.stack.push(edge_extended_pattern)
+                node_extended_pattern.pattern_mappings.pin()
+                try:
+                    edge_extensions = node_extended_pattern.find_edge_extensions(
+                        self.min_support
+                    )
+
+                    # If no edge extensions are found, add the pattern
+                    # to the stack, it could be extended adding a node
+                    if len(edge_extensions) == 0:
+                        self.stack.push(node_extended_pattern)
+                        continue
+
+                    graphs_covered_by_edge_extensions = {
+                        g for edge_ext in edge_extensions for g in edge_ext[0].graphs()
+                    }
+
+                    for edge_ext in edge_extensions:
+
+                        edge_extended_pattern = node_extended_pattern.apply_edge_extension(
+                            edge_ext
+                        )
+
+                        if self.stack.was_stacked(edge_extended_pattern):
+                            continue
+
+                        edge_extended_pattern.update_edge_mappings(edge_ext)
+
+                        # If the support of the tree pattern is greater than the cycle pattern
+                        # it means that the tree cannot be closed in a cycle for all of his
+                        # occurrence in each graph, so it's considered the tree pattern and added to the stack.
+                        # Also check if the pattern is not already in the stack, because the same tree can be
+                        # considered with more than one edge extension.
+                        if (
+                            (not tree_pattern_added)
+                            and (
+                                node_extended_pattern.support()
+                                > len(graphs_covered_by_edge_extensions)
+                            )
+                            and (
+                                node_extended_pattern.support()
+                                > edge_extended_pattern.support()
+                            )
+                        ):
+                            self.stack.push(node_extended_pattern)
+                            tree_pattern_added = True
+
+                        self.stack.push(edge_extended_pattern)
+                finally:
+                    node_extended_pattern.pattern_mappings.unpin()
+        finally:
+            pattern_to_extend.pattern_mappings.unpin()
 
     def _pattern_factory(self, graph) -> Pattern:
         p = (
@@ -531,6 +579,9 @@ class CMinerAPI:
 
             del matcher
         for p in pattern_dict.values():
+            # Start patterns' occurrence sets are complete: seal them
+            # (immutable, evictable by the SpillManager when not pinned).
+            p.pattern_mappings.seal(depth=len(p.nodes()))
             if p.support() >= self.min_support:
                 self.stack.push(p)
 
@@ -564,6 +615,8 @@ class CMinerAPI:
                 for g, nodes in graph_nodes.items():
                     mappings = [Mapping(node_mapping={0: node}) for node in nodes]
                     p.pattern_mappings.set_mapping(g, mappings)
+                # Seal the 1-node pattern occurrence set (see _find_start_patterns).
+                pattern_mappings.seal(depth=1)
                 patterns.append(p)
 
         return patterns
@@ -619,9 +672,12 @@ class CMinerAPI:
 
     def close(self):
         """
-        Close the solution saver.
+        Close the solution saver and release spill resources (temp files).
+        The spill configuration is kept: a new manager is created lazily on
+        the next mining run.
         """
         self.stack.close()
+        close_spill_manager()
 
     def get_structured_patterns(self) -> list[dict]:
         """

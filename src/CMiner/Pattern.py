@@ -10,12 +10,17 @@ from Graph.DirectedMultiGraph import DirectedMultiGraph
 from Graph.UndirectedMultiGraph import UndirectedMultiGraph
 from MultiGraphMatch.MultiGraphMatch import Mapping
 
+import os
+import pickle
+import threading
+
 from .EdgeExtension import (
     DirectedEdgeExtensionManager,
     EdgeExtensionManager,
     UndirectedEdgeExtensionManager,
 )
 from .Extension import DirectedExtension, Extension, UndirectedExtension
+from .SpillManager import get_spill_manager
 
 
 class PatternMappings:
@@ -23,8 +28,104 @@ class PatternMappings:
     def __init__(self):
         """
         Keep track of each mapping for each graph of a specific pattern.
+
+        Spill-aware container: while the mappings are being built it behaves
+        like the classic {DBGraph: [Mapping]} dict. After ``seal()`` (called
+        by the mining pipeline once the mappings of a pattern are complete)
+        the set is immutable and becomes evictable: under memory budget
+        pressure the SpillManager serializes it to a temp file and it is
+        transparently reloaded on the next read access. Counts stay in RAM
+        at all times, so support()/frequency() never trigger I/O.
         """
-        self.patterns_mappings = {}
+        self._mappings: dict | None = {}  # graph -> [Mapping]; None when spilled
+        self._counts: dict = {}  # graph -> occurrence count (always in RAM)
+        self._graphs_order: list = []  # graph keys aligned with the spill file
+        self._state = "building"  # building | loaded | spilled
+        self._pinned = 0  # >0: currently used by a mining step, never spill
+        self._weight = 0  # estimated live Mapping links (occurrences x depth)
+        self._spilled_valid = False  # True once the spill file matches the data
+        self._lock = threading.RLock()
+        self._manager = get_spill_manager()  # None: spill disabled
+        self._uid = self._manager.next_uid() if self._manager is not None else None
+
+    # ---- spill/pin plumbing ----
+
+    @property
+    def patterns_mappings(self) -> dict:
+        """
+        Backward-compatible accessor (loads from disk if spilled).
+        """
+        with self._lock:
+            self._ensure_loaded()
+            return self._mappings
+
+    def seal(self, depth: int = 1):
+        """
+        Mark the mapping set complete and immutable, and register it with
+        the SpillManager (which may evict other, non-pinned sets).
+        ``depth`` is the pattern size in nodes (chain length per occurrence),
+        used to estimate the live-link weight of this set.
+        """
+        if self._state == "spilled":
+            raise RuntimeError("cannot seal a spilled PatternMappings")
+        self._state = "loaded"
+        if self._manager is None:
+            return
+        entries = sum(self._counts.values())
+        self._manager.register(self, entries * max(1, int(depth)))
+
+    def pin(self):
+        """Prevent spilling. Must be balanced with unpin() (see mining loops)."""
+        with self._lock:
+            self._pinned += 1
+
+    def unpin(self):
+        with self._lock:
+            self._pinned = max(0, self._pinned - 1)
+
+    def _spill_now(self) -> bool:
+        """
+        Serialize the occurrence lists to the spill file and drop them from
+        RAM. Called by the SpillManager (never while pinned). Since sealed
+        sets are immutable, an already-written file stays valid and later
+        spills only drop the in-RAM copy.
+        """
+        with self._lock:
+            if self._state != "loaded" or self._pinned > 0:
+                return False
+            path = self._manager.file_for(self._uid)
+            if not self._spilled_valid:
+                self._graphs_order = list(self._mappings.keys())
+                payload = [self._mappings[g] for g in self._graphs_order]
+                tmp_path = path + ".tmp"
+                with open(tmp_path, "wb") as fh:
+                    pickle.dump(payload, fh, protocol=pickle.HIGHEST_PROTOCOL)
+                os.replace(tmp_path, path)
+                self._spilled_valid = True
+                self._manager.stats["bytes_written"] += os.path.getsize(path)
+            self._mappings = None
+            self._state = "spilled"
+            self._manager.note_spilled(self)
+            return True
+
+    def _ensure_loaded(self):
+        """Reload the occurrence lists from the spill file if spilled."""
+        if self._state != "spilled":
+            return
+        with self._lock:
+            if self._state != "spilled":
+                return
+            path = self._manager.file_for(self._uid)
+            with open(path, "rb") as fh:
+                payload = pickle.load(fh)
+            self._mappings = dict(zip(self._graphs_order, payload))
+            self._state = "loaded"
+            self._manager.stats["loads"] += 1
+            self._manager.stats["bytes_read"] += os.path.getsize(path)
+        # outside the per-set lock: may evict other (non-pinned) sets
+        self._manager.note_loaded(self)
+
+    # ---- container API ----
 
     def __str__(self) -> str:
         """
@@ -32,9 +133,9 @@ class PatternMappings:
         """
         output = ""
         # id of the projected nodes
-        for g, maps in self.patterns_mappings.items():
+        for g in self.graphs():
             output += f"{g.get_name()}\n"
-            for m in maps:
+            for m in self.mappings(g):
                 output += ",".join(
                     str(v) for _, v in sorted(m._retrieve_node_mapping().items())
                 )
@@ -45,27 +146,45 @@ class PatternMappings:
         """
         Return the graphs that contains the pattern
         """
-        return list(self.patterns_mappings.keys())
+        return list(self._counts.keys())
 
     def mappings(self, graph) -> list[Mapping]:
         """
         Return the mappings of the pattern in the graph.
+        The dict access is under the set lock so a concurrent eviction
+        (which sets _mappings=None) cannot race with it; the returned list
+        stays alive in the caller's hands regardless of later evictions.
         """
-        return self.patterns_mappings[graph]
+        with self._lock:
+            self._ensure_loaded()
+            return self._mappings[graph]
+
+    def count(self, graph) -> int:
+        """
+        Number of occurrences in the graph, without loading them from disk.
+        """
+        return self._counts.get(graph, 0)
 
     def set_mapping(self, graph, mappings: list[Mapping]):
         """
         Set the mappings of the pattern in the graph.
         """
-        self.patterns_mappings[graph] = mappings
+        if self._state != "building":
+            raise RuntimeError("PatternMappings is sealed (immutable)")
+        self._mappings[graph] = mappings
+        self._counts[graph] = len(mappings)
 
     def add_mapping(self, graph, mapping: Mapping):
         """
         Add a mapping of the pattern in the graph.
         """
-        if graph not in self.patterns_mappings:
-            self.patterns_mappings[graph] = []
-        self.patterns_mappings[graph].append(mapping)
+        if self._state != "building":
+            raise RuntimeError("PatternMappings is sealed (immutable)")
+        if graph not in self._mappings:
+            self._mappings[graph] = []
+            self._counts[graph] = 0
+        self._mappings[graph].append(mapping)
+        self._counts[graph] += 1
 
     # ---- helper methods ----
 
@@ -186,8 +305,10 @@ class Pattern:
     def frequency(self):
         """
         Return the frequency of the pattern.
+        Counts are kept in RAM: this never triggers spill I/O.
         """
-        return sum(len(self.pattern_mappings.mappings(g)) for g in self.graphs())
+        pm = self.pattern_mappings
+        return sum(pm.count(g) for g in pm.graphs())
 
     def support(self):
         """
@@ -200,12 +321,11 @@ class Pattern:
         Return the mappings of the pattern.
         """
         output = ""
+        pm = self.pattern_mappings
         for g in self.graphs():
-            output += (
-                g.get_name() + " " + str(len(self.pattern_mappings.mappings(g))) + "\n"
-            )
+            output += g.get_name() + " " + str(pm.count(g)) + "\n"
             if mapping_info:
-                for _map in self.pattern_mappings.mappings(g):
+                for _map in pm.mappings(g):
                     output += "    " + str(_map) + "\n"
         return output
 
@@ -425,6 +545,9 @@ class Pattern:
                 new_pattern_mappings.set_mapping(target, new_mappings)
 
         self.pattern_mappings = new_pattern_mappings
+        # The occurrence set of this pattern is complete: seal it (immutable
+        # from now on, evictable by the SpillManager when not pinned).
+        new_pattern_mappings.seal(depth=len(self.nodes()))
 
     # ---- edge extension methods ----
 
@@ -599,6 +722,9 @@ class Pattern:
             new_pattern_mappings.set_mapping(target, new_mappings)
 
         self.pattern_mappings = new_pattern_mappings
+        # The occurrence set of this pattern is complete: seal it (immutable
+        # from now on, evictable by the SpillManager when not pinned).
+        new_pattern_mappings.seal(depth=len(self.nodes()))
 
 
 class DirectedPattern(Pattern, DirectedMultiGraph):
