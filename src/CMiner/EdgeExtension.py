@@ -1,5 +1,5 @@
 from .Extension import DirectedExtension, Extension, UndirectedExtension
-import pandas as pd
+import bisect
 
 
 class EdgeExtension:
@@ -239,17 +239,25 @@ class EdgeGroupsFinder:
     How it works:
         Given a list tuples:  list((edge_labels : list(str), location : dict[DBGraph, list[Mapping]]))
         - Construct a table where the columns are the edge labels and each row contains 0 or 1.
-        - The last column contains the location of the edges in the graphs.
+        - The first column contains the location of the edges in the graphs.
         - The table is constructed in such a way that the rows are ordered by the number of 1 in the row.
+
+    Rows are plain Python lists ([location, 0/1, ...])
+    with a cached int bitmask + popcount per row, kept sorted with bisect.
     """
 
     def __init__(self, min_support):
-        # set the column 'location' as the last column
         self.min_support = min_support
-        self.df = pd.DataFrame(columns=["location"])
+        # column order: "location" first, then labels in first-appearance order
+        self._columns = ["location"]
+        self._col_index = {"location": 0}
+        # row layout: [location, 0/1, 0/1, ...] aligned with self._columns
+        self._rows: list[list] = []
+        self._masks: list[int] = []  # bit (col_idx - 1) set => row[col_idx] == 1
+        self._neg_popcounts: list[int] = []  # ascending negated popcounts (bisect)
 
     def columns(self):
-        return list(self.df.columns)
+        return list(self._columns)
 
     @staticmethod
     def column_name(label, i):
@@ -290,59 +298,49 @@ class EdgeGroupsFinder:
         #       edge_labels = ['a', 'a', 'b']
         #       columns = ['a_0', 'b_0', 'c_0']
         #       in this case we want to add only 'a_1' because 'a_0','b_0' and 'c_0' is already present in the columns
-        columns = self.columns()
         for edge_label in edge_labels:
-            if edge_label not in columns:
-                self.df[edge_label] = 0
+            if edge_label not in self._col_index:
+                self._col_index[edge_label] = len(self._columns)
+                self._columns.append(edge_label)
+                # fill the new column with 0 on all existing rows
+                for row in self._rows:
+                    row.append(0)
 
     def compute_new_row(self, edge_labels, location):
         """
         Given a set of edge labels and a location, it returns the new row to add to the dataframe.
         """
-        new_row = [0] * len(self.columns())
-        cols = self.columns()
+        new_row = [0] * len(self._columns)
         new_row[0] = location
         for l in edge_labels:
-            new_row[cols.index(l)] = 1
-
-        return pd.Series(new_row, index=self.df.columns)
+            new_row[self._col_index[l]] = 1
+        return new_row
 
     def add_in_order(self, row):
         """
-        Add the row in the DataFrame in the correct position.
+        Add the row in the table in the correct position.
 
         The position is determined by the number of 1s in the row.
-        The row is added above all the rows which have a number of 1 less than the new row.
+        The row is added above all the rows which have a number of 1 less
+        than the new row (stable for equal counts: after existing equals).
         """
-        if len(self.df) == 0:
-            self.df.loc[0] = row
-            return
-
-        new_row_size = sum(row[1:])  # Number of 1s in the new row
-
-        # Find the correct position based on the number of 1s
-        for i in range(len(self.df)):
-            row_size = sum(self.df.iloc[i][1:])  # number of 1s in the row
-            if row_size < new_row_size:
-                # add a row at the end to avoid conflicts
-                self.df.loc[len(self.df)] = self.df.iloc[len(self.df) - 1]
-                # Shift rows down
-                self.df.iloc[i + 1 :] = self.df.iloc[i:-1]
-                # add new_row
-                self.df.loc[i] = row
-                return
-
-        # If no row with less 1s is found, add at the end
-        self.df.loc[len(self.df)] = row
+        mask = 0
+        for idx in range(1, len(row)):
+            if row[idx]:
+                mask |= 1 << (idx - 1)
+        popcount = mask.bit_count()
+        ins = bisect.bisect_right(self._neg_popcounts, -popcount)
+        self._rows.insert(ins, row)
+        self._masks.insert(ins, mask)
+        self._neg_popcounts.insert(ins, -popcount)
 
     def add(self, edge_labels, location):
         """
-        Given a set of edge labels, graphs and mappings, it adds the edge extension to the dataframe.
+        Given a set of edge labels, graphs and mappings, it adds the edge extension to the table.
 
         Parameters:
         edge_labels (list[str]): edge labels
-        graphs (list[DBGraph]): graphs
-        mappings (list[Mapping]): mappings
+        location (dict): location of the extension in the graphs
         """
         edge_labels = EdgeGroupsFinder.parse_edge_labels(edge_labels)
         self.check_columns(edge_labels)
@@ -354,7 +352,7 @@ class EdgeGroupsFinder:
         """
         Return the support of the row.
         """
-        return len(row["location"].keys())
+        return len(row[0].keys())
 
     @staticmethod
     def bitmap(row):
@@ -374,7 +372,7 @@ class EdgeGroupsFinder:
         bitmap1 = EdgeGroupsFinder.bitmap(row1)
         bitmap2 = EdgeGroupsFinder.bitmap(row2)
         for i in range(len(bitmap1)):
-            if bitmap1.iloc[i] > bitmap2.iloc[i]:
+            if bitmap1[i] > bitmap2[i]:
                 return False
         return True
 
@@ -403,17 +401,15 @@ class EdgeGroupsFinder:
         return in_array, out_array
 
     @staticmethod
-    def transform_row_in_extension(row):
+    def transform_row_in_extension(row, columns):
         """
         Transform a row in an extension.
         """
         edge_labels = []
-        location = {}
-        for i, col in enumerate(row.index):
-            if i == 0:
-                location = row[col]
-            elif row[col] == 1:
-                edge_labels.append(EdgeGroupsFinder.label_from_column_name(col))
+        location = row[0]
+        for i in range(1, len(columns)):
+            if row[i] == 1:
+                edge_labels.append(EdgeGroupsFinder.label_from_column_name(columns[i]))
         in_edge_labels, out_edge_labels = EdgeGroupsFinder.split_into_in_and_out_array(
             edge_labels
         )
@@ -424,35 +420,37 @@ class EdgeGroupsFinder:
         Return the common columns between row1 and row2.
         """
         common = []
-        for col in self.columns():
-            if row1[col] == 1 and row2[col] == 1:
+        for i, col in enumerate(self._columns):
+            if row1[i] == 1 and row2[i] == 1:
                 common.append(col)
         return common
 
     def find(self):
         """
         Find all the frequent edge extensions.
+
+        Rows are visited in descending-popcount order. Each row absorbs the
+        locations of every previous row that is a superset of it (the merge
+        is in-place and order-dependent), then a
+        row is emitted when its support reaches min_support.
         """
         extensions = []
 
         # i := index row to check
         # j := index row to compare with i-th row
-        for i in range(len(self.df)):
-            row = self.df.iloc[i]
+        for i in range(len(self._rows)):
+            row = self._rows[i]
+            mask_i = self._masks[i]
 
-            j = i - 1
-
-            while j >= 0:
-                row_to_compare = self.df.iloc[j]
-
-                if self.is_subset(row, row_to_compare):
-                    location = row["location"]
+            for j in range(i - 1, -1, -1):
+                # row_i subset of row_j  <=>  mask_i & ~mask_j == 0
+                if mask_i & ~self._masks[j] == 0:
                     # merge the location of the two rows
-                    location_row_to_compare = row_to_compare["location"]
-                    EdgeGroupsFinder.extend_location(location, location_row_to_compare)
-                j -= 1
+                    EdgeGroupsFinder.extend_location(row[0], self._rows[j][0])
 
             if EdgeGroupsFinder.support(row) >= self.min_support:
-                extensions.append(EdgeGroupsFinder.transform_row_in_extension(row))
+                extensions.append(
+                    EdgeGroupsFinder.transform_row_in_extension(row, self._columns)
+                )
 
         return extensions
