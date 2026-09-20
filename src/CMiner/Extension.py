@@ -27,13 +27,13 @@ class Extension:
         """
         self.location = {g: {} for g in graphs}
 
-    def target_node_ids(self, graph, _map):
+    def target_node_ids(self, graph, occurrence_index):
         """
         Return the target node ids from which the extension is found.
         """
-        if _map not in self.location[graph]:
+        if occurrence_index not in self.location[graph]:
             return []
-        return self.location[graph][_map]
+        return self.location[graph][occurrence_index]
 
 
 class UndirectedExtension(Extension):

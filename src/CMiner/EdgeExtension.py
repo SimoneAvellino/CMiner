@@ -1,4 +1,5 @@
 from .Extension import DirectedExtension, Extension, UndirectedExtension
+from array import array
 import bisect
 
 
@@ -90,7 +91,11 @@ class DirectedEdgeExtensionManager(EdgeExtensionManager):
             self.extensions[extension_code] = {}
         if db_graph not in self.extensions[extension_code]:
             self.extensions[extension_code][db_graph] = []
-        self.extensions[extension_code][db_graph].append(_map)
+        values = self.extensions[extension_code][db_graph]
+        if not isinstance(values, array):
+            values = array("q")
+            self.extensions[extension_code][db_graph] = values
+        values.append(int(_map))
 
     def frequent_extensions(self) -> list["EdgeExtension"]:
         """
@@ -174,7 +179,11 @@ class UndirectedEdgeExtensionManager(EdgeExtensionManager):
             self.extensions[extension_code] = {}
         if db_graph not in self.extensions[extension_code]:
             self.extensions[extension_code][db_graph] = []
-        self.extensions[extension_code][db_graph].append(_map)
+        values = self.extensions[extension_code][db_graph]
+        if not isinstance(values, array):
+            values = array("q")
+            self.extensions[extension_code][db_graph] = values
+        values.append(int(_map))
 
     def frequent_extensions(self) -> list["EdgeExtension"]:
         """
@@ -382,10 +391,27 @@ class EdgeGroupsFinder:
         Extend the location of the two rows.
         """
         for g, mappings in location2.items():
-            if g in location1:
-                location1[g].update(mappings)  # FIX deepcopy?
+            if g not in location1:
+                if isinstance(mappings, dict):
+                    location1[g] = {
+                        index: array("q", node_ids)
+                        for index, node_ids in mappings.items()
+                    }
+                else:
+                    location1[g] = set(mappings)
+                continue
+
+            current = location1[g]
+            if isinstance(current, dict):
+                for index, node_ids in mappings.items():
+                    existing = current.setdefault(index, array("q"))
+                    known = set(existing)
+                    for node_id in node_ids:
+                        if node_id not in known:
+                            existing.append(node_id)
+                            known.add(node_id)
             else:
-                location1[g] = mappings
+                current.update(mappings)
 
     @staticmethod
     def split_into_in_and_out_array(array):

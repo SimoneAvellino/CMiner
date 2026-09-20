@@ -1,25 +1,19 @@
 """
 Disk spill for pattern occurrence mappings.
 
-Goal: bound the RAM held by occurrence mappings (Mapping objects) during
-mining, so long runs on large databases do not OOM. Occurrence lists that
-are not currently in use are serialized to per-pattern temp files (pickle)
-and transparently reloaded on access.
+Goal: bound the RAM held by compact occurrence rows during mining, so long
+runs on large databases do not OOM. Graph-local occurrence blocks that are
+not currently in use are written to binary files and transparently reloaded.
 
 Why this stays EXACT (lossless):
 
-- The search algorithm is untouched; only *where* occurrence lists live
-  changes. The same Mapping objects are written out and read back.
+- The search algorithm is untouched; only *where* occurrence rows live
+    changes. Mapping objects are reconstructed lazily at compatibility edges.
 - A PatternMappings becomes evictable only after ``seal()`` (i.e. once it
   is fully materialized; sealed instances are immutable) and only while it
   is not ``pin()``-ed.
-- Identity-keyed lookups on Mapping objects (``Extension.location`` dicts
-  and the ``target_map not in ...`` membership test in
-  ``update_edge_mappings``) are created and consumed within a single
-  pattern-processing step. The mining loops ``pin()`` the involved
-  PatternMappings for the whole step, so a spilled-then-reloaded copy
-  (which would have different object identities) can never be mixed with
-  stale identity references.
+- Extension locations use stable occurrence indices, so spilling and
+    reloading a graph block cannot invalidate candidate references.
 - Per-graph occurrence counts are kept in RAM at all times, so
   ``support()`` / ``frequency()`` never force a reload.
 
@@ -38,7 +32,6 @@ Environment overrides (read by ``configure_spill``):
 
 import atexit
 import os
-import pickle
 import shutil
 import sys
 import tempfile
@@ -62,9 +55,8 @@ class SpillManager:
     """
     Owns the spill directory and the LRU of sealed PatternMappings.
 
-    The manager tracks a budget of "loaded links" (one link = one Mapping
-    object in an occurrence chain; estimated as occurrences x pattern
-    depth). When the budget is exceeded, least-recently-sealed/loaded,
+    The manager tracks a budget of loaded 64-bit row slots. When the budget
+    is exceeded, least-recently-sealed/loaded,
     non-pinned PatternMappings are spilled to disk until the budget is met
     (or everything spillable is already spilled).
     """
@@ -89,7 +81,7 @@ class SpillManager:
             return self._uids
 
     def file_for(self, pm_uid: int) -> str:
-        return os.path.join(self.dir, f"pm_{pm_uid:08d}.pkl")
+        return os.path.join(self.dir, f"pm_{pm_uid:08d}.occ")
 
     # ---- lifecycle ----
 
@@ -99,7 +91,11 @@ class SpillManager:
         Triggers eviction if the loaded-link budget is exceeded.
         """
         with self._lock:
-            pm._weight = weight
+            pm._weight = pm._loaded_slots()
+            weight = pm._weight
+            old = self._lru.pop(pm._uid, None)
+            if old is not None:
+                self._loaded_links -= old[1]
             self._lru[pm._uid] = (weakref.ref(pm), weight)
             self._lru.move_to_end(pm._uid)
             self._loaded_links += weight
@@ -113,6 +109,10 @@ class SpillManager:
     def note_loaded(self, pm):
         """A spilled PatternMappings was reloaded into RAM."""
         with self._lock:
+            old = self._lru.pop(pm._uid, None)
+            if old is not None:
+                self._loaded_links -= old[1]
+            pm._weight = pm._loaded_slots()
             self._lru[pm._uid] = (weakref.ref(pm), pm._weight)
             self._lru.move_to_end(pm._uid)
             self._loaded_links += pm._weight
@@ -123,11 +123,15 @@ class SpillManager:
             self._evict_locked(exempt_uid=pm._uid)
 
     def note_spilled(self, pm):
-        """A PatternMappings dropped its in-RAM lists (data is on disk)."""
+        """A PatternMappings dropped one or more in-RAM graph blocks."""
         with self._lock:
             entry = self._lru.pop(pm._uid, None)
             if entry is not None:
                 self._loaded_links -= entry[1]
+            pm._weight = pm._loaded_slots()
+            if pm._weight:
+                self._lru[pm._uid] = (weakref.ref(pm), pm._weight)
+                self._loaded_links += pm._weight
             self.stats["spills"] += 1
 
     @staticmethod
@@ -192,7 +196,7 @@ class SpillManager:
                     shutil.rmtree(self.dir, ignore_errors=True)
                 else:
                     for name in os.listdir(self.dir):
-                        if name.startswith("pm_") and name.endswith(".pkl"):
+                        if name.startswith("pm_") and name.endswith(".occ"):
                             try:
                                 os.remove(os.path.join(self.dir, name))
                             except OSError:

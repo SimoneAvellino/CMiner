@@ -1,5 +1,7 @@
 from .Extension import DirectedExtension, Extension, UndirectedExtension
 from .EdgeExtension import EdgeGroupsFinder
+from .OccurrenceCodec import encode_node
+from array import array
 
 
 class NodeExtension:
@@ -33,7 +35,7 @@ class NodeExtension:
         """
         return self.extension_strategy.graphs()
 
-    def target_node_ids(self, graph, _map):
+    def target_node_ids(self, graph, occurrence_index):
         """
         Return the target node ids from which the extension is found.
 
@@ -41,7 +43,7 @@ class NodeExtension:
             graph (DBGraph): The graph where the extension is found.
             _map (Mapping): The mapping of the pattern in the db_graph.
         """
-        return self.extension_strategy.target_node_ids(graph, _map)
+        return self.extension_strategy.target_node_ids(graph, occurrence_index)
 
 
 class NodeExtensionManager:
@@ -146,7 +148,11 @@ class DirectedNodeExtensionManager(NodeExtensionManager):
             self.extensions[ext_code] = {}
         if db_graph not in self.extensions[ext_code]:
             self.extensions[ext_code][db_graph] = []
-        self.extensions[ext_code][db_graph].append((_map, neigh_target_node_id))
+        values = self.extensions[ext_code][db_graph]
+        if not isinstance(values, array):
+            values = array("q")
+            self.extensions[ext_code][db_graph] = values
+        values.extend((int(_map), encode_node(db_graph, neigh_target_node_id)))
 
     def frequent_extensions(self) -> list["NodeExtension"]:
         """
@@ -175,10 +181,13 @@ class DirectedNodeExtensionManager(NodeExtensionManager):
             location = {}
             for g in db_graphs:
                 aa = {}
-                for mapping, node_id in db_graphs[g]:
-                    if mapping not in aa:
-                        aa[mapping] = []
-                    aa[mapping].append(node_id)
+                values = db_graphs[g]
+                for position in range(0, len(values), 2):
+                    occurrence_index = values[position]
+                    node_id = values[position + 1]
+                    if occurrence_index not in aa:
+                        aa[occurrence_index] = array("q")
+                    aa[occurrence_index].append(node_id)
                 location[g] = aa
             del db_graphs
 
@@ -262,7 +271,11 @@ class UndirectedNodeExtensionManager(NodeExtensionManager):
             self.extensions[ext_code] = {}
         if db_graph not in self.extensions[ext_code]:
             self.extensions[ext_code][db_graph] = []
-        self.extensions[ext_code][db_graph].append((_map, neigh_target_node_id))
+        values = self.extensions[ext_code][db_graph]
+        if not isinstance(values, array):
+            values = array("q")
+            self.extensions[ext_code][db_graph] = values
+        values.extend((int(_map), encode_node(db_graph, neigh_target_node_id)))
 
     def frequent_extensions(self) -> list["NodeExtension"]:
         """
@@ -290,10 +303,13 @@ class UndirectedNodeExtensionManager(NodeExtensionManager):
             location = {}
             for g in db_graphs:
                 aa = {}
-                for mapping, node_id in db_graphs[g]:
-                    if mapping not in aa:
-                        aa[mapping] = []
-                    aa[mapping].append(node_id)
+                values = db_graphs[g]
+                for position in range(0, len(values), 2):
+                    occurrence_index = values[position]
+                    node_id = values[position + 1]
+                    if occurrence_index not in aa:
+                        aa[occurrence_index] = array("q")
+                    aa[occurrence_index].append(node_id)
                 location[g] = aa
             del db_graphs
 

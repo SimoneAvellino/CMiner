@@ -257,20 +257,33 @@ class CMinerAPI:
                 f"Unknown pattern type: {pt}. Expected 'all' or 'maximum'."
             )
 
+        worker_errors = []
+
         def run():
             try:
                 target()
+            except BaseException as exc:
+                worker_errors.append(exc)
             finally:
                 self.stack.close()
 
         thread = Thread(target=run, daemon=True)
         thread.start()
 
+        completed = False
         try:
             yield from self.stack.iter_results(yield_strings=yield_strings)
+            completed = True
         finally:
-            self.stack.close()
-            thread.join(timeout=1)
+            if completed:
+                self.stack.close()
+            else:
+                self.stack.solution_saver.cancel()
+            thread.join()
+
+        if completed and worker_errors:
+            error = worker_errors[0]
+            raise error.with_traceback(error.__traceback__)
 
     def _all_patterns_target(self):
         """Pick the 'all' mining strategy: lazy DFS when enabled, stack otherwise."""
@@ -613,8 +626,7 @@ class CMinerAPI:
                 p.add_node(0, labels=list(labels_tuple))
                 # Per ogni grafo, aggiungi le mapping per tutti i nodi che hanno questo pattern
                 for g, nodes in graph_nodes.items():
-                    mappings = [Mapping(node_mapping={0: node}) for node in nodes]
-                    p.pattern_mappings.set_mapping(g, mappings)
+                    p.pattern_mappings.set_rows(g, ([node] for node in nodes))
                 # Seal the 1-node pattern occurrence set (see _find_start_patterns).
                 pattern_mappings.seal(depth=1)
                 patterns.append(p)

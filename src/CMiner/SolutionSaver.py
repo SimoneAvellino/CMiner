@@ -227,26 +227,43 @@ class QueueSolutionSaver(SolutionSaver):
         # maxsize!=0 blocks mining workers when the queue is full to not fill RAM.
         self._queue = queue.Queue(maxsize=maxsize)
         self._closed = False
+        self._cancelled = False
+        self._close_lock = threading.Lock()
 
     def save(self, pattern: "Pattern"):
         """Enqueue a pattern for the streaming consumer."""
-        self._queue.put(pattern)
+        while not self._closed:
+            try:
+                self._queue.put(pattern, timeout=0.5)
+                return
+            except queue.Full:
+                pass
 
     def close(self):
-        """Signal the consumer that no more patterns will be produced."""
-        if not self._closed:
+        """Signal normal producer completion without dropping queued patterns."""
+        with self._close_lock:
+            if self._closed:
+                return
             self._closed = True
-            # avoid blocking forever the producer if the consumer is slow or stopped.
-            while True:
-                try:
-                    self._queue.put(None, timeout=0.5)
-                    break
-                except queue.Full:
-                    try:
-                        self._queue.get_nowait()
-                        self._queue.task_done()
-                    except queue.Empty:
-                        pass
+        while not self._cancelled:
+            try:
+                self._queue.put(None, timeout=0.5)
+                return
+            except queue.Full:
+                pass
+
+    def cancel(self):
+        """Stop a producer when the streaming consumer exits early."""
+        with self._close_lock:
+            self._cancelled = True
+            self._closed = True
+        while True:
+            try:
+                self._queue.get_nowait()
+                self._queue.task_done()
+            except queue.Empty:
+                break
+        self._queue.put_nowait(None)
 
     def patter_to_str(self, pattern: "Pattern") -> str:
         """

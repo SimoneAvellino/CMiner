@@ -10,9 +10,13 @@ from Graph.DirectedMultiGraph import DirectedMultiGraph
 from Graph.UndirectedMultiGraph import UndirectedMultiGraph
 from MultiGraphMatch.MultiGraphMatch import Mapping
 
+from array import array
+from collections import Counter, defaultdict
+from collections.abc import Sequence
 import os
-import pickle
+import errno
 import threading
+import zlib
 
 from .EdgeExtension import (
     DirectedEdgeExtensionManager,
@@ -20,7 +24,34 @@ from .EdgeExtension import (
     UndirectedEdgeExtensionManager,
 )
 from .Extension import DirectedExtension, Extension, UndirectedExtension
+from .OccurrenceCodec import decode_node, encode_node
 from .SpillManager import get_spill_manager
+
+
+_ROW_TYPE = "q"
+
+
+class _MappingSequence(Sequence):
+
+    def __init__(self, pattern_mappings, graph):
+        self._pattern_mappings = pattern_mappings
+        self._graph = graph
+
+    def __len__(self):
+        return self._pattern_mappings.count(self._graph)
+
+    def __iter__(self):
+        for row in self._pattern_mappings.iter_rows(self._graph):
+            yield self._pattern_mappings._mapping_from_row(self._graph, row)
+
+    def __getitem__(self, index):
+        if isinstance(index, slice):
+            return list(self)[index]
+        if index < 0:
+            index += len(self)
+        return self._pattern_mappings._mapping_from_row(
+            self._graph, self._pattern_mappings.row(self._graph, index)
+        )
 
 
 class PatternMappings:
@@ -37,16 +68,126 @@ class PatternMappings:
         transparently reloaded on the next read access. Counts stay in RAM
         at all times, so support()/frequency() never trigger I/O.
         """
-        self._mappings: dict | None = {}  # graph -> [Mapping]; None when spilled
+        self._mappings: dict = {}  # graph -> flat array('q') or None when spilled
         self._counts: dict = {}  # graph -> occurrence count (always in RAM)
         self._graphs_order: list = []  # graph keys aligned with the spill file
         self._state = "building"  # building | loaded | spilled
         self._pinned = 0  # >0: currently used by a mining step, never spill
         self._weight = 0  # estimated live Mapping links (occurrences x depth)
-        self._spilled_valid = False  # True once the spill file matches the data
+        self._spilled: dict = {}  # graph -> (offset, compressed byte count)
         self._lock = threading.RLock()
         self._manager = get_spill_manager()  # None: spill disabled
         self._uid = self._manager.next_uid() if self._manager is not None else None
+        self.pattern = None
+
+    def bind(self, pattern):
+        """Associate rows with their pattern without rebinding shared parent rows."""
+        if self.pattern is None:
+            self.pattern = pattern
+
+    def _node_order(self):
+        return list(self.pattern.nodes())
+
+    def _edge_order(self):
+        return list(self.pattern.edges(keys=True, data=True))
+
+    def _row_width(self):
+        return len(self._node_order()) + len(self._edge_order())
+
+    def _loaded_slots(self):
+        return sum(
+            len(block) for block in self._mappings.values() if block is not None
+        )
+
+    def _path_for(self):
+        return self._manager.file_for(self._uid)
+
+    def _write_graph_block(self, graph, block):
+        path = self._path_for()
+        payload = zlib.compress(memoryview(block), level=1)
+        offset = os.path.getsize(path) if os.path.exists(path) else 0
+        try:
+            with open(path, "ab") as fh:
+                fh.write(payload)
+        except OSError as exc:
+            try:
+                with open(path, "r+b") as fh:
+                    fh.truncate(offset)
+            except OSError:
+                pass
+            if exc.errno in (errno.EDQUOT, errno.ENOSPC):
+                raise OSError(
+                    exc.errno,
+                    "CMiner spill storage is full. Set CMINER_SPILL_DIR to a "
+                    "filesystem with more quota or increase "
+                    "CMINER_SPILL_MAX_LINKS if additional RAM is available",
+                    path,
+                ) from exc
+            raise
+        self._spilled[graph] = (offset, len(payload))
+        self._manager.stats["bytes_written"] += len(payload)
+
+    def _edge_rank(self, graph, pattern_edge, target_edge):
+        src_p, dst_p, _key_p, data = pattern_edge
+        src_t, dst_t, key_t = target_edge
+        if not self.pattern.is_directed() and src_t > dst_t:
+            src_t, dst_t = dst_t, src_t
+        keys = sorted(graph.edge_keys_by_type(src_t, dst_t, data.get("type")))
+        return keys.index(key_t)
+
+    def _mapping_row(self, graph, mapping):
+        node_mapping = mapping._retrieve_node_mapping()
+        edge_mapping = mapping._retrieve_edge_mapping()
+        row = [encode_node(graph, node_mapping[node]) for node in self._node_order()]
+        for pattern_edge in self._edge_order():
+            src_p, dst_p, key_p, _data = pattern_edge
+            target_edge = edge_mapping.get((src_p, dst_p, key_p))
+            if target_edge is None and not self.pattern.is_directed():
+                target_edge = edge_mapping.get((dst_p, src_p, key_p))
+            if target_edge is None:
+                raise ValueError(
+                    f"Matcher returned no mapping for edge {(src_p, dst_p, key_p)!r}"
+                )
+            row.append(self._edge_rank(graph, pattern_edge, target_edge))
+        return row
+
+    def _mapping_from_row(self, graph, row):
+        node_order = self._node_order()
+        node_mapping = {
+            pattern_node: decode_node(graph, code)
+            for pattern_node, code in zip(node_order, row[: len(node_order)])
+        }
+        edge_mapping = {}
+        for position, (src_p, dst_p, key_p, data) in enumerate(self._edge_order()):
+            src_t = node_mapping[src_p]
+            dst_t = node_mapping[dst_p]
+            if not self.pattern.is_directed() and src_t > dst_t:
+                src_t, dst_t = dst_t, src_t
+            keys = sorted(graph.edge_keys_by_type(src_t, dst_t, data.get("type")))
+            rank = row[len(node_order) + position]
+            if rank < 0 or rank >= len(keys):
+                raise ValueError(f"Stored edge rank {rank} is invalid")
+            edge_mapping[(src_p, dst_p, key_p)] = (src_t, dst_t, keys[rank])
+        return Mapping(node_mapping=node_mapping, edge_mapping=edge_mapping)
+
+    def iter_rows(self, graph):
+        values = self.rows(graph)
+        width = self._row_width()
+        for start in range(0, len(values), width):
+            yield list(values[start : start + width])
+
+    def rows(self, graph):
+        with self._lock:
+            self._load_graph(graph)
+            return self._mappings[graph]
+
+    def row(self, graph, index):
+        width = self._row_width()
+        values = self.rows(graph)
+        start = index * width
+        if start < 0 or start + width > len(values):
+            raise IndexError(index)
+        return list(values[start : start + width])
 
     # ---- spill/pin plumbing ----
 
@@ -56,7 +197,8 @@ class PatternMappings:
         Backward-compatible accessor (loads from disk if spilled).
         """
         with self._lock:
-            self._ensure_loaded()
+            for graph in self.graphs():
+                self._load_graph(graph)
             return self._mappings
 
     def seal(self, depth: int = 1):
@@ -71,8 +213,7 @@ class PatternMappings:
         self._state = "loaded"
         if self._manager is None:
             return
-        entries = sum(self._counts.values())
-        self._manager.register(self, entries * max(1, int(depth)))
+        self._manager.register(self, self._loaded_slots())
 
     def pin(self):
         """Prevent spilling. Must be balanced with unpin() (see mining loops)."""
@@ -91,39 +232,63 @@ class PatternMappings:
         spills only drop the in-RAM copy.
         """
         with self._lock:
-            if self._state != "loaded" or self._pinned > 0:
+            if self._state not in ("loaded", "spilled") or self._pinned > 0:
                 return False
-            path = self._manager.file_for(self._uid)
-            if not self._spilled_valid:
-                self._graphs_order = list(self._mappings.keys())
-                payload = [self._mappings[g] for g in self._graphs_order]
-                tmp_path = path + ".tmp"
-                with open(tmp_path, "wb") as fh:
-                    pickle.dump(payload, fh, protocol=pickle.HIGHEST_PROTOCOL)
-                os.replace(tmp_path, path)
-                self._spilled_valid = True
-                self._manager.stats["bytes_written"] += os.path.getsize(path)
-            self._mappings = None
+            spilled_any = False
+            for graph in self.graphs():
+                block = self._mappings.get(graph)
+                if block is None:
+                    continue
+                if graph not in self._spilled:
+                    self._write_graph_block(graph, block)
+                self._mappings[graph] = None
+                spilled_any = True
+            if not spilled_any:
+                return False
             self._state = "spilled"
             self._manager.note_spilled(self)
             return True
 
-    def _ensure_loaded(self):
-        """Reload the occurrence lists from the spill file if spilled."""
-        if self._state != "spilled":
+    def _load_graph(self, graph):
+        """Load one graph block, leaving all unrelated graph blocks spilled."""
+        if self._mappings.get(graph) is not None:
+            return
+        block_location = self._spilled.get(graph)
+        if block_location is None:
+            raise RuntimeError(f"No occurrence data available for graph {graph!r}")
+        offset, compressed_size = block_location
+        path = self._path_for()
+        values = array(_ROW_TYPE)
+        with open(path, "rb") as fh:
+            fh.seek(offset)
+            payload = fh.read(compressed_size)
+        values.frombytes(zlib.decompress(payload))
+        expected_slots = self._counts[graph] * self._row_width()
+        if len(values) != expected_slots:
+            raise RuntimeError(
+                f"Corrupt occurrence block: expected {expected_slots} slots, "
+                f"found {len(values)}"
+            )
+        self._mappings[graph] = values
+        self._state = "loaded"
+        self._manager.stats["loads"] += 1
+        self._manager.stats["bytes_read"] += compressed_size
+        self._manager.note_loaded(self)
+
+    def release(self, graph):
+        """Release one sealed graph block after graph-local processing."""
+        if self._manager is None or self._state == "building":
             return
         with self._lock:
-            if self._state != "spilled":
+            block = self._mappings.get(graph)
+            if block is None:
                 return
-            path = self._manager.file_for(self._uid)
-            with open(path, "rb") as fh:
-                payload = pickle.load(fh)
-            self._mappings = dict(zip(self._graphs_order, payload))
-            self._state = "loaded"
-            self._manager.stats["loads"] += 1
-            self._manager.stats["bytes_read"] += os.path.getsize(path)
-        # outside the per-set lock: may evict other (non-pinned) sets
-        self._manager.note_loaded(self)
+            if graph not in self._spilled:
+                self._write_graph_block(graph, block)
+            self._mappings[graph] = None
+            if not any(block is not None for block in self._mappings.values()):
+                self._state = "spilled"
+            self._manager.note_spilled(self)
 
     # ---- container API ----
 
@@ -148,16 +313,14 @@ class PatternMappings:
         """
         return list(self._counts.keys())
 
-    def mappings(self, graph) -> list[Mapping]:
+    def mappings(self, graph) -> Sequence[Mapping]:
         """
         Return the mappings of the pattern in the graph.
         The dict access is under the set lock so a concurrent eviction
         (which sets _mappings=None) cannot race with it; the returned list
         stays alive in the caller's hands regardless of later evictions.
         """
-        with self._lock:
-            self._ensure_loaded()
-            return self._mappings[graph]
+        return _MappingSequence(self, graph)
 
     def count(self, graph) -> int:
         """
@@ -171,8 +334,32 @@ class PatternMappings:
         """
         if self._state != "building":
             raise RuntimeError("PatternMappings is sealed (immutable)")
-        self._mappings[graph] = mappings
+        block = array(_ROW_TYPE)
+        for mapping in mappings:
+            block.extend(self._mapping_row(graph, mapping))
+        self._mappings[graph] = block
         self._counts[graph] = len(mappings)
+        if graph not in self._graphs_order:
+            self._graphs_order.append(graph)
+
+    def set_rows(self, graph, rows):
+        """Store already-encoded occurrence rows without creating Mapping objects."""
+        if self._state != "building":
+            raise RuntimeError("PatternMappings is sealed (immutable)")
+        width = self._row_width()
+        block = array(_ROW_TYPE)
+        count = 0
+        for row in rows:
+            if len(row) != width:
+                raise ValueError(f"Expected row width {width}, received {len(row)}")
+            block.extend(encode_node(graph, node) for node in row)
+            count += 1
+        if count == 0:
+            return
+        self._mappings[graph] = block
+        self._counts[graph] = count
+        if graph not in self._graphs_order:
+            self._graphs_order.append(graph)
 
     def add_mapping(self, graph, mapping: Mapping):
         """
@@ -181,9 +368,10 @@ class PatternMappings:
         if self._state != "building":
             raise RuntimeError("PatternMappings is sealed (immutable)")
         if graph not in self._mappings:
-            self._mappings[graph] = []
+            self._mappings[graph] = array(_ROW_TYPE)
             self._counts[graph] = 0
-        self._mappings[graph].append(mapping)
+            self._graphs_order.append(graph)
+        self._mappings[graph].extend(self._mapping_row(graph, mapping))
         self._counts[graph] += 1
 
     # ---- helper methods ----
@@ -273,6 +461,7 @@ class Pattern:
             **attr: Additional attributes for the pattern.
         """
         self.pattern_mappings = pattern_mappings
+        self.pattern_mappings.bind(self)
         # Do NOT retain the parent pattern, nothing reads this attribute
         self.extended_pattern = None
 
@@ -405,6 +594,29 @@ class Pattern:
         """
         raise NotImplementedError("This method should be implemented by subclasses.")
 
+    def _complete_mapping(self, target, node_mapping):
+        """Create a deterministic edge-injective mapping for a node mapping."""
+        edge_mapping = {}
+        used_keys = defaultdict(set)
+        for src_p, dst_p, key_p, data in self.edges(keys=True, data=True):
+            src_t = node_mapping[src_p]
+            dst_t = node_mapping[dst_p]
+            if not self.is_directed() and src_t > dst_t:
+                src_t, dst_t = dst_t, src_t
+            label = data.get("type")
+            signature = (src_t, dst_t, label)
+            keys = sorted(target.edge_keys_by_type(src_t, dst_t, label))
+            key_t = next(
+                (key for key in keys if key not in used_keys[signature]), None
+            )
+            if key_t is None:
+                raise ValueError(
+                    f"Not enough target edges for ({src_t}, {dst_t}, {label!r})"
+                )
+            used_keys[signature].add(key_t)
+            edge_mapping[(src_p, dst_p, key_p)] = (src_t, dst_t, key_t)
+        return Mapping(node_mapping=node_mapping, edge_mapping=edge_mapping)
+
     # ---- node extension methods ----
 
     def find_node_extensions(self, min_support) -> list[NodeExtension]:
@@ -413,23 +625,28 @@ class Pattern:
         """
         # Create a node extension manager to keep track of the candidate extensions
         extension_manager = self.create_node_extension_manager(min_support)
+        node_order = list(self.nodes())
+        node_count = len(node_order)
         # for all graph in the database that contains the current extension
         for g in self.graphs():
-            # obtain where the current extension is located in the graph
-            mappings = self.pattern_mappings.mappings(g)
             # For each map we know one place where the extension is located in the graph.
             # We search all nodes that are neighbors of the current pattern and create a new extension.
-            for _map in mappings:
-                # retrieve nodes mapped in the DB graph
-                mapped_target_nodes = _map.nodes()
+            for occurrence_index, row in enumerate(
+                self.pattern_mappings.iter_rows(g)
+            ):
+                decoded_nodes = [decode_node(g, code) for code in row[:node_count]]
+                mapped_target_nodes = set(decoded_nodes)
                 # node_p  := node pattern
                 # node_db := node in the DB graph mapped to node_p
-                for node_p, node_db in _map.node_pairs():
+                for node_p, node_db in zip(node_order, decoded_nodes):
                     # for each node of the pattern search a possible extension
                     for neigh in g.all_neighbors(node_db).difference(
                         mapped_target_nodes
                     ):
-                        extension_manager.add(node_p, node_db, neigh, g, _map)
+                        extension_manager.add(
+                            node_p, node_db, neigh, g, occurrence_index
+                        )
+            self.pattern_mappings.release(g)
 
         extensions = extension_manager.frequent_extensions()
         del extension_manager
@@ -450,7 +667,10 @@ class Pattern:
         new_pattern = self.create_pattern(
             extended_pattern=self, pattern_mappings=self.pattern_mappings
         )
-        new_pattern_new_node_id = len(new_pattern.nodes())
+        integer_nodes = [node for node in new_pattern.nodes() if isinstance(node, int)]
+        new_pattern_new_node_id = max(integer_nodes, default=-1) + 1
+        while new_pattern_new_node_id in new_pattern:
+            new_pattern_new_node_id += 1
         new_pattern.add_node(new_pattern_new_node_id, labels=node_extension.node_labels)
 
         self.add_edges_to_pattern(
@@ -473,15 +693,17 @@ class Pattern:
         pattern_node_id = node_extension.pattern_node_id
         # Object to keep track of the new pattern mappings
         new_pattern_mappings = PatternMappings()
+        new_pattern_mappings.bind(self)
         # Update the pattern mappings
         for target in node_extension.graphs():
-            new_mappings = []
-            for target_map in self.pattern_mappings.mappings(
-                target
+            for occurrence_index, target_map in enumerate(
+                self.pattern_mappings.mappings(target)
             ):  # old pattern mapping of the extended graph
                 # set to store the code of the mappings to avoid unnecessary duplicates mirrored mappings
                 mappings_codes = set()
-                target_node_ids = node_extension.target_node_ids(target, target_map)
+                target_node_ids = node_extension.target_node_ids(
+                    target, occurrence_index
+                )
                 # when trying to extend the pattern Pn (pattern with n nodes), there can be some mappings of Pn
                 # that are not extended because the extension is not applicable.
                 if len(target_node_ids) == 0:
@@ -490,7 +712,8 @@ class Pattern:
                 # mapped node ids of the pattern (without the new node)
                 base_node_ids = list(target_map.nodes_mapping().values())
 
-                for target_node_id in target_node_ids:
+                for target_node_code in target_node_ids:
+                    target_node_id = decode_node(target, target_node_code)
 
                     # ---- START CHECK THE MAPPING IS REDUNDANT ----
 
@@ -514,18 +737,11 @@ class Pattern:
 
                     # we just create the new mapping for the new node and for the edges
 
-                    # node mapping
-                    node_mapping = {new_pattern_new_node_id: target_node_id}
-
-                    # edge mapping
                     try:
-                        edge_mapping = self.create_edge_mapping_dict(
-                            pattern_node_id,
-                            new_pattern_new_node_id,
-                            target_map.nodes_mapping()[pattern_node_id],
-                            target_node_id,
-                            target,
-                            node_extension.get_strategy(),
+                        node_mapping = target_map._retrieve_node_mapping()
+                        node_mapping[new_pattern_new_node_id] = target_node_id
+                        new_mapping = self._complete_mapping(
+                            target, node_mapping
                         )
                     except (ValueError, KeyError, IndexError):
                         # The extension may be frequent overall but not applicable for this
@@ -534,17 +750,11 @@ class Pattern:
 
                     # ---- END CREATE THE NEW MAPPING ----
 
-                    # set the new mapping
-                    new_mapping = Mapping(
-                        node_mapping=node_mapping,
-                        edge_mapping=edge_mapping,
-                        extended_mapping=target_map,
-                    )
-                    new_mappings.append(new_mapping)
-            if len(new_mappings) > 0:
-                new_pattern_mappings.set_mapping(target, new_mappings)
+                    new_pattern_mappings.add_mapping(target, new_mapping)
+            self.pattern_mappings.release(target)
 
         self.pattern_mappings = new_pattern_mappings
+        new_pattern_mappings.bind(self)
         # The occurrence set of this pattern is complete: seal it (immutable
         # from now on, evictable by the SpillManager when not pinned).
         new_pattern_mappings.seal(depth=len(self.nodes()))
@@ -562,76 +772,65 @@ class Pattern:
 
         extension_manager = self.create_edge_extension_manager(min_support)
 
+        pattern_edge_counts = Counter()
+        for src, dst, _key, data in self.edges(keys=True, data=True):
+            if not self.is_directed() and src > dst:
+                src, dst = dst, src
+            pattern_edge_counts[(src, dst, data.get("type"))] += 1
+
+        node_order = list(self.nodes())
+        node_count = len(node_order)
+
         for g in self.graphs():
-            for _map in self.pattern_mappings.mappings(g):
+            for occurrence_index, row in enumerate(
+                self.pattern_mappings.iter_rows(g)
+            ):
+                node_values = [decode_node(g, code) for code in row[:node_count]]
+                target_to_pattern = dict(zip(node_values, node_order))
                 mapped_pattern_complete_graph_edges = g.all_edges_of_subgraph(
-                    _map.nodes()
+                    node_values
                 )
-                mapped_pattern_edges = set(_map.get_target_edges())
-                candidate_edges = set()
-
+                target_edge_counts = Counter()
                 for src, dst, key in mapped_pattern_complete_graph_edges:
-                    skip = False
-                    for s, d, k in mapped_pattern_edges:
-                        if src == s and dst == d:
-                            # remove i-th element from the list
-                            mapped_pattern_edges.remove((s, d, k))
-                            skip = True
-                            break
-                        # if src == d and dst == s:
-                        #     # remove i-th element from the list
-                        #     mapped_pattern_edges.remove((d, s, k))
-                        #     skip = True
-                        #     break
-                    if skip:
+                    if src not in target_to_pattern or dst not in target_to_pattern:
                         continue
-                    candidate_edges.add(
-                        (src, dst, key, g.get_edge_label((src, dst, key)))
+                    pattern_node_src = target_to_pattern[src]
+                    pattern_node_dest = target_to_pattern[dst]
+                    if not self.is_directed() and pattern_node_src > pattern_node_dest:
+                        pattern_node_src, pattern_node_dest = (
+                            pattern_node_dest,
+                            pattern_node_src,
+                        )
+                    label = g.get_edge_label((src, dst, key))
+                    target_edge_counts[
+                        (pattern_node_src, pattern_node_dest, label)
+                    ] += 1
+
+                groups = defaultdict(list)
+                for (src, dst, label), target_count in target_edge_counts.items():
+                    remaining = target_count - pattern_edge_counts.get(
+                        (src, dst, label), 0
                     )
-
-                groups = {}
-
-                inverse_map = _map.inverse()
-                for src, dst, key, lab in candidate_edges:
-                    pattern_node_src = inverse_map.node(src)
-                    pattern_node_dest = inverse_map.node(dst)
-                    code = (pattern_node_src, pattern_node_dest)
-                    if code not in groups:
-                        groups[code] = []
-                    groups[code].append(lab)
+                    if remaining > 0:
+                        groups[(src, dst)].extend([label] * remaining)
 
                 for (src, dst), labels in groups.items():
-                    extension_manager.add(src, dst, labels, g, _map)
+                    extension_manager.add(src, dst, labels, g, occurrence_index)
+            self.pattern_mappings.release(g)
 
         extensions = extension_manager.frequent_extensions()
 
         if len(extensions) == 0:
             return []
 
-        graphs = sorted(self.graphs(), key=lambda x: x.get_name())
-        extension_matrix = [
-            [0 for _ in range(len(graphs))] for _ in range(len(extensions))
-        ]
-        for i, ext in enumerate(extensions):
-            for j, g in enumerate(graphs):
-                if g in ext.graphs():
-                    extension_matrix[i][j] = 1
-
-        # group row by row
-        matrix_indices_grouped = {}
-        for i, row in enumerate(extension_matrix):
-            row_code = "".join(map(str, row))
-            if row_code not in matrix_indices_grouped:
-                matrix_indices_grouped[row_code] = []
-            matrix_indices_grouped[row_code].append(i)
+        extension_graph_sets = [frozenset(ext.graphs()) for ext in extensions]
 
         groups = []
-        for row_code, indices in matrix_indices_grouped.items():
-            columns_to_select = [i for i, v in enumerate(row_code) if v == "1"]
+        for graph_set in dict.fromkeys(extension_graph_sets):
             group = []
-            for i, ext in enumerate(extensions):
+            for ext, candidate_graphs in zip(extensions, extension_graph_sets):
                 skip = False
-                if all(extension_matrix[i][j] == 1 for j in columns_to_select):
+                if graph_set.issubset(candidate_graphs):
                     for e in group:
                         if (
                             ext.pattern_node_src == e.pattern_node_src
@@ -645,7 +844,7 @@ class Pattern:
                     new_location = {
                         v: k
                         for v, k in ext.extension_strategy.location.items()
-                        if any(v == graphs[j] for j in columns_to_select)
+                        if v in graph_set
                     }
                     ext_copy.location = new_location
                     group.append(ext_copy)
@@ -681,47 +880,34 @@ class Pattern:
         """
         db_graphs = edge_extensions[0].graphs()
         new_pattern_mappings = PatternMappings()
+        new_pattern_mappings.bind(self)
         # Update the pattern mappings
         for target in db_graphs:
-            new_mappings = []
-
-            for target_map in self.pattern_mappings.mappings(target):
+            for occurrence_index, target_map in enumerate(
+                self.pattern_mappings.mappings(target)
+            ):
 
                 try:
                     if any(
-                        target_map not in ext.extension_strategy.mapping(target)
+                        occurrence_index not in ext.extension_strategy.mapping(target)
                         for ext in edge_extensions
                     ):
                         continue
-                except:
+                except KeyError:
                     # target could not be associated to any mapping in the extension
                     continue
 
-                new_mapping = Mapping(extended_mapping=target_map)
-
-                for extension in edge_extensions:
-
-                    target_edge_src = target_map.nodes_mapping()[
-                        extension.pattern_node_src
-                    ]
-                    target_edge_dest = target_map.nodes_mapping()[
-                        extension.pattern_node_dst
-                    ]
-
-                    self.update_edge_mapping_template(
-                        extension.pattern_node_src,
-                        extension.pattern_node_dst,
-                        target_edge_src,
-                        target_edge_dest,
-                        new_mapping,
-                        target,
-                        extension.extension_strategy,
+                try:
+                    new_mapping = self._complete_mapping(
+                        target, target_map._retrieve_node_mapping()
                     )
-
-                new_mappings.append(new_mapping)
-            new_pattern_mappings.set_mapping(target, new_mappings)
+                except (ValueError, KeyError, IndexError):
+                    continue
+                new_pattern_mappings.add_mapping(target, new_mapping)
+            self.pattern_mappings.release(target)
 
         self.pattern_mappings = new_pattern_mappings
+        new_pattern_mappings.bind(self)
         # The occurrence set of this pattern is complete: seal it (immutable
         # from now on, evictable by the SpillManager when not pinned).
         new_pattern_mappings.seal(depth=len(self.nodes()))
